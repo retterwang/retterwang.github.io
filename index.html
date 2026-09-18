@@ -210,7 +210,8 @@ section{scroll-margin-top:24px;}
 .work-item{
   display:grid;
   grid-template-columns:56px minmax(0,1.15fr) minmax(0,2.15fr) auto;
-  gap:clamp(14px,3vw,30px);
+  column-gap:clamp(14px,3vw,30px);
+  row-gap:0;
   align-items:baseline;
   padding:24px 4px;
   border-bottom:1px solid var(--line);
@@ -242,6 +243,77 @@ section{scroll-margin-top:24px;}
 }
 .work-item:hover{background:var(--accent-soft);padding-left:12px;padding-right:12px;}
 .work-item:hover .name{color:var(--accent);}
+
+/* ---- 作品条目扩展区（站点集群 · 小程序码） ---- */
+.work-extra{
+  grid-column:1 / -1;
+  padding:16px 0 8px calc(56px + clamp(14px,3vw,30px));
+}
+.extra-label{
+  font-size:.8rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  margin:0 0 12px;
+}
+
+/* 站点集群卡片 */
+.site-cluster{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.site-card{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding:12px 14px 13px;
+  border:1px solid var(--line);
+  border-radius:3px;
+  transition:border-color .22s ease,background .22s ease;
+}
+.site-card .s-name{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family:var(--serif);
+  font-size:.96rem;
+  font-weight:600;
+  line-height:1.35;
+  color:var(--ink);
+  transition:color .22s ease;
+}
+.site-card .s-name svg{
+  flex:none;
+  opacity:0;
+  transform:translate(-3px,3px);
+  transition:opacity .22s ease,transform .22s ease;
+}
+.site-card .s-desc{font-size:.82rem;color:var(--muted);line-height:1.5;}
+.site-card .s-url{font-size:.74rem;color:var(--faint);letter-spacing:.01em;}
+.site-card:hover{border-color:var(--accent);background:#fff;}
+.site-card:hover .s-name{color:var(--accent);}
+.site-card:hover .s-name svg{opacity:1;transform:none;}
+
+/* 小程序码 */
+.miniapp{display:flex;align-items:center;gap:22px;}
+.miniapp-qr{margin:0;flex:none;width:132px;}
+.miniapp-qr img{
+  display:block;
+  width:100%;
+  height:auto;
+  border:1px solid var(--line);
+  border-radius:3px;
+  background:#fff;
+}
+.miniapp-copy{max-width:26em;}
+.miniapp-copy .t{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:.98rem;
+  margin:0 0 5px;
+  line-height:1.5;
+}
+.miniapp-copy .n{font-size:.85rem;color:var(--muted);margin:0;line-height:1.65;}
 
 /* ============================================================
    履历时间轴（grid 三列：时间 / 轴 / 内容）
@@ -369,6 +441,10 @@ section{scroll-margin-top:24px;}
   .work-item .desc{grid-area:desc;}
   .work-item .tag{grid-area:tag;}
   .work-item:hover{padding-left:8px;padding-right:8px;}
+  .work-extra{padding-left:0;padding-top:12px;padding-bottom:4px;}
+  .site-cluster{grid-template-columns:1fr;gap:8px;}
+  .miniapp{flex-direction:column;align-items:flex-start;gap:14px;}
+  .miniapp-qr{width:128px;}
   .tl-item{grid-template-columns:96px 20px 1fr;}
   .tl-body{padding-left:12px;}
   .fact{grid-template-columns:92px 1fr;gap:14px;}
@@ -436,8 +512,19 @@ section{scroll-margin-top:24px;}
       <li class="work-item">
         <span class="year">2026</span>
         <span class="name">CAMCOP 相机对比工具</span>
-        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序已正式上线。</span>
+        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。</span>
         <span class="tag">独立开发 · 小程序</span>
+        <div class="work-extra">
+          <div class="miniapp">
+            <figure class="miniapp-qr">
+              <img src="camcop-miniprogram.jpg" alt="CAMCOP 微信小程序码" width="720" height="720" loading="lazy" decoding="async">
+            </figure>
+            <div class="miniapp-copy">
+              <p class="t">微信扫一扫，打开「CAMCOP」小程序</p>
+              <p class="n">1,140 台相机 · 五视角对比 · 随身查询</p>
+            </div>
+          </div>
+        </div>
       </li>
       <li class="work-item">
         <span class="year">2026</span>
@@ -448,8 +535,48 @@ section{scroll-margin-top:24px;}
       <li class="work-item">
         <span class="year">2026</span>
         <span class="name">abetterplace2.live</span>
-        <span class="desc">6 站个人网站集群：摄影作品集、Metro 磁贴画廊、PEDAL 速度模拟器、像素游戏等，OSS + CDN 全链路运维。</span>
+        <span class="desc">7 站个人网站集群：摄影作品集、Metro 磁贴画廊、马拉松赛历、PEDAL 速度模拟器、咖啡品牌页等，OSS + CDN 全链路运维。</span>
         <span class="tag">独立开发</span>
+        <div class="work-extra">
+          <p class="extra-label">站点集群 · 点击直达</p>
+          <div class="site-cluster">
+            <a class="site-card" href="https://abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Gallery<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">摄影作品集 · 主站</span>
+              <span class="s-url">abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://metro.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Metro<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">Windows Phone 风格磁贴画廊</span>
+              <span class="s-url">metro.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://marathon.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Marathon<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">个人马拉松赛历与成绩</span>
+              <span class="s-url">marathon.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://pedal.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">PEDAL<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">车辆加速感速度模拟器</span>
+              <span class="s-url">pedal.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://intro.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Intro<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">城市街头摄影与视觉叙事</span>
+              <span class="s-url">intro.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://solacafe.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Sola Cafe<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">苏拉咖啡 · 品牌主题页</span>
+              <span class="s-url">solacafe.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://camera.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">CAMCOP<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">相机对比工具 · 网页版</span>
+              <span class="s-url">camera.abetterplace2.live</span>
+            </a>
+          </div>
+        </div>
       </li>
       <li class="work-item">
         <span class="year">2025</span>
