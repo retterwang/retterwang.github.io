@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王文昊 — 数据分析师与独立开发者</title>
+<meta name="description" content="王文昊，数据分析师与独立开发者，现居南京。做清晰、好用的数据产品。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FAF9F7'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23191817' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%234A5D54'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+/* ============================================================
+   设计 token：暖纸 · 墨 · 松绿
+   ============================================================ */
+:root{
+  --paper:#FAF9F7;
+  --ink:#191817;
+  --muted:#6F6B64;
+  --faint:#9B968D;
+  --line:#E6E3DD;
+  --accent:#4A5D54;
+  --accent-soft:#EDEFEA;
+
+  --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+
+  --measure:38em;            /* 正文行长 */
+  --w:700px;                 /* 内容宽度 */
+  --gutter:clamp(24px,6vw,40px);
+  --section-gap:clamp(72px,11vh,116px);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.8;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+::selection{background:var(--accent);color:var(--paper);}
+
+a{
+  color:inherit;
+  text-decoration:none;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  transition:color .22s ease;
+}
+a.link{
+  text-decoration:underline;
+  text-decoration-color:var(--faint);
+}
+a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
+
+.wrap{
+  max-width:var(--w);
+  margin:0 auto;
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+}
+
+/* ============================================================
+   页眉
+   ============================================================ */
+.site-header{
+  padding-top:30px;
+  padding-bottom:26px;
+  border-bottom:1px solid var(--line);
+}
+.site-header .wrap{
+  display:flex;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:24px;
+}
+.nav{display:flex;gap:clamp(18px,4vw,34px);}
+.nav a{
+  font-size:.92rem;
+  color:var(--muted);
+  letter-spacing:.02em;
+  position:relative;
+  padding-bottom:2px;
+}
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:0;right:100%;
+  bottom:-1px;
+  height:1px;
+  background:var(--accent);
+  transition:right .26s ease;
+}
+.nav a:hover{color:var(--ink);}
+.nav a:hover::after{right:0;}
+.nav a.is-active{color:var(--ink);}
+.nav a.is-active::after{right:0;background:var(--ink);}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{padding-top:clamp(64px,12vh,108px);padding-bottom:var(--section-gap);}
+.hero h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(2.7rem,8.2vw,4.7rem);
+  line-height:1.04;
+  letter-spacing:-.015em;
+  margin:0 0 22px;
+}
+.hero .role{
+  font-family:var(--serif);
+  font-size:clamp(1.15rem,2.6vw,1.42rem);
+  font-weight:400;
+  color:var(--ink);
+  margin:0 0 30px;
+  line-height:1.5;
+}
+.hero .intro{
+  max-width:var(--measure);
+  color:var(--muted);
+  margin:0;
+  font-size:1.02rem;
+}
+.hero .intro strong{color:var(--ink);font-weight:500;}
+
+/* Hero 双栏：文字 + 人像 */
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) clamp(148px,22vw,202px);
+  gap:clamp(28px,5vw,48px);
+  align-items:end;
+}
+.hero-photo{margin:0;}
+.hero-photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  border:1px solid var(--line);
+  border-radius:3px;
+  background:var(--accent-soft);
+}
+
+/* ============================================================
+   通用区块
+   ============================================================ */
+section{scroll-margin-top:24px;}
+.section{margin-bottom:var(--section-gap);}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin:0 0 34px;
+}
+.section-head h2{
+  font-family:var(--serif);
+  font-size:1.18rem;
+  font-weight:600;
+  margin:0;
+  letter-spacing:.01em;
+}
+.section-head .en{
+  font-size:.82rem;
+  color:var(--faint);
+  font-family:var(--sans);
+  letter-spacing:.04em;
+}
+.section-head .rule{
+  flex:1;
+  height:1px;
+  background:var(--line);
+  align-self:center;
+}
+
+.prose{max-width:var(--measure);}
+.prose p{margin:0 0 1.15em;}
+.prose p:last-child{margin-bottom:0;}
+.prose .lead{color:var(--ink);}
+.prose p{color:var(--muted);}
+
+.facts{
+  margin-top:30px;
+  border-top:1px solid var(--line);
+}
+.fact{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:20px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+  font-size:.96rem;
+}
+.fact dt{color:var(--faint);font-size:.88rem;padding-top:2px;}
+.fact dd{margin:0;color:var(--ink);}
+
+/* ============================================================
+   作品索引（编辑式横线列表）
+   ============================================================ */
+.work-list{list-style:none;margin:0;padding:0;}
+.work-item{
+  display:grid;
+  grid-template-columns:56px minmax(0,1.15fr) minmax(0,2.15fr) auto;
+  gap:clamp(14px,3vw,30px);
+  align-items:baseline;
+  padding:24px 4px;
+  border-bottom:1px solid var(--line);
+  transition:background .25s ease,padding .25s ease;
+}
+.work-item:first-child{border-top:1px solid var(--line);}
+.work-item .year{
+  font-size:.86rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+}
+.work-item .name{
+  font-family:var(--serif);
+  font-size:1.16rem;
+  font-weight:600;
+  line-height:1.4;
+}
+.work-item .desc{
+  font-size:.94rem;
+  color:var(--muted);
+  line-height:1.65;
+}
+.work-item .tag{
+  font-size:.82rem;
+  color:var(--faint);
+  white-space:nowrap;
+  letter-spacing:.02em;
+}
+.work-item:hover{background:var(--accent-soft);padding-left:12px;padding-right:12px;}
+.work-item:hover .name{color:var(--accent);}
+
+/* ============================================================
+   履历时间轴（grid 三列：时间 / 轴 / 内容）
+   ============================================================ */
+.timeline{list-style:none;margin:0;padding:0;}
+.tl-item{
+  display:grid;
+  grid-template-columns:104px 28px 1fr;
+}
+.tl-time{
+  font-size:.86rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  padding-top:3px;
+  letter-spacing:.01em;
+}
+.tl-axis{position:relative;display:flex;justify-content:center;}
+.tl-axis::before{
+  content:"";
+  position:absolute;
+  top:12px;bottom:0;
+  left:calc(50% - .5px);
+  width:1px;
+  background:var(--line);
+}
+.tl-item:last-child .tl-axis::before{bottom:calc(100% - 12px);}
+.tl-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--paper);
+  border:1.5px solid var(--accent);
+  margin-top:8px;
+  z-index:1;
+}
+.tl-body{padding-bottom:38px;}
+.tl-item:last-child .tl-body{padding-bottom:4px;}
+.tl-title{
+  font-size:1.02rem;
+  font-weight:500;
+  margin:0 0 5px;
+  line-height:1.5;
+}
+.tl-title .org{color:var(--ink);}
+.tl-title .role-sep{color:var(--faint);margin:0 8px;font-weight:400;}
+.tl-title .pos{color:var(--muted);font-weight:400;}
+.tl-note{margin:0;font-size:.92rem;color:var(--muted);line-height:1.65;}
+
+/* ============================================================
+   联系 / 页脚
+   ============================================================ */
+.contact{
+  border-top:1px solid var(--line);
+  padding-top:clamp(64px,9vh,92px);
+  padding-bottom:56px;
+}
+.contact .invite{
+  font-family:var(--serif);
+  font-size:clamp(1.7rem,4.6vw,2.5rem);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.01em;
+  margin:0 0 18px;
+  max-width:16em;
+}
+.contact .mail{
+  display:inline-block;
+  font-family:var(--serif);
+  font-size:clamp(1.1rem,2.8vw,1.4rem);
+  color:var(--accent);
+  text-decoration:underline;
+  text-decoration-color:rgba(74,93,84,.4);
+  text-underline-offset:6px;
+  margin-bottom:44px;
+}
+.contact .mail:hover{text-decoration-color:var(--accent);}
+.contact .meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 28px;
+  align-items:center;
+  font-size:.9rem;
+  color:var(--muted);
+}
+.contact .social{display:flex;flex-wrap:wrap;gap:10px 24px;}
+.contact .place{display:inline-flex;align-items:center;gap:8px;}
+.contact .place svg{flex:none;}
+.footer-bottom{
+  margin-top:40px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 20px;
+  font-size:.82rem;
+  color:var(--faint);
+}
+
+/* ============================================================
+   载入编排（仅首屏一次）
+   ============================================================ */
+.rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
+.d1{animation-delay:.05s;}
+.d2{animation-delay:.18s;}
+.d3{animation-delay:.32s;}
+.d4{animation-delay:.46s;}
+@keyframes rise{to{opacity:1;transform:none;}}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width:600px){
+  body{font-size:16px;}
+  .hero-grid{grid-template-columns:minmax(0,1fr) clamp(104px,28vw,132px);gap:20px;}
+  .work-item{
+    grid-template-columns:44px 1fr;
+    grid-template-areas:
+      "year name"
+      "year desc"
+      "year tag";
+    row-gap:6px;
+    padding:20px 2px;
+  }
+  .work-item .year{grid-area:year;}
+  .work-item .name{grid-area:name;}
+  .work-item .desc{grid-area:desc;}
+  .work-item .tag{grid-area:tag;}
+  .work-item:hover{padding-left:8px;padding-right:8px;}
+  .tl-item{grid-template-columns:96px 20px 1fr;}
+  .tl-body{padding-left:12px;}
+  .fact{grid-template-columns:92px 1fr;gap:14px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rise{opacity:1;transform:none;animation:none;}
+  *{transition:none !important;}
+}
+</style>
+</head>
+<body>
+<a id="top"></a>
+
+<!-- ===================== 页眉 ===================== -->
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="页内导航">
+      <a href="#work" data-nav="work">作品</a>
+      <a href="#path" data-nav="path">履历</a>
+      <a href="#contact" data-nav="contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1 class="rise d1">王文昊</h1>
+        <p class="role rise d2">数据分析师与独立开发者，<br>做清晰、好用的数据产品。</p>
+        <p class="intro rise d3">我在数据与代码的交界处工作。<strong>六年数据经验</strong>，从金融数据、互联网游戏运营到电信运营商大数据；习惯把重复的流程写成工具，也喜欢从 0 到 1 把一件数据产品带到上线。这里收录我做过的一些东西，以及如何找到我。</p>
+      </div>
+      <figure class="hero-photo rise d2">
+        <img src="portrait.jpg" alt="王文昊" width="760" height="1102" loading="eager" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== 关于 ===================== -->
+  <section class="section" id="about">
+    <div class="section-head">
+      <h2>关于</h2><span class="en">About</span><span class="rule"></span>
+    </div>
+    <div class="prose">
+      <p class="lead">六年数据分析经验，先后服务于金融数据、互联网游戏运营与电信运营商大数据领域。</p>
+      <p>我习惯把重复的工作变成工具：写过效率提升 24 倍的批量截图程序、跨 6 台服务器的联合查询工具、一键出数的月度报表脚本；也做过从 0 到 1 的数据可视化产品。工作之外，我维护着个人网站集群与一款相机对比工具。</p>
+    </div>
+    <dl class="facts">
+      <div class="fact"><dt>现在</dt><dd>南京红松信息 · 数据工程师（电信运营商大数据方向）</dd></div>
+      <div class="fact"><dt>关注</dt><dd>指标体系、数据可视化、地理空间数据、自动化工具、AI 应用</dd></div>
+      <div class="fact"><dt>坐标</dt><dd>中国南京，可远程协作</dd></div>
+    </dl>
+  </section>
+
+  <!-- ===================== 精选作品 ===================== -->
+  <section class="section" id="work">
+    <div class="section-head">
+      <h2>精选作品</h2><span class="en">Selected Work</span><span class="rule"></span>
+    </div>
+    <ul class="work-list">
+      <li class="work-item">
+        <span class="year">2026</span>
+        <span class="name">CAMCOP 相机对比工具</span>
+        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序已正式上线。</span>
+        <span class="tag">独立开发 · 小程序</span>
+      </li>
+      <li class="work-item">
+        <span class="year">2026</span>
+        <span class="name">场景数据查看器</span>
+        <span class="desc">从 0 到 1 打造的数据可视化查看器：支持 32 省数据边界查询，客户与团队可自助筛选查看。</span>
+        <span class="tag">数据产品</span>
+      </li>
+      <li class="work-item">
+        <span class="year">2026</span>
+        <span class="name">abetterplace2.live</span>
+        <span class="desc">6 站个人网站集群：摄影作品集、Metro 磁贴画廊、PEDAL 速度模拟器、像素游戏等，OSS + CDN 全链路运维。</span>
+        <span class="tag">独立开发</span>
+      </li>
+      <li class="work-item">
+        <span class="year">2025</span>
+        <span class="name">楼宇数据资产建设</span>
+        <span class="desc">主导 8,200 万条楼宇数据全量入库：设计表结构与分区索引，自研清洗程序完成字段规范化与质量校验。</span>
+        <span class="tag">数据工程</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== 履历 ===================== -->
+  <section class="section" id="path">
+    <div class="section-head">
+      <h2>履历</h2><span class="en">Path</span><span class="rule"></span>
+    </div>
+    <ul class="timeline">
+      <li class="tl-item">
+        <span class="tl-time">2025 — 至今</span>
+        <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
+        <div class="tl-body">
+          <p class="tl-title"><span class="org">南京红松信息技术有限公司</span><span class="role-sep">/</span><span class="pos">数据工程师</span></p>
+          <p class="tl-note">负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。</p>
+        </div>
+      </li>
+      <li class="tl-item">
+        <span class="tl-time">2022 — 2025</span>
+        <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
+        <div class="tl-body">
+          <p class="tl-title"><span class="org">彩讯科技（驻咪咕互动娱乐）</span><span class="role-sep">/</span><span class="pos">数据分析师</span></p>
+          <p class="tl-note">负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。</p>
+        </div>
+      </li>
+      <li class="tl-item">
+        <span class="tl-time">2021 — 2022</span>
+        <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
+        <div class="tl-body">
+          <p class="tl-title"><span class="org">新大陆软件工程</span><span class="role-sep">/</span><span class="pos">数据仓库开发工程师</span></p>
+          <p class="tl-note">江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。</p>
+        </div>
+      </li>
+      <li class="tl-item">
+        <span class="tl-time">2020 — 2021</span>
+        <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
+        <div class="tl-body">
+          <p class="tl-title"><span class="org">南京万得资讯</span><span class="role-sep">/</span><span class="pos">数据分析师</span></p>
+          <p class="tl-note">从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。</p>
+        </div>
+      </li>
+      <li class="tl-item">
+        <span class="tl-time">2015 — 2019</span>
+        <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
+        <div class="tl-body">
+          <p class="tl-title"><span class="org">天津师范大学</span><span class="role-sep">/</span><span class="pos">软件工程 · 本科</span></p>
+          <p class="tl-note">主修数据结构、操作系统、计算机网络与软件项目管理。</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== 联系 ===================== -->
+  <section class="contact" id="contact">
+    <p class="invite">如果你想聊聊数据、产品或合适的机会，欢迎来信。</p>
+    <a class="mail" href="mailto:me@retter.wang">me@retter.wang</a>
+    <div class="meta">
+      <nav class="social" aria-label="社交链接">
+        <a class="link" href="https://github.com/retterwang" target="_blank" rel="noopener">GitHub</a>
+        <a class="link" href="https://unsplash.com/@retter" target="_blank" rel="noopener">Unsplash</a>
+        <a class="link" href="https://abetterplace2.live" target="_blank" rel="noopener">abetterplace2.live</a>
+      </nav>
+      <span class="place">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        南京 · 中国
+      </span>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> 王文昊</span>
+      <span>最后更新于 2026 年 9 月</span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  // 版权年份
+  var y=document.getElementById('year');
+  if(y){y.textContent=new Date().getFullYear();}
+
+  // 导航当前区块高亮
+  var links=document.querySelectorAll('.nav a[data-nav]');
+  var map={};
+  links.forEach(function(a){map[a.getAttribute('data-nav')]=a;});
+  var sections=Object.keys(map).map(function(id){return document.getElementById(id);});
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('is-active');});
+          var cur=map[en.target.id];
+          if(cur){cur.classList.add('is-active');}
+        }
+      });
+    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+    sections.forEach(function(s){if(s){io.observe(s);}});
+  }
+})();
+</script>
+</body>
+</html>
