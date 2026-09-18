@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>王文昊 — 数据分析师与独立开发者</title>
-<meta name="description" content="王文昊，数据分析师与独立开发者，现居南京。">
+<title>王文昊 Wang Wenhao — 数据分析师与独立开发者 (Data Analyst & Solo Developer)</title>
+<meta name="description" content="王文昊，数据分析师与独立开发者，现居南京。 Wang Wenhao — an atypical data analyst and solo developer based in Nanjing.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FAF9F7'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23191817' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%234A5D54'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
@@ -82,6 +82,7 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
   letter-spacing:-.01em;
   margin:0;
 }
+.hero h1 .tr{font-size:.5em;letter-spacing:.02em;font-weight:400;}
 
 /* Hero：照片在上、名字在下，左对齐 */
 .hero-stack{
@@ -130,6 +131,11 @@ section{scroll-margin-top:24px;}
   background:var(--line);
   align-self:center;
 }
+
+/* 双语辅助文字（英文翻译） */
+.tr{font-size:.9em;color:var(--faint);font-weight:400;letter-spacing:.01em;}
+.tr-b{display:block;margin-top:3px;font-size:.88em;color:var(--faint);font-weight:400;letter-spacing:.005em;line-height:1.55;}
+.name .tr-b{font-size:.72em;letter-spacing:.015em;}
 
 .prose{max-width:var(--measure);}
 .prose p{margin:0 0 1.15em;}
@@ -407,9 +413,9 @@ section{scroll-margin-top:24px;}
   <section class="hero">
     <div class="hero-stack">
       <figure class="hero-photo rise d1">
-        <img src="portrait.jpg" alt="王文昊" width="760" height="1102" loading="eager" decoding="async">
+        <img src="portrait.jpg" alt="王文昊 Wang Wenhao" width="760" height="1102" loading="eager" decoding="async">
       </figure>
-      <h1 class="rise d2">王文昊</h1>
+      <h1 class="rise d2">王文昊 <span class="tr">Wang Wenhao</span></h1>
     </div>
   </section>
 
@@ -419,8 +425,8 @@ section{scroll-margin-top:24px;}
       <h2>关于</h2><span class="en">About</span><span class="rule"></span>
     </div>
     <div class="prose">
-      <p class="lead">六年数据分析经验，先后服务于金融数据、互联网游戏运营与电信运营商大数据领域。</p>
-      <p>我习惯把重复的工作变成工具：写过效率提升 24 倍的批量截图程序、跨 6 台服务器的联合查询工具、一键出数的月度报表脚本；也做过从 0 到 1 的数据可视化产品。工作之外，我维护着个人网站集群与一款相机对比工具。</p>
+      <p class="lead">软件工程专业毕业，现在是非典型数据分析师和业余独立开发者。什么都懂一点，能分析，能设计，能开发，能运维。对数码科技有与生俱来的浓厚兴趣。参加过十几次马拉松比赛，爱拍照片。生活在南京。</p>
+      <p>About me: I studied software engineering at university, and now I'm an atypical data analyst and a part-time solo developer. I know a bit of everything—I can analyze, design, develop, and maintain systems. I have a natural passion for digital technology. I've participated in more than ten marathons and love taking photos. Living in Nanjing.</p>
     </div>
   </section>
 
@@ -432,17 +438,17 @@ section{scroll-margin-top:24px;}
     <ul class="work-list">
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name">CAMCOP 相机对比工具</span>
-        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。</span>
-        <span class="tag">独立开发 · 小程序</span>
+        <span class="name">CAMCOP 相机对比工具<span class="tr-b">Camera Comparison Tool</span></span>
+        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。<span class="tr-b">A structured five-view dataset of 1,140 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.</span></span>
+        <span class="tag">独立开发 · 小程序<span class="tr-b">Solo · Mini Program</span></span>
         <div class="work-extra">
           <div class="miniapp">
             <figure class="miniapp-qr">
-              <img src="camcop-miniprogram.jpg" alt="CAMCOP 微信小程序码" width="720" height="720" loading="lazy" decoding="async">
+              <img src="camcop-miniprogram.jpg" alt="CAMCOP 微信小程序码 WeChat Mini Program QR code" width="720" height="720" loading="lazy" decoding="async">
             </figure>
             <div class="miniapp-copy">
-              <p class="t">微信扫一扫，打开「CAMCOP」小程序</p>
-              <p class="n">1,140 台相机 · 五视角对比 · 随身查询</p>
+              <p class="t">微信扫一扫，打开「CAMCOP」小程序<span class="tr-b">Scan with WeChat to open the CAMCOP Mini Program</span></p>
+              <p class="n">1,140 台相机 · 五视角对比 · 随身查询<span class="tr-b">1,140 cameras · five views · compare on the go</span></p>
             </div>
           </div>
         </div>
@@ -450,34 +456,34 @@ section{scroll-margin-top:24px;}
       <li class="work-item">
         <span class="year">2026</span>
         <span class="name">abetterplace2.live</span>
-        <span class="desc">个人网站集群：摄影作品集、Metro 磁贴画廊、马拉松赛历、PEDAL 速度模拟器、相机对比工具，OSS + CDN 全链路运维。</span>
-        <span class="tag">独立开发</span>
+        <span class="desc">个人网站集群：摄影作品集、Metro 磁贴画廊、马拉松赛历、PEDAL 速度模拟器、相机对比工具，OSS + CDN 全链路运维。<span class="tr-b">A personal site cluster — photography portfolio, Metro tile gallery, marathon calendar, PEDAL speed simulator and camera comparison tool — all on OSS + CDN.</span></span>
+        <span class="tag">独立开发<span class="tr-b">Solo</span></span>
         <div class="work-extra">
-          <p class="extra-label">站点集群 · 点击直达</p>
+          <p class="extra-label">站点集群 · 点击直达<span class="tr-b">Site cluster · tap to visit</span></p>
           <div class="site-cluster">
             <a class="site-card" href="https://abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">Gallery<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">摄影作品集 · 主站</span>
+              <span class="s-desc">摄影作品集 · 主站<span class="tr-b">Photography portfolio · main site</span></span>
               <span class="s-url">abetterplace2.live</span>
             </a>
             <a class="site-card" href="https://metro.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">Metro<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">Windows Phone 风格磁贴画廊</span>
+              <span class="s-desc">Windows Phone 风格磁贴画廊<span class="tr-b">Windows Phone-style photo mosaic</span></span>
               <span class="s-url">metro.abetterplace2.live</span>
             </a>
             <a class="site-card" href="https://marathon.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">Marathon<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">个人马拉松赛历与成绩</span>
+              <span class="s-desc">个人马拉松赛历与成绩<span class="tr-b">My marathon calendar &amp; results</span></span>
               <span class="s-url">marathon.abetterplace2.live</span>
             </a>
             <a class="site-card" href="https://pedal.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">PEDAL<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">车辆加速感速度模拟器</span>
+              <span class="s-desc">车辆加速感速度模拟器<span class="tr-b">Vehicle acceleration speed simulator</span></span>
               <span class="s-url">pedal.abetterplace2.live</span>
             </a>
             <a class="site-card" href="https://camera.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">CAMCOP<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">相机对比工具 · 网页版</span>
+              <span class="s-desc">相机对比工具 · 网页版<span class="tr-b">Camera comparison · web version</span></span>
               <span class="s-url">camera.abetterplace2.live</span>
             </a>
           </div>
@@ -493,43 +499,43 @@ section{scroll-margin-top:24px;}
     </div>
     <ul class="timeline">
       <li class="tl-item">
-        <span class="tl-time">2025 — 至今</span>
+        <span class="tl-time">2025 — 至今<span class="tr-b">2025 — Present</span></span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org">南京红松信息技术有限公司</span><span class="role-sep">/</span><span class="pos">数据工程师</span></p>
-          <p class="tl-note">负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。</p>
+          <p class="tl-title"><span class="org">南京红松信息技术有限公司</span><span class="role-sep">/</span><span class="pos">数据工程师</span><span class="tr-b">Nanjing Hongsong Information Technology Co., Ltd. / Data Engineer</span></p>
+          <p class="tl-note">负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。<span class="tr-b">Telecom big-data analytics: data asset construction, metric systems and thematic analysis, periodic report delivery across 10+ provinces, and 20+ self-built automation tools.</span></p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2022 — 2025</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org">彩讯科技股份有限公司（驻咪咕互动娱乐）</span><span class="role-sep">/</span><span class="pos">数据分析师</span></p>
-          <p class="tl-note">负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。</p>
+          <p class="tl-title"><span class="org">彩讯科技股份有限公司（驻咪咕互动娱乐）</span><span class="role-sep">/</span><span class="pos">数据分析师</span><span class="tr-b">Richinfo Technology Co., Ltd. (based at Migu Interactive Entertainment) / Data Analyst</span></p>
+          <p class="tl-note">负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。<span class="tr-b">Monitored core metrics and maintained dashboards for a 20M-MAU big-screen product; during the 2024 compliance revamp, drove province-level strategy optimization through funnel analysis — impressions +5.3%, clicks +8.9%, conversion +9.6%.</span></p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2021 — 2022</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org">新大陆软件工程有限公司</span><span class="role-sep">/</span><span class="pos">数据仓库开发工程师</span></p>
-          <p class="tl-note">江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。</p>
+          <p class="tl-title"><span class="org">新大陆软件工程有限公司</span><span class="role-sep">/</span><span class="pos">数据仓库开发工程师</span><span class="tr-b">Newland Software Engineering Co., Ltd. / Data Warehouse Developer</span></p>
+          <p class="tl-note">江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。<span class="tr-b">Full-cycle data warehouse development on Jiangsu Mobile's analytics platform; Oracle PL/SQL query tuning and index re-engineering.</span></p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2020 — 2021</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org">南京万得资讯科技有限公司</span><span class="role-sep">/</span><span class="pos">数据分析师</span></p>
-          <p class="tl-note">从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。</p>
+          <p class="tl-title"><span class="org">南京万得资讯科技有限公司</span><span class="role-sep">/</span><span class="pos">数据分析师</span><span class="tr-b">Nanjing Wind Information Technology Co., Ltd. / Data Analyst</span></p>
+          <p class="tl-note">从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。<span class="tr-b">Built a nationwide land-transaction database from scratch (100k+ records collected daily); led the EDB commercial real-estate module and special reports for nine emerging first-tier cities.</span></p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2015 — 2019</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org">天津师范大学</span><span class="role-sep">/</span><span class="pos">软件工程 · 本科</span></p>
-          <p class="tl-note">主修数据结构、操作系统、计算机网络与软件项目管理。</p>
+          <p class="tl-title"><span class="org">天津师范大学</span><span class="role-sep">/</span><span class="pos">软件工程 · 本科</span><span class="tr-b">Tianjin Normal University / Software Engineering · BSc</span></p>
+          <p class="tl-note">主修数据结构、操作系统、计算机网络与软件项目管理。<span class="tr-b">Studied data structures, operating systems, computer networks and software project management.</span></p>
         </div>
       </li>
     </ul>
@@ -539,19 +545,19 @@ section{scroll-margin-top:24px;}
   <section class="contact" id="contact">
     <p class="contact-line">contact <a class="mail" href="mailto:me@retter.wang">me@retter.wang</a></p>
     <div class="meta">
-      <nav class="social" aria-label="社交链接">
+      <nav class="social" aria-label="社交链接 Social links">
         <a class="link" href="https://github.com/retterwang" target="_blank" rel="noopener">GitHub</a>
         <a class="link" href="https://unsplash.com/@retter" target="_blank" rel="noopener">Unsplash</a>
         <a class="link" href="https://abetterplace2.live" target="_blank" rel="noopener">abetterplace2.live</a>
       </nav>
       <span class="place">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        南京 · 中国
+        南京 · 中国<span class="tr">（Nanjing, China）</span>
       </span>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year">2026</span> 王文昊</span>
-      <span>最后更新于 2026 年 9 月</span>
+      <span>© <span id="year">2026</span> 王文昊 · Wang Wenhao</span>
+      <span>最后更新于 2026 年 9 月 · Last updated: September 2026</span>
     </div>
   </section>
 
