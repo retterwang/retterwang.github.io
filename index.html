@@ -71,42 +71,6 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
 }
 
 /* ============================================================
-   页眉
-   ============================================================ */
-.site-header{
-  padding-top:30px;
-  padding-bottom:26px;
-  border-bottom:1px solid var(--line);
-}
-.site-header .wrap{
-  display:flex;
-  align-items:baseline;
-  justify-content:flex-end;
-  gap:24px;
-}
-.nav{display:flex;gap:clamp(18px,4vw,34px);}
-.nav a{
-  font-size:.92rem;
-  color:var(--muted);
-  letter-spacing:.02em;
-  position:relative;
-  padding-bottom:2px;
-}
-.nav a::after{
-  content:"";
-  position:absolute;
-  left:0;right:100%;
-  bottom:-1px;
-  height:1px;
-  background:var(--accent);
-  transition:right .26s ease;
-}
-.nav a:hover{color:var(--ink);}
-.nav a:hover::after{right:0;}
-.nav a.is-active{color:var(--ink);}
-.nav a.is-active::after{right:0;background:var(--ink);}
-
-/* ============================================================
    Hero
    ============================================================ */
 .hero{padding-top:clamp(64px,12vh,108px);padding-bottom:var(--section-gap);}
@@ -444,17 +408,6 @@ section{scroll-margin-top:24px;}
 <body>
 <a id="top"></a>
 
-<!-- ===================== 页眉 ===================== -->
-<header class="site-header">
-  <div class="wrap">
-    <nav class="nav" aria-label="页内导航">
-      <a href="#work" data-nav="work">项目</a>
-      <a href="#path" data-nav="path">履历</a>
-      <a href="#contact" data-nav="contact">联系</a>
-    </nav>
-  </div>
-</header>
-
 <main class="wrap">
 
   <!-- ===================== Hero ===================== -->
@@ -616,25 +569,6 @@ section{scroll-margin-top:24px;}
   // 版权年份
   var y=document.getElementById('year');
   if(y){y.textContent=new Date().getFullYear();}
-
-  // 导航当前区块高亮
-  var links=document.querySelectorAll('.nav a[data-nav]');
-  var map={};
-  links.forEach(function(a){map[a.getAttribute('data-nav')]=a;});
-  var sections=Object.keys(map).map(function(id){return document.getElementById(id);});
-
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){
-          links.forEach(function(a){a.classList.remove('is-active');});
-          var cur=map[en.target.id];
-          if(cur){cur.classList.add('is-active');}
-        }
-      });
-    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
-    sections.forEach(function(s){if(s){io.observe(s);}});
-  }
 })();
 </script>
 </body>
