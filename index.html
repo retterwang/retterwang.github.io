@@ -86,6 +86,12 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
   margin:0;
 }
 .hero h1 .tr{font-size:.5em;letter-spacing:.02em;font-weight:400;}
+/* Hero 名字区中文（王文昊）→ 黑体（不重描，让等线/SimHei/MS YaHei 等系统黑体直接加粗） */
+.hero h1 .cn{
+  font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','SimHei','Heiti SC',sans-serif;
+  font-weight:700;
+  letter-spacing:.02em;
+}
 /* Hero 名字区英文（Wang Wenhao）专用手写体：Pacifico */
 .hero h1 .tr.en-script{
   font-family:'Pacifico','Spectral','Noto Serif SC',cursive;
@@ -430,7 +436,7 @@ section{scroll-margin-top:24px;}
       <figure class="hero-photo rise d1">
         <img src="portrait.jpg" alt="王文昊 Wang Wenhao" width="760" height="1102" loading="eager" decoding="async">
       </figure>
-      <h1 class="rise d2">王文昊 <span class="tr en-script">Wang Wenhao</span></h1>
+      <h1 class="rise d2"><span class="cn">王文昊</span> <span class="tr en-script">Wang Wenhao</span></h1>
     </div>
   </section>
 
