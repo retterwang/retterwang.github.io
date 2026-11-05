@@ -238,6 +238,8 @@ section{scroll-margin-top:24px;}
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:10px;
 }
+/* 奇数个卡片时，末张占满整行，避免右侧留空 */
+.site-cluster > .site-card:last-child:nth-child(odd){grid-column:1 / -1;}
 .site-card{
   display:flex;
   flex-direction:column;
@@ -459,8 +461,20 @@ section{scroll-margin-top:24px;}
     <ul class="work-list">
       <li class="work-item">
         <span class="year">2026</span>
+        <span class="name">Saudade 相册<span class="tr-b">Saudade — Photo Library App</span></span>
+        <span class="desc">把相册摊开成一天：按钟点回看往年同一时刻拍下的照片，同一分钟的多张叠成一摞相纸；含桌面小组件，照片全程本机处理，无广告无账号。App Store 即将上架。<span class="tr-b">A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Coming soon to the App Store.</span></span>
+        <span class="tag">独立开发 · iOS<span class="tr-b">Solo · iOS</span></span>
+      </li>
+      <li class="work-item">
+        <span class="year">2026</span>
+        <span class="name">Switch 周报<span class="tr-b">GameWeekly — Weekly Digest</span></span>
+        <span class="desc">每周一出版的 Switch 新作与热销档案，每期含中文简介、官方截图与 Metacritic 口碑，支持邮件订阅，已归档 3 期。<span class="tr-b">A weekly Switch release and bestseller digest — Chinese summaries, official screenshots and Metacritic scores, delivered by email; 3 issues archived.</span></span>
+        <span class="tag">独立开发 · 周报<span class="tr-b">Solo · Newsletter</span></span>
+      </li>
+      <li class="work-item">
+        <span class="year">2026</span>
         <span class="name">CAMCOP 相机对比工具<span class="tr-b">Camera Comparison Tool</span></span>
-        <span class="desc">收录 1,140 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。<span class="tr-b">A structured five-view dataset of 1,140 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.</span></span>
+        <span class="desc">收录 1,144 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。<span class="tr-b">A structured five-view dataset of 1,144 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.</span></span>
         <span class="tag">独立开发 · 小程序<span class="tr-b">Solo · Mini Program</span></span>
         <div class="work-extra">
           <div class="miniapp">
@@ -469,7 +483,7 @@ section{scroll-margin-top:24px;}
             </figure>
             <div class="miniapp-copy">
               <p class="t">微信扫一扫，打开「CAMCOP」小程序<span class="tr-b">Scan with WeChat to open the CAMCOP Mini Program</span></p>
-              <p class="n">1,140 台相机 · 五视角对比 · 随身查询<span class="tr-b">1,140 cameras · five views · compare on the go</span></p>
+              <p class="n">1,144 台相机 · 五视角对比 · 随身查询<span class="tr-b">1,144 cameras · five views · compare on the go</span></p>
             </div>
           </div>
         </div>
@@ -477,7 +491,7 @@ section{scroll-margin-top:24px;}
       <li class="work-item">
         <span class="year">2026</span>
         <span class="name">abetterplace2.live</span>
-        <span class="desc">个人网站集群：摄影作品集、Metro 磁贴画廊、马拉松赛历、PEDAL 速度模拟器、相机对比工具，OSS + CDN 全链路运维。<span class="tr-b">A personal site cluster — photography portfolio, Metro tile gallery, marathon calendar, PEDAL speed simulator and camera comparison tool — all on OSS + CDN.</span></span>
+        <span class="desc">个人网站集群：摄影作品集、Metro 磁贴画廊、马拉松赛历、PEDAL 速度模拟器、相机对比工具、Switch 游戏周报与 Saudade 落地页，OSS + CDN 全链路运维，含全球节点加速与证书自动续期。<span class="tr-b">A personal site cluster — photography portfolio, Metro tile gallery, marathon calendar, PEDAL speed simulator, camera comparison tool, a weekly Switch digest and the Saudade landing page — all on OSS + CDN, with global edge acceleration and automated certificate renewal.</span></span>
         <span class="tag">独立开发 · Web<span class="tr-b">Solo · Web</span></span>
         <div class="work-extra">
           <p class="extra-label">站点集群 · 点击直达<span class="tr-b">Site cluster · tap to visit</span></p>
@@ -499,13 +513,23 @@ section{scroll-margin-top:24px;}
             </a>
             <a class="site-card" href="https://pedal.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">PEDAL<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
-              <span class="s-desc">车辆加速感速度模拟器<span class="tr-b">Vehicle acceleration speed simulator</span></span>
+              <span class="s-desc">车辆加速感速度模拟器 · 含 0-100 km/h 实测计时<span class="tr-b">Vehicle acceleration simulator · with 0–100 km/h timing</span></span>
               <span class="s-url">pedal.abetterplace2.live</span>
             </a>
             <a class="site-card" href="https://camera.abetterplace2.live" target="_blank" rel="noopener">
               <span class="s-name">CAMCOP<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
               <span class="s-desc">相机对比工具 · 网页版<span class="tr-b">Camera comparison · web version</span></span>
               <span class="s-url">camera.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://gameweekly.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">GameWeekly<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">Switch 游戏周报 · 存档<span class="tr-b">Weekly Switch digest · archive</span></span>
+              <span class="s-url">gameweekly.abetterplace2.live</span>
+            </a>
+            <a class="site-card" href="https://saudade.abetterplace2.live" target="_blank" rel="noopener">
+              <span class="s-name">Saudade<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+              <span class="s-desc">iOS 摄影应用 · 把相册摊开成一天<span class="tr-b">iOS photo app · your library as one day</span></span>
+              <span class="s-url">saudade.abetterplace2.live</span>
             </a>
           </div>
         </div>
@@ -579,7 +603,7 @@ section{scroll-margin-top:24px;}
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> 王文昊 · Wang Wenhao</span>
       <span><a class="link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">晋ICP备2025064934号-3</a></span>
-      <span>最后更新于 2026 年 10 月 · Last updated: October 2026</span>
+      <span>最后更新于 2026 年 11 月 · Last updated: November 2026</span>
     </div>
   </section>
 
