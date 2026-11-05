@@ -107,14 +107,12 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
   align-items:flex-start;
   gap:26px;
 }
-.hero-photo{margin:0;width:clamp(150px,22vw,204px);}
+.hero-photo{margin:0;width:clamp(160px,24vw,206px);}
 .hero-photo img{
   display:block;
   width:100%;
   height:auto;
-  border:1px solid var(--line);
-  border-radius:3px;
-  background:var(--accent-soft);
+  /* 撕纸相纸与投影已在图片内烘焙，页面侧不再叠边框与滤镜 */
 }
 
 /* ============================================================
@@ -466,7 +464,7 @@ section{scroll-margin-top:24px;}
   <section class="hero">
     <div class="hero-stack">
       <figure class="hero-photo rise d1">
-        <img src="portrait.jpg" alt="王文昊 Wang Wenhao" width="760" height="1102" loading="eager" decoding="async">
+        <img src="portrait-torn.webp" alt="王文昊 Wang Wenhao" width="385" height="902" loading="eager" decoding="async">
       </figure>
       <h1 class="rise d2"><span class="cn">王文昊</span> <span class="tr en-script">Wang Wenhao</span></h1>
     </div>
