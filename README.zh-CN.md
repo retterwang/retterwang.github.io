@@ -9,11 +9,16 @@
 单页自包含站点 —— 无构建步骤、无框架、无外部 JavaScript。包含三部分：
 
 - **关于** — 简短的中英双语自我介绍
-- **项目** — 我在做和维护的东西，包括 [CAMCOP](https://camera.abetterplace2.live) 相机对比
-  工具（1,140 台相机、五视角对比，另有微信小程序），以及 `abetterplace2.live` 站点集群
+- **项目** — 我在做和维护的东西，包括 iOS 应用
+  [Saudade](https://apps.apple.com/cn/app/saudade/id6827383744)、
+  [CAMCOP](https://camera.abetterplace2.live) 相机对比工具（1,144 台相机、五视角对比，另有微信小程序），
+  以及 `abetterplace2.live` 站点集群
 - **履历** — 精简的工作经历
 
-页面为中英双语：中文与英文并排展示而非切换，两者由同一份标记渲染。
+页面支持 8 种语言 —— 简体中文、繁體中文、English、日本語、한국어、Français、Español、Deutsch，
+与 Saudade 站保持同一套语言。两种中文视图在每条内容下保留英文对照行，其余语言为单语阅读。
+切换器在右上角，选择记在 `localStorage`，也可以用 `?lang=ja` 这样的地址直接打开某一语言；
+正文本身以中文写入 HTML，关闭 JavaScript 也能正常阅读。
 
 ## 项目结构
 

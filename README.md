@@ -9,13 +9,18 @@ Source of my personal homepage, served at **[retter.wang](https://retter.wang)**
 A single self-contained page — no build step, no framework, no external JavaScript. It covers:
 
 - **About** — a short bilingual introduction
-- **Projects** — the things I build and maintain, including the
-  [CAMCOP](https://camera.abetterplace2.live) camera comparison tool (1,140 cameras, five views,
+- **Projects** — the things I build and maintain, including
+  [Saudade](https://apps.apple.com/cn/app/saudade/id6827383744) for iOS, the
+  [CAMCOP](https://camera.abetterplace2.live) camera comparison tool (1,144 cameras, five views,
   plus a WeChat Mini Program) and the `abetterplace2.live` site cluster
 - **Experience** — a condensed work history
 
-The page is written bilingual: Chinese and English text sit side by side rather than being
-toggled, so both render from the same markup.
+The page ships in eight languages — Simplified Chinese, Traditional Chinese, English, Japanese,
+Korean, French, Spanish and German — the same set used on the Saudade site. The two Chinese views
+keep English as a secondary line under each entry; every other view is single-language. The
+switcher sits in the top-right corner, the choice is remembered in `localStorage`, and a URL such
+as `?lang=ja` opens a specific language directly. The Chinese copy is written into the markup
+itself, so the page still reads correctly with JavaScript disabled.
 
 ## Structure
 
