@@ -16,8 +16,8 @@ A single self-contained page — no build step, no framework, no external JavaSc
 - **Experience** — a condensed work history
 
 The page ships in eight languages — Simplified Chinese, Traditional Chinese, English, Japanese,
-Korean, French, Spanish and German — the same set used on the Saudade site. The two Chinese views
-keep English as a secondary line under each entry; every other view is single-language. The
+Korean, French, Spanish and German — the same set used on the Saudade site. Each view is
+single-language: the Chinese pages carry Chinese only, with no English duplicated underneath. The
 switcher sits in the top-right corner, the choice is remembered in `localStorage`, and a URL such
 as `?lang=ja` opens a specific language directly. The Chinese copy is written into the markup
 itself, so the page still reads correctly with JavaScript disabled.

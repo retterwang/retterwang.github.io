@@ -59,8 +59,8 @@
   }
 })();
 </script>
-<title>王文昊 Wang Wenhao — 数据分析师与独立开发者 (Data Analyst & Solo Developer)</title>
-<meta name="description" content="王文昊，数据分析师与独立开发者，现居南京。 Wang Wenhao — an atypical data analyst and solo developer based in Nanjing.">
+<title>王文昊 Wang Wenhao — 数据分析师与独立开发者</title>
+<meta name="description" content="王文昊，数据分析师与独立开发者，现居南京。">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -270,13 +270,6 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
   .lang-list{min-width:164px;}
 }
 
-/* 非中文视图隐藏英文对照行（保持单语阅读节奏；英文人名保留） */
-:root[data-lang]:not([data-lang="zh-CN"]):not([data-lang="zh-Hant"]) .tr-b,
-:root[data-lang]:not([data-lang="zh-CN"]):not([data-lang="zh-Hant"]) .tr:not(.en-script),
-:root[data-lang]:not([data-lang="zh-CN"]):not([data-lang="zh-Hant"]) .i18n-alt{
-  display:none;
-}
-
 /* 日 / 韩：优先本机字形，避免简体字串味 */
 :root[data-lang="ja"]{
   --serif:'Spectral','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif JP','Noto Serif SC',Georgia,serif;
@@ -379,12 +372,6 @@ section{scroll-margin-top:24px;}
   border-radius:2px;
   line-height:1.15;
 }
-.section-head .en{
-  font-size:.82rem;
-  color:var(--faint);
-  font-family:var(--sans);
-  letter-spacing:.04em;
-}
 .section-head .rule{
   flex:1;
   height:1px;
@@ -392,10 +379,8 @@ section{scroll-margin-top:24px;}
   align-self:center;
 }
 
-/* 双语辅助文字（英文翻译） */
+/* 英文人名（Hero 手写体）仍用 .tr 的淡色处理 */
 .tr{font-size:.9em;color:var(--faint);font-weight:400;letter-spacing:.01em;}
-.tr-b{display:block;margin-top:3px;font-size:.88em;color:var(--faint);font-weight:400;letter-spacing:.005em;line-height:1.55;}
-.name .tr-b{font-size:.72em;letter-spacing:.015em;}
 
 .prose{max-width:var(--measure);}
 .prose p{margin:0 0 1.15em;}
@@ -747,25 +732,24 @@ section{scroll-margin-top:24px;}
   <!-- ===================== 关于 ===================== -->
   <section class="section" id="about">
     <div class="section-head">
-      <h2 data-t="sec_about">关于</h2><span class="en">About</span><span class="rule"></span>
+      <h2 data-t="sec_about">关于</h2><span class="rule"></span>
     </div>
     <div class="prose">
       <p class="lead" data-t="about">软件工程专业毕业，现在是非典型数据分析师和业余独立开发者。什么都懂一点，能分析，能设计，能开发，能运维。对数码科技有与生俱来的浓厚兴趣。参加过十几次马拉松比赛，爱拍照片。生活在南京。</p>
-      <p class="i18n-alt" data-t="about_en">I studied software engineering at university, and now I'm an atypical data analyst and a part-time solo developer. I know a bit of everything—I can analyze, design, develop, and maintain systems. I have a natural passion for digital technology. I've participated in more than ten marathons and love taking photos. Living in Nanjing.</p>
     </div>
   </section>
 
   <!-- ===================== 项目 ===================== -->
   <section class="section" id="work">
     <div class="section-head">
-      <h2 data-t="sec_proj">项目</h2><span class="en">Projects</span><span class="rule"></span>
+      <h2 data-t="sec_proj">项目</h2><span class="rule"></span>
     </div>
         <ul class="work-list">
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name"><span data-t="p1n">Saudade 往时</span><span class="tr-b" data-t="p1ns">Saudade — Photo Library App</span></span>
-        <span class="desc"><span data-t="p1d">把相册摊开成一天：按钟点回看往年同一时刻拍下的照片，同一分钟的多张叠成一摞相纸；含桌面小组件，照片全程本机处理，无广告无账号。已在 App Store 上架，买断制无内购。</span><span class="tr-b" data-t="p1ds">A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Now on the App Store as a one-time purchase.</span></span>
-        <span class="tag"><span data-t="p1t">独立开发 · iOS</span><span class="tr-b" data-t="p1ts">Solo · iOS</span></span>
+        <span class="name" data-t="p1n">Saudade 往时</span>
+        <span class="desc" data-t="p1d">把相册摊开成一天：按钟点回看往年同一时刻拍下的照片，同一分钟的多张叠成一摞相纸；含桌面小组件，照片全程本机处理，无广告无账号。已在 App Store 上架，买断制无内购。</span>
+        <span class="tag" data-t="p1t">独立开发 · iOS</span>
         <div class="work-links">
           <a class="site-link" href="https://apps.apple.com/cn/app/saudade/id6827383744" target="_blank" rel="noopener" title="App Store 下载 Saudade">
             <svg class="site-icon" viewBox="0 0 384 512" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
@@ -781,9 +765,9 @@ section{scroll-margin-top:24px;}
       </li>
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name"><span data-t="p2n">Switch 周报</span><span class="tr-b" data-t="p2ns">GameWeekly — Weekly Digest</span></span>
-        <span class="desc"><span data-t="p2d">每周一出版的 Switch 新作与热销档案，每期含中文简介、官方截图与 Metacritic 口碑，支持邮件订阅，已归档 3 期。</span><span class="tr-b" data-t="p2ds">A weekly Switch release and bestseller digest — Chinese summaries, official screenshots and Metacritic scores, delivered by email; 3 issues archived.</span></span>
-        <span class="tag"><span data-t="p2t">独立开发 · 周报</span><span class="tr-b" data-t="p2ts">Solo · Newsletter</span></span>
+        <span class="name" data-t="p2n">Switch 周报</span>
+        <span class="desc" data-t="p2d">每周一出版的 Switch 新作与热销档案，每期含中文简介、官方截图与 Metacritic 口碑，支持邮件订阅，已归档 3 期。</span>
+        <span class="tag" data-t="p2t">独立开发 · 周报</span>
         <div class="work-links">
           <a class="site-link" href="https://gameweekly.abetterplace2.live" target="_blank" rel="noopener" title="gameweekly.abetterplace2.live">
             <img class="site-icon" src="siteicons/gameweekly.svg" alt="" width="16" height="16" loading="lazy" decoding="async">
@@ -794,9 +778,9 @@ section{scroll-margin-top:24px;}
       </li>
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name"><span data-t="p3n">CAMCOP 相机对比工具</span><span class="tr-b" data-t="p3ns">Camera Comparison Tool</span></span>
-        <span class="desc"><span data-t="p3d">收录 1,144 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。</span><span class="tr-b" data-t="p3ds">A structured five-view dataset of 1,144 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.</span></span>
-        <span class="tag"><span data-t="p3t">独立开发 · 小程序</span><span class="tr-b" data-t="p3ts">Solo · Mini Program</span></span>
+        <span class="name" data-t="p3n">CAMCOP 相机对比工具</span>
+        <span class="desc" data-t="p3d">收录 1,144 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。</span>
+        <span class="tag" data-t="p3t">独立开发 · 小程序</span>
         <div class="work-links">
           <a class="site-link" href="https://camera.abetterplace2.live" target="_blank" rel="noopener" title="camera.abetterplace2.live">
             <img class="site-icon" src="siteicons/camera.png" alt="" width="16" height="16" loading="lazy" decoding="async">
@@ -810,17 +794,17 @@ section{scroll-margin-top:24px;}
               <img src="camcop-miniprogram.jpg" alt="CAMCOP 微信小程序码 WeChat Mini Program QR code" width="720" height="720" loading="lazy" decoding="async">
             </figure>
             <div class="miniapp-copy">
-              <p class="t"><span data-t="p3qt">微信扫一扫，打开「CAMCOP」小程序</span><span class="tr-b" data-t="p3qts">Scan with WeChat to open the CAMCOP Mini Program</span></p>
-              <p class="n"><span data-t="p3qn">1,144 台相机 · 五视角对比 · 随身查询</span><span class="tr-b" data-t="p3qns">1,144 cameras · five views · compare on the go</span></p>
+              <p class="t" data-t="p3qt">微信扫一扫，打开「CAMCOP」小程序</p>
+              <p class="n" data-t="p3qn">1,144 台相机 · 五视角对比 · 随身查询</p>
             </div>
           </div>
         </div>
       </li>
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name"><span data-t="p4n">abetterplace2.live</span></span>
-        <span class="desc"><span data-t="p4d">个人网站集群，四个子站同源同栈：摄影作品集、Metro 磁贴画廊、马拉松赛历与 PEDAL 速度模拟器，连同相机对比工具、Switch 周报与 Saudade 落地页，全部跑在 OSS + CDN 上，含全球节点加速与证书自动续期。</span><span class="tr-b" data-t="p4ds">A personal site cluster of four sibling sites — photography portfolio, Metro tile gallery, marathon calendar and the PEDAL speed simulator — alongside the camera comparison tool, the weekly Switch digest and the Saudade landing page, all on OSS + CDN with global edge acceleration and automated certificate renewal.</span></span>
-        <span class="tag"><span data-t="p4t">独立开发 · Web</span><span class="tr-b" data-t="p4ts">Solo · Web</span></span>
+        <span class="name" data-t="p4n">abetterplace2.live</span>
+        <span class="desc" data-t="p4d">个人网站集群，四个子站同源同栈：摄影作品集、Metro 磁贴画廊、马拉松赛历与 PEDAL 速度模拟器，连同相机对比工具、Switch 周报与 Saudade 落地页，全部跑在 OSS + CDN 上，含全球节点加速与证书自动续期。</span>
+        <span class="tag" data-t="p4t">独立开发 · Web</span>
         <div class="work-links">
           <a class="site-link" href="https://abetterplace2.live" target="_blank" rel="noopener" title="abetterplace2.live">
             <img class="site-icon" src="siteicons/gallery.png" alt="" width="16" height="16" loading="lazy" decoding="async">
@@ -850,47 +834,47 @@ section{scroll-margin-top:24px;}
   <!-- ===================== 履历 ===================== -->
   <section class="section" id="path">
     <div class="section-head">
-      <h2 data-t="sec_path">履历</h2><span class="en">Experience</span><span class="rule"></span>
+      <h2 data-t="sec_path">履历</h2><span class="rule"></span>
     </div>
     <ul class="timeline">
       <li class="tl-item">
-        <span class="tl-time"><span data-t="e1t">2025 — 至今</span><span class="tr-b" data-t="e1ts">2025 — Present</span></span>
+        <span class="tl-time" data-t="e1t">2025 — 至今</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org" data-t="e1o">南京红松信息技术有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e1p">数据工程师</span><span class="tr-b" data-t="e1os">Nanjing Hongsong Information Technology Co., Ltd. / Data Engineer</span></p>
-          <p class="tl-note"><span data-t="e1n">负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。</span><span class="tr-b" data-t="e1ns">Telecom big-data analytics: data asset construction, metric systems and thematic analysis, periodic report delivery across 10+ provinces, and 20+ self-built automation tools.</span></p>
+          <p class="tl-title"><span class="org" data-t="e1o">南京红松信息技术有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e1p">数据工程师</span></p>
+          <p class="tl-note" data-t="e1n">负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。</p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2022 — 2025</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org" data-t="e2o">彩讯科技股份有限公司（驻咪咕互动娱乐）</span><span class="role-sep">/</span><span class="pos" data-t="e2p">数据分析师</span><span class="tr-b" data-t="e2os">Richinfo Technology Co., Ltd. (based at Migu Interactive Entertainment) / Data Analyst</span></p>
-          <p class="tl-note"><span data-t="e2n">负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。</span><span class="tr-b" data-t="e2ns">Monitored core metrics and maintained dashboards for a 20M-MAU big-screen product; during the 2024 compliance revamp, drove province-level strategy optimization through funnel analysis — impressions +5.3%, clicks +8.9%, conversion +9.6%.</span></p>
+          <p class="tl-title"><span class="org" data-t="e2o">彩讯科技股份有限公司（驻咪咕互动娱乐）</span><span class="role-sep">/</span><span class="pos" data-t="e2p">数据分析师</span></p>
+          <p class="tl-note" data-t="e2n">负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。</p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2021 — 2022</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org" data-t="e3o">新大陆软件工程有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e3p">数据仓库开发工程师</span><span class="tr-b" data-t="e3os">Newland Software Engineering Co., Ltd. / Data Warehouse Developer</span></p>
-          <p class="tl-note"><span data-t="e3n">江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。</span><span class="tr-b" data-t="e3ns">Full-cycle data warehouse development on Jiangsu Mobile's analytics platform; Oracle PL/SQL query tuning and index re-engineering.</span></p>
+          <p class="tl-title"><span class="org" data-t="e3o">新大陆软件工程有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e3p">数据仓库开发工程师</span></p>
+          <p class="tl-note" data-t="e3n">江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。</p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2020 — 2021</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org" data-t="e4o">南京万得资讯科技有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e4p">数据分析师</span><span class="tr-b" data-t="e4os">Nanjing Wind Information Technology Co., Ltd. / Data Analyst</span></p>
-          <p class="tl-note"><span data-t="e4n">从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。</span><span class="tr-b" data-t="e4ns">Built a nationwide land-transaction database from scratch (100k+ records collected daily); led the EDB commercial real-estate module and special reports for nine emerging first-tier cities.</span></p>
+          <p class="tl-title"><span class="org" data-t="e4o">南京万得资讯科技有限公司</span><span class="role-sep">/</span><span class="pos" data-t="e4p">数据分析师</span></p>
+          <p class="tl-note" data-t="e4n">从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。</p>
         </div>
       </li>
       <li class="tl-item">
         <span class="tl-time">2015 — 2019</span>
         <span class="tl-axis"><span class="tl-dot" aria-hidden="true"></span></span>
         <div class="tl-body">
-          <p class="tl-title"><span class="org" data-t="e5o">天津师范大学</span><span class="role-sep">/</span><span class="pos" data-t="e5p">软件工程 · 本科</span><span class="tr-b" data-t="e5os">Tianjin Normal University / Software Engineering · BSc</span></p>
-          <p class="tl-note"><span data-t="e5n">主修数据结构、操作系统、计算机网络与软件项目管理。</span><span class="tr-b" data-t="e5ns">Studied data structures, operating systems, computer networks and software project management.</span></p>
+          <p class="tl-title"><span class="org" data-t="e5o">天津师范大学</span><span class="role-sep">/</span><span class="pos" data-t="e5p">软件工程 · 本科</span></p>
+          <p class="tl-note" data-t="e5n">主修数据结构、操作系统、计算机网络与软件项目管理。</p>
         </div>
       </li>
     </ul>
@@ -898,7 +882,7 @@ section{scroll-margin-top:24px;}
 
   <!-- ===================== 联系 ===================== -->
   <section class="contact" id="contact">
-    <p class="contact-line">contact <a class="mail" href="mailto:me@retter.wang">me@retter.wang</a></p>
+    <p class="contact-line"><span data-t="contact">联系</span> <a class="mail" href="mailto:me@retter.wang">me@retter.wang</a></p>
     <div class="meta">
       <nav class="social" aria-label="社交链接 Social links">
         <a class="link" href="https://github.com/retterwang" target="_blank" rel="noopener">GitHub</a>
@@ -907,7 +891,7 @@ section{scroll-margin-top:24px;}
       </nav>
       <span class="place">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        <span data-t="place">南京 · 中国</span><span class="tr" data-t="places">（Nanjing, China）</span>
+        <span data-t="place">南京 · 中国</span>
       </span>
     </div>
     <div class="footer-bottom">
@@ -971,107 +955,77 @@ section{scroll-margin-top:24px;}
 
   var T = {
     'zh-CN': {
-      _title: '王文昊 Wang Wenhao — 数据分析师与独立开发者 (Data Analyst & Solo Developer)',
-      _desc: '王文昊，数据分析师与独立开发者，现居南京。 Wang Wenhao — an atypical data analyst and solo developer based in Nanjing.',
-      sec_about: '关于', sec_proj: '项目', sec_path: '履历',
+      _title: '王文昊 Wang Wenhao — 数据分析师与独立开发者',
+      _desc: '王文昊，数据分析师与独立开发者，现居南京。',
+      sec_about: '关于', sec_proj: '项目', sec_path: '履历', contact: '联系',
       about: '软件工程专业毕业，现在是非典型数据分析师和业余独立开发者。什么都懂一点，能分析，能设计，能开发，能运维。对数码科技有与生俱来的浓厚兴趣。参加过十几次马拉松比赛，爱拍照片。生活在南京。',
-      about_en: 'I studied software engineering at university, and now I\'m an atypical data analyst and a part-time solo developer. I know a bit of everything—I can analyze, design, develop, and maintain systems. I have a natural passion for digital technology. I\'ve participated in more than ten marathons and love taking photos. Living in Nanjing.',
-      p1n: 'Saudade 往时', p1ns: 'Saudade — Photo Library App',
+      p1n: 'Saudade 往时',
       p1d: '把相册摊开成一天：按钟点回看往年同一时刻拍下的照片，同一分钟的多张叠成一摞相纸；含桌面小组件，照片全程本机处理，无广告无账号。已在 App Store 上架，买断制无内购。',
-      p1ds: 'A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Now on the App Store as a one-time purchase.',
-      p1t: '独立开发 · iOS', p1ts: 'Solo · iOS',
-      p2n: 'Switch 周报', p2ns: 'GameWeekly — Weekly Digest',
+      p1t: '独立开发 · iOS',
+      p2n: 'Switch 周报',
       p2d: '每周一出版的 Switch 新作与热销档案，每期含中文简介、官方截图与 Metacritic 口碑，支持邮件订阅，已归档 3 期。',
-      p2ds: 'A weekly Switch release and bestseller digest — Chinese summaries, official screenshots and Metacritic scores, delivered by email; 3 issues archived.',
-      p2t: '独立开发 · 周报', p2ts: 'Solo · Newsletter',
-      p3n: 'CAMCOP 相机对比工具', p3ns: 'Camera Comparison Tool',
+      p2t: '独立开发 · 周报',
+      p3n: 'CAMCOP 相机对比工具',
       p3d: '收录 1,144 台相机的五视角结构化数据集，支持多机同屏对比、叠加与并排视图；微信小程序同步上线，扫码即可打开。',
-      p3ds: 'A structured five-view dataset of 1,144 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.',
-      p3t: '独立开发 · 小程序', p3ts: 'Solo · Mini Program',
-      p3qt: '微信扫一扫，打开「CAMCOP」小程序', p3qts: 'Scan with WeChat to open the CAMCOP Mini Program',
-      p3qn: '1,144 台相机 · 五视角对比 · 随身查询', p3qns: '1,144 cameras · five views · compare on the go',
+      p3t: '独立开发 · 小程序',
+      p3qt: '微信扫一扫，打开「CAMCOP」小程序',
+      p3qn: '1,144 台相机 · 五视角对比 · 随身查询',
       p4n: 'abetterplace2.live',
       p4d: '个人网站集群，四个子站同源同栈：摄影作品集、Metro 磁贴画廊、马拉松赛历与 PEDAL 速度模拟器，连同相机对比工具、Switch 周报与 Saudade 落地页，全部跑在 OSS + CDN 上，含全球节点加速与证书自动续期。',
-      p4ds: 'A personal site cluster of four sibling sites — photography portfolio, Metro tile gallery, marathon calendar and the PEDAL speed simulator — alongside the camera comparison tool, the weekly Switch digest and the Saudade landing page, all on OSS + CDN with global edge acceleration and automated certificate renewal.',
-      p4t: '独立开发 · Web', p4ts: 'Solo · Web',
-      e1t: '2025 — 至今', e1ts: '2025 — Present',
+      p4t: '独立开发 · Web',
+      e1t: '2025 — 至今',
       e1o: '南京红松信息技术有限公司', e1p: '数据工程师',
-      e1os: 'Nanjing Hongsong Information Technology Co., Ltd. / Data Engineer',
       e1n: '负责电信运营商大数据分析：数据资产建设、指标体系与专题分析、十余省份周期性报表交付，自研 20 余个自动化工具。',
-      e1ns: 'Telecom big-data analytics: data asset construction, metric systems and thematic analysis, periodic report delivery across 10+ provinces, and 20+ self-built automation tools.',
       e2o: '彩讯科技股份有限公司（驻咪咕互动娱乐）', e2p: '数据分析师',
-      e2os: 'Richinfo Technology Co., Ltd. (based at Migu Interactive Entertainment) / Data Analyst',
       e2n: '负责月活 2 千万大屏产品的核心指标监控与看板维护；2024 年套娃整改中通过漏斗分析推动分省策略优化，曝光 +5.3%、点击 +8.9%、转化 +9.6%。',
-      e2ns: 'Monitored core metrics and maintained dashboards for a 20M-MAU big-screen product; during the 2024 compliance revamp, drove province-level strategy optimization through funnel analysis — impressions +5.3%, clicks +8.9%, conversion +9.6%.',
       e3o: '新大陆软件工程有限公司', e3p: '数据仓库开发工程师',
-      e3os: 'Newland Software Engineering Co., Ltd. / Data Warehouse Developer',
       e3n: '江苏移动经分数据中台数仓全流程开发，Oracle PL/SQL 查询优化与索引重构。',
-      e3ns: 'Full-cycle data warehouse development on Jiangsu Mobile\'s analytics platform; Oracle PL/SQL query tuning and index re-engineering.',
       e4o: '南京万得资讯科技有限公司', e4p: '数据分析师',
-      e4os: 'Nanjing Wind Information Technology Co., Ltd. / Data Analyst',
       e4n: '从零搭建全国土地交易数据库（日均采集 10 万+ 条），主导 EDB 商业地产报告模块与九大新一线城市专题报告。',
-      e4ns: 'Built a nationwide land-transaction database from scratch (100k+ records collected daily); led the EDB commercial real-estate module and special reports for nine emerging first-tier cities.',
       e5o: '天津师范大学', e5p: '软件工程 · 本科',
-      e5os: 'Tianjin Normal University / Software Engineering · BSc',
       e5n: '主修数据结构、操作系统、计算机网络与软件项目管理。',
-      e5ns: 'Studied data structures, operating systems, computer networks and software project management.',
-      place: '南京 · 中国', places: '（Nanjing, China）',
-      upd: '最后更新于 2026 年 11 月 · Last updated: November 2026'
+      place: '南京 · 中国',
+      upd: '最后更新于 2026 年 11 月'
     },
 
     'zh-Hant': {
-      _title: '王文昊 Wang Wenhao — 資料分析師與獨立開發者 (Data Analyst & Solo Developer)',
-      _desc: '王文昊，資料分析師與獨立開發者，現居南京。 Wang Wenhao — an atypical data analyst and solo developer based in Nanjing.',
-      sec_about: '關於', sec_proj: '專案', sec_path: '經歷',
+      _title: '王文昊 Wang Wenhao — 資料分析師與獨立開發者',
+      _desc: '王文昊，資料分析師與獨立開發者，現居南京。',
+      sec_about: '關於', sec_proj: '專案', sec_path: '經歷', contact: '聯絡',
       about: '軟體工程專業畢業，現在是非典型資料分析師與業餘獨立開發者。什麼都懂一點，能分析、能設計、能開發、能維運。對數位科技有與生俱來的濃厚興趣。參加過十幾次馬拉松比賽，愛拍照。生活在南京。',
-      about_en: 'I studied software engineering at university, and now I\'m an atypical data analyst and a part-time solo developer. I know a bit of everything—I can analyze, design, develop, and maintain systems. I have a natural passion for digital technology. I\'ve participated in more than ten marathons and love taking photos. Living in Nanjing.',
-      p1n: 'Saudade 往時', p1ns: 'Saudade — Photo Library App',
+      p1n: 'Saudade 往時',
       p1d: '把相簿攤開成一天：按鐘點回看往年同一時刻拍下的照片，同一分鐘的多張疊成一疊相紙；含桌面小工具，照片全程在本機處理，無廣告、無帳號。已在 App Store 上架，買斷制、無內購。',
-      p1ds: 'A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Now on the App Store as a one-time purchase.',
-      p1t: '獨立開發 · iOS', p1ts: 'Solo · iOS',
-      p2n: 'Switch 週報', p2ns: 'GameWeekly — Weekly Digest',
+      p1t: '獨立開發 · iOS',
+      p2n: 'Switch 週報',
       p2d: '每週一出版的 Switch 新作與熱銷檔案，每期含中文簡介、官方截圖與 Metacritic 評價，支援電子郵件訂閱，已歸檔 3 期。',
-      p2ds: 'A weekly Switch release and bestseller digest — Chinese summaries, official screenshots and Metacritic scores, delivered by email; 3 issues archived.',
-      p2t: '獨立開發 · 週報', p2ts: 'Solo · Newsletter',
-      p3n: 'CAMCOP 相機對比工具', p3ns: 'Camera Comparison Tool',
+      p2t: '獨立開發 · 週報',
+      p3n: 'CAMCOP 相機對比工具',
       p3d: '收錄 1,144 台相機的五視角結構化資料集，支援多機同屏對比、疊加與並排檢視；微信小程式同步上線，掃碼即可開啟。',
-      p3ds: 'A structured five-view dataset of 1,144 cameras with side-by-side and overlay comparison; the WeChat Mini Program is live — scan to open.',
-      p3t: '獨立開發 · 小程式', p3ts: 'Solo · Mini Program',
-      p3qt: '微信掃一掃，開啟「CAMCOP」小程式', p3qts: 'Scan with WeChat to open the CAMCOP Mini Program',
-      p3qn: '1,144 台相機 · 五視角對比 · 隨身查詢', p3qns: '1,144 cameras · five views · compare on the go',
+      p3t: '獨立開發 · 小程式',
+      p3qt: '微信掃一掃，開啟「CAMCOP」小程式',
+      p3qn: '1,144 台相機 · 五視角對比 · 隨身查詢',
       p4n: 'abetterplace2.live',
       p4d: '個人網站叢集，四個子站同源同棧：攝影作品集、Metro 磁貼畫廊、馬拉松賽曆與 PEDAL 速度模擬器，連同相機對比工具、Switch 週報與 Saudade 落地頁，全部跑在 OSS + CDN 上，含全球節點加速與憑證自動續期。',
-      p4ds: 'A personal site cluster of four sibling sites — photography portfolio, Metro tile gallery, marathon calendar and the PEDAL speed simulator — alongside the camera comparison tool, the weekly Switch digest and the Saudade landing page, all on OSS + CDN with global edge acceleration and automated certificate renewal.',
-      p4t: '獨立開發 · Web', p4ts: 'Solo · Web',
-      e1t: '2025 — 至今', e1ts: '2025 — Present',
+      p4t: '獨立開發 · Web',
+      e1t: '2025 — 至今',
       e1o: '南京紅松信息技術有限公司', e1p: '資料工程師',
-      e1os: 'Nanjing Hongsong Information Technology Co., Ltd. / Data Engineer',
       e1n: '負責電信營運商大數據分析：資料資產建設、指標體系與專題分析、十餘省份週期性報表交付，自研 20 餘個自動化工具。',
-      e1ns: 'Telecom big-data analytics: data asset construction, metric systems and thematic analysis, periodic report delivery across 10+ provinces, and 20+ self-built automation tools.',
       e2o: '彩訊科技股份有限公司（駐咪咕互動娛樂）', e2p: '資料分析師',
-      e2os: 'Richinfo Technology Co., Ltd. (based at Migu Interactive Entertainment) / Data Analyst',
       e2n: '負責月活 2 千萬大螢幕產品的核心指標監控與儀表板維護；2024 年「套娃」整改中透過漏斗分析推動分省策略優化，曝光 +5.3%、點擊 +8.9%、轉化 +9.6%。',
-      e2ns: 'Monitored core metrics and maintained dashboards for a 20M-MAU big-screen product; during the 2024 compliance revamp, drove province-level strategy optimization through funnel analysis — impressions +5.3%, clicks +8.9%, conversion +9.6%.',
       e3o: '新大陸軟體工程有限公司', e3p: '資料倉儲開發工程師',
-      e3os: 'Newland Software Engineering Co., Ltd. / Data Warehouse Developer',
       e3n: '江蘇移動經分資料中台數倉全流程開發，Oracle PL/SQL 查詢優化與索引重構。',
-      e3ns: 'Full-cycle data warehouse development on Jiangsu Mobile\'s analytics platform; Oracle PL/SQL query tuning and index re-engineering.',
       e4o: '南京萬得資訊科技有限公司', e4p: '資料分析師',
-      e4os: 'Nanjing Wind Information Technology Co., Ltd. / Data Analyst',
       e4n: '從零搭建全國土地交易資料庫（日均採集 10 萬+ 筆），主導 EDB 商業地產報告模組與九大新一線城市專題報告。',
-      e4ns: 'Built a nationwide land-transaction database from scratch (100k+ records collected daily); led the EDB commercial real-estate module and special reports for nine emerging first-tier cities.',
       e5o: '天津師範大學', e5p: '軟體工程 · 學士',
-      e5os: 'Tianjin Normal University / Software Engineering · BSc',
       e5n: '主修資料結構、作業系統、電腦網路與軟體專案管理。',
-      e5ns: 'Studied data structures, operating systems, computer networks and software project management.',
-      place: '南京 · 中國', places: '（Nanjing, China）',
-      upd: '最後更新於 2026 年 11 月 · Last updated: November 2026'
+      place: '南京 · 中國',
+      upd: '最後更新於 2026 年 11 月'
     },
 
     en: {
       _title: 'Wang Wenhao — Data Analyst & Solo Developer',
       _desc: 'Wang Wenhao — an atypical data analyst and solo developer based in Nanjing. Projects, apps and site cluster.',
-      sec_about: 'About', sec_proj: 'Projects', sec_path: 'Experience',
+      sec_about: 'About', sec_proj: 'Projects', sec_path: 'Experience', contact: 'contact',
       about: 'I studied software engineering at university, and now I\'m an atypical data analyst and a part-time solo developer. I know a bit of everything — I can analyze, design, develop and run systems. I have a natural passion for digital technology. I have run more than ten marathons and I like taking photographs. I live in Nanjing.',
       p1n: 'Saudade',
       p1d: 'A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Now on the App Store as a one-time purchase.',
@@ -1105,7 +1059,7 @@ section{scroll-margin-top:24px;}
     ja: {
       _title: '王文昊 Wang Wenhao — データアナリスト／個人開発者',
       _desc: '王文昊（Wang Wenhao）。データアナリストであり個人開発者。南京在住。',
-      sec_about: '概要', sec_proj: 'プロジェクト', sec_path: '経歴',
+      sec_about: '概要', sec_proj: 'プロジェクト', sec_path: '経歴', contact: 'contact',
       about: '大学ではソフトウェア工学を専攻。いまは型にはまらないデータアナリストで、余暇には個人開発をしています。分析、設計、開発、運用と、ひととおりは分かります。デジタル技術には物心ついた頃から惹かれていました。フルマラソンは十数回走り、写真を撮るのも好きです。南京在住。',
       p1n: 'Saudade 往時',
       p1d: '写真ライブラリを「一日」の時間軸に広げるアプリ。過去の同じ時刻に撮った写真を時計の針に沿って並べ、同じ一分に撮った何枚かはプリントの束になります。ホーム画面ウィジェット付き、写真はすべて端末内で処理。App Store にて配信中、買い切り。',
@@ -1139,7 +1093,7 @@ section{scroll-margin-top:24px;}
     ko: {
       _title: '王文昊 Wang Wenhao — 데이터 분석가 · 1인 개발자',
       _desc: '王文昊(Wang Wenhao). 데이터 분석가이자 1인 개발자. 난징 거주.',
-      sec_about: '소개', sec_proj: '프로젝트', sec_path: '경력',
+      sec_about: '소개', sec_proj: '프로젝트', sec_path: '경력', contact: 'contact',
       about: '대학에서 소프트웨어공학을 전공했고, 지금은 정형화되지 않은 데이터 분석가이자 여가 시간의 1인 개발자입니다. 분석, 설계, 개발, 운영을 두루 조금씩 다룹니다. 디지털 기술에는 어릴 때부터 자연스러운 관심이 있었습니다. 마라톤을 십여 차례 완주했고 사진 찍기를 좋아합니다. 난징에 살고 있습니다.',
       p1n: 'Saudade',
       p1d: '사진 보관함을 하루의 시간축으로 펼치는 앱. 지난 몇 해 같은 시각에 찍은 사진을 시계처럼 늘어놓고, 같은 1분에 찍은 여러 장은 인화지 더미로 쌓입니다. 홈 화면 위젯 포함, 사진은 전부 기기 안에서 처리합니다. App Store에서 판매 중, 1회 구매.',
@@ -1173,7 +1127,7 @@ section{scroll-margin-top:24px;}
     fr: {
       _title: 'Wang Wenhao — Analyste de données et développeur indépendant',
       _desc: 'Wang Wenhao, analyste de données et développeur indépendant, basé à Nankin. Projets, applications et réseau de sites.',
-      sec_about: 'À propos', sec_proj: 'Projets', sec_path: 'Parcours',
+      sec_about: 'À propos', sec_proj: 'Projets', sec_path: 'Parcours', contact: 'contact',
       about: 'Diplômé en génie logiciel, je suis aujourd’hui un analyste de données atypique et développeur indépendant à mes heures. Je touche un peu à tout : analyser, concevoir, développer, exploiter. La technologie me passionne depuis toujours. J’ai couru plus de dix marathons et j’aime la photographie. Je vis à Nankin.',
       p1n: 'Saudade',
       p1d: 'Une app qui déploie votre photothèque sur une seule journée : à chaque heure, les photos prises à ce même moment les années passées, empilées comme des tirages ; avec un widget d’écran d’accueil et un traitement 100 % local. Sur l’App Store, achat unique.',
@@ -1207,7 +1161,7 @@ section{scroll-margin-top:24px;}
     es: {
       _title: 'Wang Wenhao — Analista de datos y desarrollador independiente',
       _desc: 'Wang Wenhao, analista de datos y desarrollador independiente radicado en Nankín. Proyectos, aplicaciones y red de sitios.',
-      sec_about: 'Sobre mí', sec_proj: 'Proyectos', sec_path: 'Trayectoria',
+      sec_about: 'Sobre mí', sec_proj: 'Proyectos', sec_path: 'Trayectoria', contact: 'contacto',
       about: 'Soy licenciado en ingeniería de software y ahora soy un analista de datos atípico y desarrollador independiente a tiempo parcial. Sé un poco de todo: analizar, diseñar, desarrollar y mantener sistemas. La tecnología me interesa desde siempre. He corrido más de diez maratones y me gusta la fotografía. Vivo en Nankín.',
       p1n: 'Saudade',
       p1d: 'Una app que despliega tu fototeca en un solo día: a cada hora, las fotos tomadas en ese mismo momento en años anteriores, apiladas como copias; con widget de pantalla de inicio y procesamiento totalmente local. Ya en el App Store, pago único.',
@@ -1241,7 +1195,7 @@ section{scroll-margin-top:24px;}
     de: {
       _title: 'Wang Wenhao — Datenanalyst und Solo-Entwickler',
       _desc: 'Wang Wenhao, Datenanalyst und Solo-Entwickler aus Nanjing. Projekte, Apps und Website-Cluster.',
-      sec_about: 'Über mich', sec_proj: 'Projekte', sec_path: 'Werdegang',
+      sec_about: 'Über mich', sec_proj: 'Projekte', sec_path: 'Werdegang', contact: 'Kontakt',
       about: 'Softwaretechnik studiert, heute ein untypischer Datenanalyst und nebenbei Solo-Entwickler. Von allem ein bisschen: analysieren, gestalten, entwickeln, betreiben. Technik interessiert mich von Kindheit an. Ich habe mehr als zehn Marathons gelaufen und fotografiere gern. Ich lebe in Nanjing.',
       p1n: 'Saudade',
       p1d: 'Eine App, die deine Mediathek zu einem einzigen Tag ausbreitet: zu jeder Stunde die Fotos, die du früher zur selben Zeit aufgenommen hast – gestapelt wie Abzüge; mit Homescreen-Widget und komplett lokaler Verarbeitung. Jetzt im App Store, einmaliger Kauf.',
