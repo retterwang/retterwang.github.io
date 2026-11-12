@@ -1,0 +1,26 @@
+/* 自动生成，请勿手改 —— tools/build_fonts.py
+   站点：retterwang　字符集：本站全部用字 + ASCII + 常用标点
+   字体：思源宋体 / 思源黑体 / Pacifico（自托管，无第三方依赖） */
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:400;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-serif-sc-400-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/noto-serif-sc-400.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:500;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-serif-sc-500-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/noto-serif-sc-500.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:600;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-serif-sc-600-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/noto-serif-sc-600.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:700;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-serif-sc-700-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Serif SC';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/noto-serif-sc-700.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:300;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-sans-sc-300-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:300;font-display:swap;src:url(/fonts/noto-sans-sc-300.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:400;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-sans-sc-400-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/noto-sans-sc-400.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:500;font-display:swap;unicode-range:U+68E7;src:url(/fonts/noto-sans-sc-500-supp.woff2) format('woff2')}
+@font-face{font-family:'Noto Sans SC';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/noto-sans-sc-500.woff2) format('woff2')}
+@font-face{font-family:'Spectral';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/spectral-400.woff2) format('woff2')}
+@font-face{font-family:'Spectral';font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/spectral-400-italic.woff2) format('woff2')}
+@font-face{font-family:'Spectral';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/spectral-500.woff2) format('woff2')}
+@font-face{font-family:'Spectral';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/spectral-600.woff2) format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:300;font-display:swap;src:url(/fonts/hanken-grotesk-300.woff2) format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/hanken-grotesk-400.woff2) format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/hanken-grotesk-500.woff2) format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/hanken-grotesk-600.woff2) format('woff2')}
+@font-face{font-family:'Pacifico';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/pacifico-400.woff2) format('woff2')}
