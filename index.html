@@ -65,7 +65,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.cn">
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Pacifico&display=swap">
 <style>
 /* ============================================================
    设计 token：暖纸 · 墨 · 松绿
@@ -91,8 +93,8 @@
   --accent-underline:rgba(74,93,84,.42);
   --toggle-bg:rgba(250,249,247,.82);
 
-  --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
-  --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:'Noto Serif SC','Source Han Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Noto Sans SC','Source Han Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
 
   --measure:38em;            /* 正文行长 */
   --w:700px;                 /* 内容宽度 */
@@ -271,12 +273,12 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
 
 /* 日 / 韩：优先本机字形，避免简体字串味 */
 :root[data-lang="ja"]{
-  --serif:'Spectral','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif JP','Noto Serif SC',Georgia,serif;
-  --sans:'Hanken Grotesk','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans JP','Noto Sans SC',sans-serif;
+  --serif:'Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans JP','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans SC',sans-serif;
 }
 :root[data-lang="ko"]{
-  --serif:'Spectral','Nanum Myeongjo','Apple SD Gothic Neo','Noto Serif KR','Noto Serif SC',Georgia,serif;
-  --sans:'Hanken Grotesk','Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR','Noto Sans SC',sans-serif;
+  --serif:'Noto Serif KR','Nanum Myeongjo','Apple SD Gothic Neo','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo','Noto Sans SC',sans-serif;
 }
 :root[data-lang="ja"] .hero h1 .cn{
   font-family:'Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif JP','Songti SC',serif;
@@ -319,15 +321,15 @@ a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
   margin:0;
 }
 .hero h1 .tr{font-size:.5em;letter-spacing:.02em;font-weight:400;}
-/* Hero 名字区中文（王文昊）→ 华文中宋（衬线宋体，标题气质） */
+/* Hero 名字区中文（王文昊）→ 思源宋体（衬线，标题气质） */
 .hero h1 .cn{
-  font-family:'STZhongsong','华文中宋','Songti SC','SimSun','Noto Serif SC',serif;
+  font-family:'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;
   font-weight:400;
   letter-spacing:.06em;
 }
 /* Hero 名字区英文（Wang Wenhao）专用手写体：Pacifico */
 .hero h1 .tr.en-script{
-  font-family:'Pacifico','Spectral','Noto Serif SC',cursive;
+  font-family:'Pacifico','Noto Serif SC','Songti SC',serif;
   font-size:.62em;
   font-weight:400;
   letter-spacing:.01em;
@@ -764,13 +766,13 @@ section{scroll-margin-top:24px;}
       </li>
       <li class="work-item">
         <span class="year">2026</span>
-        <span class="name" data-t="p2n">Switch 周报</span>
+        <span class="name" data-t="p2n">Switch游戏周报</span>
         <span class="desc" data-t="p2d">每周一出版的 Switch 新作与热销档案，每期含中文简介、官方截图与 Metacritic 口碑，支持邮件订阅，已归档 3 期。</span>
         <span class="tag" data-t="p2t">独立开发 · 周报</span>
         <div class="work-links">
-          <a class="site-link" href="https://gameweekly.abetterplace2.live" target="_blank" rel="noopener" title="gameweekly.abetterplace2.live">
-            <img class="site-icon" src="siteicons/gameweekly.svg" alt="" width="16" height="16" loading="lazy" decoding="async">
-            <span class="u">gameweekly.abetterplace2.live</span>
+          <a class="site-link" href="https://swikly.abetterplace2.live" target="_blank" rel="noopener" title="swikly.abetterplace2.live">
+            <img class="site-icon" src="siteicons/swikly.svg" alt="" width="16" height="16" loading="lazy" decoding="async">
+            <span class="u">swikly.abetterplace2.live</span>
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg>
           </a>
         </div>
@@ -1029,7 +1031,7 @@ section{scroll-margin-top:24px;}
       p1n: 'Saudade',
       p1d: 'A photo app that lays your library out as a single day — see what you shot at this very hour in past years, stacked like prints; with a home-screen widget and fully on-device processing. Now on the App Store as a one-time purchase.',
       p1t: 'Solo · iOS',
-      p2n: 'GameWeekly',
+      p2n: 'Swikly',
       p2d: 'A weekly Switch release and bestseller digest — Chinese summaries, official screenshots and Metacritic scores, delivered by email; 3 issues archived.',
       p2t: 'Solo · Newsletter',
       p3n: 'CAMCOP',
@@ -1131,7 +1133,7 @@ section{scroll-margin-top:24px;}
       p1n: 'Saudade',
       p1d: 'Une app qui déploie votre photothèque sur une seule journée : à chaque heure, les photos prises à ce même moment les années passées, empilées comme des tirages ; avec un widget d’écran d’accueil et un traitement 100 % local. Sur l’App Store, achat unique.',
       p1t: 'Solo · iOS',
-      p2n: 'GameWeekly',
+      p2n: 'Swikly',
       p2d: 'Un digest hebdomadaire des sorties et des meilleures ventes Switch — résumés en chinois, captures officielles et notes Metacritic, livré par e-mail ; 3 numéros archivés.',
       p2t: 'Solo · Newsletter',
       p3n: 'CAMCOP',
@@ -1165,7 +1167,7 @@ section{scroll-margin-top:24px;}
       p1n: 'Saudade',
       p1d: 'Una app que despliega tu fototeca en un solo día: a cada hora, las fotos tomadas en ese mismo momento en años anteriores, apiladas como copias; con widget de pantalla de inicio y procesamiento totalmente local. Ya en el App Store, pago único.',
       p1t: 'Solo · iOS',
-      p2n: 'GameWeekly',
+      p2n: 'Swikly',
       p2d: 'Un resumen semanal de novedades y superventas de Switch: sinopsis en chino, capturas oficiales y notas de Metacritic, por correo; 3 números archivados.',
       p2t: 'Solo · Boletín',
       p3n: 'CAMCOP',
@@ -1199,7 +1201,7 @@ section{scroll-margin-top:24px;}
       p1n: 'Saudade',
       p1d: 'Eine App, die deine Mediathek zu einem einzigen Tag ausbreitet: zu jeder Stunde die Fotos, die du früher zur selben Zeit aufgenommen hast – gestapelt wie Abzüge; mit Homescreen-Widget und komplett lokaler Verarbeitung. Jetzt im App Store, einmaliger Kauf.',
       p1t: 'Solo · iOS',
-      p2n: 'GameWeekly',
+      p2n: 'Swikly',
       p2d: 'Ein wöchentlicher Überblick über Switch-Neuheiten und Bestseller – Zusammenfassungen auf Chinesisch, offizielle Screenshots und Metacritic-Wertungen, per E-Mail; 3 Ausgaben archiviert.',
       p2t: 'Solo · Newsletter',
       p3n: 'CAMCOP',
