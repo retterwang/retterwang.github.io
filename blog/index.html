@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王文昊的博客</title>
+<meta name="description" content="数据、工具与独立开发 —— 王文昊的个人博客。">
+<meta name="author" content="王文昊 · Wang Wenhao">
+<link rel="alternate" type="application/rss+xml" title="王文昊的博客" href="https://retter.wang/blog/feed.xml">
+<link rel="canonical" href="https://retter.wang/blog/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="王文昊的博客">
+<meta property="og:description" content="数据、工具与独立开发 —— 王文昊的个人博客。">
+<meta property="og:url" content="https://retter.wang/blog/">
+<link rel="icon" href="https://retter.wang/blog/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="https://retter.wang/blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://retter.wang/blog/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://retter.wang/blog/apple-touch-icon.png">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&family=Pacifico&display=swap">
+<style>
+
+:root{
+  --paper:#FAF9F7;
+  --ink:#191817;
+  --muted:#6F6B64;
+  --faint:#9B968D;
+  --line:#E6E3DD;
+  --accent:#4A5D54;
+  --accent-soft:#EDEFEA;
+
+  --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+
+  --measure:38em;
+  --w:700px;
+  --gutter:clamp(24px,6vw,40px);
+  --section-gap:clamp(72px,11vh,116px);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.8;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+::selection{background:var(--accent);color:var(--paper);}
+
+a{
+  color:inherit;
+  text-decoration:none;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  transition:color .22s ease;
+}
+a.link{text-decoration:underline;text-decoration-color:var(--faint);}
+a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
+
+.wrap{
+  max-width:var(--w);
+  margin:0 auto;
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+}
+
+.tr{font-size:.9em;color:var(--faint);font-weight:400;letter-spacing:.01em;}
+.tr-b{display:block;margin-top:3px;font-size:.88em;color:var(--faint);font-weight:400;letter-spacing:.005em;line-height:1.55;}
+
+section{scroll-margin-top:24px;}
+.section{margin-bottom:var(--section-gap);}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin:0 0 34px;
+}
+.section-head h2{
+  font-family:var(--serif);
+  font-size:1.18rem;
+  font-weight:600;
+  margin:0;
+  letter-spacing:.01em;
+  background:var(--accent);
+  color:#fff;
+  padding:0 4px;
+  border-radius:0;
+  line-height:1.1;
+}
+.section-head .en{font-size:.82rem;color:var(--faint);font-family:var(--sans);letter-spacing:.04em;}
+.section-head .rule{flex:1;height:1px;background:var(--line);align-self:center;}
+
+.prose{max-width:var(--measure);}
+.prose p{margin:0 0 1.15em;color:var(--muted);}
+.prose p:last-child{margin-bottom:0;}
+.prose .lead{color:var(--ink);}
+.prose h2,.prose h3,.prose h4{
+  font-family:var(--serif);
+  font-weight:600;
+  line-height:1.4;
+  margin:2em 0 .7em;
+  color:var(--ink);
+}
+.prose h2{font-size:1.24rem;}
+.prose h3{font-size:1.08rem;}
+.prose h4{font-size:.98rem;}
+.prose ul,.prose ol{margin:0 0 1.15em;padding-left:1.4em;color:var(--muted);}
+.prose li{margin:0 0 .4em;}
+.prose li::marker{color:var(--faint);}
+.prose blockquote{
+  margin:1.5em 0;
+  padding:2px 0 2px 18px;
+  border-left:2px solid var(--accent);
+  color:var(--muted);
+  font-style:normal;
+}
+.prose blockquote p{margin:0;}
+.prose code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+  font-size:.86em;
+  background:var(--accent-soft);
+  padding:.12em .38em;
+  border-radius:3px;
+}
+.prose pre{
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:16px 18px;
+  overflow-x:auto;
+  margin:1.5em 0;
+}
+.prose pre code{background:none;padding:0;font-size:.85em;line-height:1.7;}
+.prose img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:3px;}
+.prose hr{border:0;border-top:1px solid var(--line);margin:2.4em 0;}
+.prose table{width:100%;border-collapse:collapse;margin:1.5em 0;font-size:.92rem;}
+.prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
+.prose th{background:var(--accent-soft);font-weight:600;color:var(--ink);}
+
+.rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
+.d1{animation-delay:.05s;}
+.d2{animation-delay:.18s;}
+.d3{animation-delay:.32s;}
+.d4{animation-delay:.46s;}
+@keyframes rise{to{opacity:1;transform:none;}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rise{opacity:1;transform:none;animation:none;}
+  *{transition:none !important;}
+}
+
+
+/* ---- 顶部栏 ---- */
+.site-bar{
+  border-bottom:1px solid var(--line);
+  background:rgba(250,249,247,.86);
+  backdrop-filter:saturate(140%) blur(8px);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.site-bar .bar-inner{
+  max-width:var(--w);
+  margin:0 auto;
+  padding:13px var(--gutter);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.bar-left{display:flex;align-items:baseline;gap:10px;min-width:0;}
+.bar-left .mark{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:1rem;
+  letter-spacing:.01em;
+  color:var(--ink);
+  white-space:nowrap;
+}
+.bar-left .mark:hover{color:var(--accent);}
+.bar-left .bar-sub{
+  font-size:.78rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bar-right{display:flex;align-items:center;gap:18px;flex:none;}
+.bar-right a{
+  font-size:.86rem;
+  color:var(--muted);
+  white-space:nowrap;
+  letter-spacing:.01em;
+}
+.bar-right a:hover{color:var(--accent);}
+.bar-right .rss{display:inline-flex;align-items:center;gap:6px;}
+
+/* ---- 博客 Hero ---- */
+.blog-hero{padding-top:clamp(56px,10vh,92px);padding-bottom:var(--section-gap);}
+.blog-hero h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.75rem,5vw,2.5rem);
+  line-height:1.15;
+  letter-spacing:-.01em;
+  margin:0 0 18px;
+}
+.blog-hero .tagline{
+  font-size:1.02rem;
+  color:var(--muted);
+  max-width:var(--measure);
+  margin:0;
+}
+.blog-hero .hero-meta{
+  margin-top:26px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 26px;
+  align-items:center;
+  font-size:.86rem;
+  color:var(--faint);
+}
+.blog-hero .hero-meta .rss-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  border-radius:3px;
+  padding:5px 12px;
+  transition:background .22s ease,color .22s ease;
+}
+.blog-hero .hero-meta .rss-btn:hover{background:var(--accent);color:#fff;}
+.blog-hero .hero-meta .rss-btn svg{flex:none;}
+
+/* ---- 文章列表 ---- */
+.post-list{list-style:none;margin:0;padding:0;}
+.post-item{
+  display:block;
+  padding:24px 4px;
+  border-bottom:1px solid var(--line);
+  transition:background .25s ease,padding .25s ease;
+}
+.post-item:first-child{border-top:1px solid var(--line);}
+.post-item:hover{background:var(--accent-soft);padding-left:12px;padding-right:12px;}
+.post-item .p-meta{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  font-size:.86rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+  margin-bottom:6px;
+}
+.post-item .p-title{
+  font-family:var(--serif);
+  font-size:1.2rem;
+  font-weight:600;
+  line-height:1.4;
+  color:var(--ink);
+  display:block;
+  transition:color .22s ease;
+}
+.post-item:hover .p-title{color:var(--accent);}
+.post-item .p-desc{
+  margin:7px 0 0;
+  font-size:.94rem;
+  color:var(--muted);
+  line-height:1.65;
+  max-width:var(--measure);
+}
+.post-item .p-tags{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.post-item .p-tags span{
+  font-size:.76rem;
+  color:var(--faint);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:2px 8px;
+  letter-spacing:.02em;
+}
+
+/* ---- 空状态 ---- */
+.empty-note{
+  border:1px dashed var(--line);
+  border-radius:3px;
+  padding:38px 26px;
+  text-align:center;
+  background:#fff;
+}
+.empty-note .e-t{
+  font-family:var(--serif);
+  font-size:1.08rem;
+  font-weight:600;
+  color:var(--ink);
+  margin:0 0 10px;
+}
+.empty-note .e-d{
+  font-size:.92rem;
+  color:var(--muted);
+  margin:0;
+  line-height:1.7;
+}
+
+/* ---- 站点集群 ---- */
+.site-cluster{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.site-card{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  padding:12px 14px 13px;
+  border:1px solid var(--line);
+  border-radius:3px;
+  transition:border-color .22s ease,background .22s ease;
+}
+.site-card .s-name{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family:var(--serif);
+  font-size:.96rem;
+  font-weight:600;
+  line-height:1.35;
+  color:var(--ink);
+  transition:color .22s ease;
+}
+.site-card .s-name svg{flex:none;opacity:0;transform:translate(-3px,3px);transition:opacity .22s ease,transform .22s ease;}
+.site-card .s-desc{font-size:.82rem;color:var(--muted);line-height:1.5;}
+.site-card .s-url{font-size:.74rem;color:var(--faint);letter-spacing:.01em;overflow-wrap:anywhere;}
+.site-card:hover{border-color:var(--accent);background:#fff;}
+.site-card:hover .s-name{color:var(--accent);}
+.site-card:hover .s-name svg{opacity:1;transform:none;}
+
+/* ---- 页脚 ---- */
+.blog-foot{
+  border-top:1px solid var(--line);
+  padding-top:44px;
+  padding-bottom:56px;
+}
+.blog-foot .f-row{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 20px;
+  font-size:.82rem;
+  color:var(--faint);
+}
+.blog-foot .f-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 22px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  font-size:.82rem;
+  color:var(--faint);
+}
+
+@media (max-width:600px){
+  body{font-size:16px;}
+  .site-cluster{grid-template-columns:1fr;gap:8px;}
+  .bar-left .bar-sub{display:none;}
+  .bar-right{gap:14px;}
+  .post-item{padding:20px 2px;}
+  .post-item:hover{padding-left:8px;padding-right:8px;}
+  .blog-hero .hero-meta{gap:10px 16px;}
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="bar-inner">
+    <div class="bar-left">
+      <a class="mark" href="https://retter.wang/blog/">王文昊的博客</a>
+      <span class="bar-sub">数据、工具与独立开发 —— 王文昊的个人博客。</span>
+    </div>
+    <nav class="bar-right" aria-label="站点导航 Site navigation">
+      <a class="rss" href="https://retter.wang/blog/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg> RSS</a>
+      <a href="https://retter.wang/">个人主页</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="blog-hero">
+    <h1 class="rise d1">王文昊的博客</h1>
+    <p class="tagline rise d2">数据、工具与独立开发 —— 王文昊的个人博客。</p>
+    <div class="hero-meta rise d3">
+      <a class="rss-btn" href="https://retter.wang/blog/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg> 订阅 RSS</a>
+
+    </div>
+  </section>
+
+  <section class="section" id="posts">
+    <div class="section-head">
+      <h2>文章</h2><span class="en">Posts</span><span class="rule"></span>
+    </div>
+      <div class="empty-note">
+        <p class="e-t">文章正在路上</p>
+        <p class="e-d">这里还空空如也 —— 稍后就会有第一篇文章。<br>          <span class="tr">No posts yet. The first one is on its way.</span></p>
+      </div>
+  </section>
+
+  <section class="section" id="sites">
+    <div class="section-head">
+      <h2>站点集群</h2><span class="en">Site cluster</span><span class="rule"></span>
+    </div>
+    <p class="extra-label" style="margin:0 0 14px;font-size:.8rem;color:var(--faint);letter-spacing:.03em;">我的其他网站 · 点击直达<span class="tr-b">Other sites · tap to visit</span></p>
+      <div class="site-cluster">
+        <a class="site-card" href="https://abetterplace2.live" target="_blank" rel="noopener">
+          <span class="s-name">Gallery<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+          <span class="s-desc">摄影作品集 · 主站</span>
+          <span class="s-url">abetterplace2.live</span>
+        </a>
+        <a class="site-card" href="https://abetterplace2.live/metro/" target="_blank" rel="noopener">
+          <span class="s-name">Metro<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+          <span class="s-desc">Windows Phone 风格磁贴画廊</span>
+          <span class="s-url">abetterplace2.live/metro/</span>
+        </a>
+        <a class="site-card" href="https://marathon.abetterplace2.live" target="_blank" rel="noopener">
+          <span class="s-name">Marathon<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+          <span class="s-desc">个人马拉松赛历与成绩</span>
+          <span class="s-url">marathon.abetterplace2.live</span>
+        </a>
+        <a class="site-card" href="https://pedal.abetterplace2.live" target="_blank" rel="noopener">
+          <span class="s-name">PEDAL<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+          <span class="s-desc">车辆加速感速度模拟器</span>
+          <span class="s-url">pedal.abetterplace2.live</span>
+        </a>
+        <a class="site-card" href="https://camera.abetterplace2.live" target="_blank" rel="noopener">
+          <span class="s-name">CAMCOP<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 9 3M4.5 3H9v4.5"/></svg></span>
+          <span class="s-desc">相机对比工具 · 网页版</span>
+          <span class="s-url">camera.abetterplace2.live</span>
+        </a>
+      </div>
+  </section>
+
+</main>
+
+<footer class="blog-foot">
+  <div class="wrap">
+    <div class="f-row">
+      <span>© 2026 王文昊 · Wang Wenhao</span>
+      <span>最后更新于 11 月 · Last updated: November 2026</span>
+    </div>
+    <div class="f-links">
+      <a class="link" href="https://retter.wang/">个人主页</a>
+      <a class="link" href="https://retter.wang/blog/feed.xml">RSS</a>
+      <a class="link" href="mailto:me@retter.wang">me@retter.wang</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

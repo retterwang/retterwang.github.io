@@ -1,0 +1,17 @@
+# 统一换行：HTML/CSS/JS/XML/MD 用 LF，避免 CRLF 污染构建产物与 RSS
+* text=auto eol=lf
+
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.xml  text eol=lf
+*.md   text eol=lf
+*.py   text eol=lf
+*.json text eol=lf
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.ico  binary
+*.woff2 binary
