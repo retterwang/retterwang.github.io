@@ -70,7 +70,7 @@ BASE_CSS = """
   --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
   --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
 
-  --measure:38em;
+  --measure:36em;
   --w:700px;
   --gutter:clamp(24px,6vw,40px);
   --section-gap:clamp(72px,11vh,116px);
@@ -83,8 +83,8 @@ body{
   background:var(--paper);
   color:var(--ink);
   font-family:var(--sans);
-  font-size:17px;
-  line-height:1.8;
+  font-size:18px;
+  line-height:1.85;
   font-weight:400;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
@@ -147,9 +147,9 @@ section{scroll-margin-top:24px;}
   margin:2em 0 .7em;
   color:var(--ink);
 }
-.prose h2{font-size:1.24rem;}
-.prose h3{font-size:1.08rem;}
-.prose h4{font-size:.98rem;}
+.prose h2{font-size:1.42rem;}
+.prose h3{font-size:1.2rem;}
+.prose h4{font-size:1.06rem;}
 .prose ul,.prose ol{margin:0 0 1.15em;padding-left:1.4em;color:var(--muted);}
 .prose li{margin:0 0 .4em;}
 .prose li::marker{color:var(--faint);}
@@ -213,7 +213,7 @@ section{scroll-margin-top:24px;}
   align-items:center;
   gap:5px;
   font-family:var(--sans);
-  font-size:.78rem;
+  font-size:.82rem;
   font-weight:600;
   line-height:1.5;
   letter-spacing:.06em;
@@ -272,7 +272,7 @@ HOME_CSS = """
 }
 .bar-left .mark:hover{color:var(--accent);}
 .bar-left .bar-sub{
-  font-size:.78rem;
+  font-size:.82rem;
   color:var(--faint);
   letter-spacing:.03em;
   white-space:nowrap;
@@ -371,7 +371,7 @@ HOME_CSS = """
   gap:8px;
 }
 .post-item .p-tags span{
-  font-size:.76rem;
+  font-size:.82rem;
   color:var(--faint);
   border:1px solid var(--line);
   border-radius:2px;
@@ -429,7 +429,7 @@ HOME_CSS = """
 }
 .site-card .s-name svg{flex:none;opacity:0;transform:translate(-3px,3px);transition:opacity .22s ease,transform .22s ease;}
 .site-card .s-desc{font-size:.82rem;color:var(--muted);line-height:1.5;}
-.site-card .s-url{font-size:.74rem;color:var(--faint);letter-spacing:.01em;overflow-wrap:anywhere;}
+.site-card .s-url{font-size:.80rem;color:var(--faint);letter-spacing:.01em;overflow-wrap:anywhere;}
 .site-card:hover{border-color:var(--accent);background:#fff;}
 .site-card:hover .s-name{color:var(--accent);}
 .site-card:hover .s-name svg{opacity:1;transform:none;}
@@ -460,7 +460,7 @@ HOME_CSS = """
 }
 
 @media (max-width:600px){
-  body{font-size:16px;}
+  body{font-size:17px;}
   .site-cluster{grid-template-columns:1fr;gap:8px;}
   .bar-left .bar-sub{display:none;}
   .bar-right{gap:14px;}
@@ -503,7 +503,7 @@ POST_CSS = """
 }
 .bar-left .mark:hover{color:var(--accent);}
 .bar-left .bar-sub{
-  font-size:.78rem;
+  font-size:.82rem;
   color:var(--faint);
   letter-spacing:.03em;
   white-space:nowrap;
@@ -547,7 +547,7 @@ POST_CSS = """
 }
 .post-head .p-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .post-head .p-tags span{
-  font-size:.76rem;
+  font-size:.82rem;
   color:var(--faint);
   border:1px solid var(--line);
   border-radius:2px;
@@ -575,14 +575,14 @@ POST_CSS = """
 .post-foot .p-nav .next{text-align:right;margin-left:auto;}
 .post-foot .p-nav .lbl{
   display:block;
-  font-size:.76rem;
+  font-size:.82rem;
   color:var(--faint);
   letter-spacing:.03em;
   margin-bottom:3px;
 }
 
 @media (max-width:600px){
-  body{font-size:16px;}
+  body{font-size:17px;}
   .bar-left .bar-sub{display:none;}
   .bar-right{gap:14px;}
   .post-foot .p-nav a{max-width:100%;}
@@ -828,15 +828,14 @@ def build_home(posts):
         list_block = (
             '      <div class="empty-note">\n'
             '        <p class="e-t">文章正在路上</p>\n'
-            '        <p class="e-d">这里还空空如也 —— 稍后就会有第一篇文章。<br>'
-            '          <span class="tr">No posts yet. The first one is on its way.</span></p>\n'
+            '        <p class="e-d">这里还空空如也，稍后就会有第一篇文章。</p>\n'
             '      </div>'
         )
 
     count_meta = ""
     if posts:
         count_meta = (
-            '      <span>共 %d 篇 · %d posts</span>\n' % (len(posts), len(posts))
+            '      <span>共 %d 篇</span>\n' % len(posts)
         )
 
     return """<!DOCTYPE html>
@@ -889,7 +888,7 @@ def build_home(posts):
     <div class="section-head">
       <h2>站点集群</h2><span class="en">Site cluster</span><span class="rule"></span>
     </div>
-    <p class="extra-label" style="margin:0 0 14px;font-size:.8rem;color:var(--faint);letter-spacing:.03em;">我的其他网站 · 点击直达<span class="tr-b">Other sites · tap to visit</span></p>
+    <p class="extra-label" style="margin:0 0 14px;font-size:.8rem;color:var(--faint);letter-spacing:.03em;">我的其他网站</p>
 %(cluster)s
   </section>
 
@@ -899,7 +898,7 @@ def build_home(posts):
   <div class="wrap">
     <div class="f-row">
       <span>© %(year)d %(author)s</span>
-      <span>最后更新于 %(month)d 月 · Last updated: %(monthname)s %(year)d</span>
+      <span>最后更新于 %(month)d 月</span>
     </div>
     <div class="f-links">
       <a class="link" href="https://retter.wang/">个人主页</a>
@@ -973,7 +972,7 @@ def build_post(p, prev_post, next_post):
     if prev_post:
         nav.append(
             '        <a class="prev" href="%s/%s/">\n'
-            '          <span class="lbl">上一篇 · Previous</span>%s\n'
+            '          <span class="lbl">上一篇</span>%s\n'
             '        </a>' % (SITE_BASE, esc(prev_post["slug"]), esc(prev_post["title"]))
         )
     else:
@@ -981,7 +980,7 @@ def build_post(p, prev_post, next_post):
     if next_post:
         nav.append(
             '        <a class="next" href="%s/%s/">\n'
-            '          <span class="lbl">下一篇 · Next</span>%s\n'
+            '          <span class="lbl">下一篇</span>%s\n'
             '        </a>' % (SITE_BASE, esc(next_post["slug"]), esc(next_post["title"]))
         )
     else:
@@ -1025,7 +1024,7 @@ def build_post(p, prev_post, next_post):
       <h1>%(title)s</h1>
       <div class="p-meta">
         <time datetime="%(iso)s">%(date)s</time>
-        <span>约 %(minutes)d 分钟阅读 · %(minutes)d min read</span>
+        <span>约 %(minutes)d 分钟</span>
         %(flag)s
         %(tags)s
       </div>
@@ -1048,7 +1047,7 @@ def build_post(p, prev_post, next_post):
   <div class="wrap">
     <div class="f-row">
       <span>© %(year)d %(author)s</span>
-      <span>最后更新于 %(month)d 月 · Last updated: %(monthname)s %(year)d</span>
+      <span>最后更新于 %(month)d 月</span>
     </div>
     <div class="f-links">
       <a class="link" href="%(base)s/">博客首页</a>
