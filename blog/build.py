@@ -233,9 +233,9 @@ section{scroll-margin-top:24px;}
   border:1px solid #E64980;
 }
 .p-flag-human{
-  background:var(--accent-soft);
-  color:var(--accent);
-  border:1px solid #D6DED8;
+  color:#0F6E56;
+  background:#E1F5EE;
+  border:1px solid #1D9E75;
 }
 """
 
