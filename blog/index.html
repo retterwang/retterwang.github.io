@@ -158,6 +158,37 @@ section{scroll-margin-top:24px;}
   *{transition:none !important;}
 }
 
+/* ---- 内容来源标识 AIGC / HMGC（首页与文章页共用） ---- */
+.p-flag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--sans);
+  font-size:.78rem;
+  font-weight:600;
+  line-height:1.5;
+  letter-spacing:.06em;
+  padding:3px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.p-flag::before{
+  content:"";
+  width:5px;height:5px;border-radius:50%;
+  background:currentColor;
+}
+.p-flag-ai{
+  color:#D6336C;
+  background:#FDEBF2;
+  border:1px solid #E64980;
+}
+.p-flag-human{
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid #D6DED8;
+}
+
 
 /* ---- 顶部栏 ---- */
 .site-bar{
@@ -423,7 +454,7 @@ section{scroll-margin-top:24px;}
           <a class="post-item" href="https://retter.wang/blog/purelymail-migration/">
             <span class="p-meta">
               <time datetime="2026-11-17">2026-11-17</time>
-              <span class="p-flag p-flag-ai">AIGC · AI 生成</span>
+              <span class="p-flag p-flag-ai">AIGC</span>
             </span>
             <span class="p-title">域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail</span>
             <p class="p-desc">两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。</p>

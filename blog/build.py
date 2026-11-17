@@ -195,6 +195,37 @@ section{scroll-margin-top:24px;}
   .rise{opacity:1;transform:none;animation:none;}
   *{transition:none !important;}
 }
+
+/* ---- 内容来源标识 AIGC / HMGC（首页与文章页共用） ---- */
+.p-flag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--sans);
+  font-size:.78rem;
+  font-weight:600;
+  line-height:1.5;
+  letter-spacing:.06em;
+  padding:3px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.p-flag::before{
+  content:"";
+  width:5px;height:5px;border-radius:50%;
+  background:currentColor;
+}
+.p-flag-ai{
+  color:#D6336C;
+  background:#FDEBF2;
+  border:1px solid #E64980;
+}
+.p-flag-human{
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid #D6DED8;
+}
 """
 
 # ============================================================
@@ -513,29 +544,7 @@ POST_CSS = """
   letter-spacing:.02em;
 }
 
-/* ---- 内容来源标识 AIGC / HMGC ---- */
-.p-flag{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-family:var(--sans);
-  font-size:.72rem;
-  font-weight:500;
-  line-height:1.5;
-  letter-spacing:.04em;
-  padding:2px 9px;
-  border-radius:999px;
-  white-space:nowrap;
-  vertical-align:middle;
-}
-.p-flag::before{
-  content:"";
-  width:5px;height:5px;border-radius:50%;
-  background:currentColor;
-  opacity:.75;
-}
-.p-flag-ai{background:#FAF3E3;color:#8A5A12;border:1px solid #E8D6B4;}
-.p-flag-human{background:var(--accent-soft);color:var(--accent);border:1px solid #D6DED8;}
+/* ---- 文章页 AIGC 显式标识块 ---- */
 .aigc-note{
   font-family:var(--sans);
   font-size:.82rem;
@@ -658,7 +667,7 @@ def parse_date(v):
 # 内容来源标识：AIGC（AI 生成）/ HMGC（人工创作）
 # ============================================================
 FLAG_LABELS = {
-    "ai": "AIGC · AI 生成",
+    "ai": "AIGC",
     "human": "HMGC · 人工创作",
 }
 FLAG_HINTS = {
