@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail · 王文昊的博客</title>
+<meta name="description" content="两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。">
+<meta name="author" content="王文昊 · Wang Wenhao">
+<meta name="aigc" content="ai-generated">
+<link rel="alternate" type="application/rss+xml" title="王文昊的博客" href="https://retter.wang/blog/feed.xml">
+<link rel="canonical" href="https://retter.wang/blog/purelymail-migration/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail">
+<meta property="og:description" content="两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。">
+<meta property="og:url" content="https://retter.wang/blog/purelymail-migration/">
+<meta property="article:published_time" content="2026-11-17">
+<link rel="icon" href="https://retter.wang/blog/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="https://retter.wang/blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://retter.wang/blog/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://retter.wang/blog/apple-touch-icon.png">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&family=Pacifico&display=swap">
+<style>
+
+:root{
+  --paper:#FAF9F7;
+  --ink:#191817;
+  --muted:#6F6B64;
+  --faint:#9B968D;
+  --line:#E6E3DD;
+  --accent:#4A5D54;
+  --accent-soft:#EDEFEA;
+
+  --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+
+  --measure:38em;
+  --w:700px;
+  --gutter:clamp(24px,6vw,40px);
+  --section-gap:clamp(72px,11vh,116px);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.8;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+::selection{background:var(--accent);color:var(--paper);}
+
+a{
+  color:inherit;
+  text-decoration:none;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  transition:color .22s ease;
+}
+a.link{text-decoration:underline;text-decoration-color:var(--faint);}
+a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
+
+.wrap{
+  max-width:var(--w);
+  margin:0 auto;
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+}
+
+.tr{font-size:.9em;color:var(--faint);font-weight:400;letter-spacing:.01em;}
+.tr-b{display:block;margin-top:3px;font-size:.88em;color:var(--faint);font-weight:400;letter-spacing:.005em;line-height:1.55;}
+
+section{scroll-margin-top:24px;}
+.section{margin-bottom:var(--section-gap);}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin:0 0 34px;
+}
+.section-head h2{
+  font-family:var(--serif);
+  font-size:1.18rem;
+  font-weight:600;
+  margin:0;
+  letter-spacing:.01em;
+  background:var(--accent);
+  color:#fff;
+  padding:0 4px;
+  border-radius:0;
+  line-height:1.1;
+}
+.section-head .en{font-size:.82rem;color:var(--faint);font-family:var(--sans);letter-spacing:.04em;}
+.section-head .rule{flex:1;height:1px;background:var(--line);align-self:center;}
+
+.prose{max-width:var(--measure);}
+.prose p{margin:0 0 1.15em;color:var(--muted);}
+.prose p:last-child{margin-bottom:0;}
+.prose .lead{color:var(--ink);}
+.prose h2,.prose h3,.prose h4{
+  font-family:var(--serif);
+  font-weight:600;
+  line-height:1.4;
+  margin:2em 0 .7em;
+  color:var(--ink);
+}
+.prose h2{font-size:1.24rem;}
+.prose h3{font-size:1.08rem;}
+.prose h4{font-size:.98rem;}
+.prose ul,.prose ol{margin:0 0 1.15em;padding-left:1.4em;color:var(--muted);}
+.prose li{margin:0 0 .4em;}
+.prose li::marker{color:var(--faint);}
+.prose blockquote{
+  margin:1.5em 0;
+  padding:2px 0 2px 18px;
+  border-left:2px solid var(--accent);
+  color:var(--muted);
+  font-style:normal;
+}
+.prose blockquote p{margin:0;}
+.prose code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+  font-size:.86em;
+  background:var(--accent-soft);
+  padding:.12em .38em;
+  border-radius:3px;
+}
+.prose pre{
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:16px 18px;
+  overflow-x:auto;
+  margin:1.5em 0;
+}
+.prose pre code{background:none;padding:0;font-size:.85em;line-height:1.7;}
+.prose img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:3px;}
+.prose hr{border:0;border-top:1px solid var(--line);margin:2.4em 0;}
+.prose table{width:100%;border-collapse:collapse;margin:1.5em 0;font-size:.92rem;}
+.prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
+.prose th{background:var(--accent-soft);font-weight:600;color:var(--ink);}
+
+.rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
+.d1{animation-delay:.05s;}
+.d2{animation-delay:.18s;}
+.d3{animation-delay:.32s;}
+.d4{animation-delay:.46s;}
+@keyframes rise{to{opacity:1;transform:none;}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rise{opacity:1;transform:none;animation:none;}
+  *{transition:none !important;}
+}
+
+
+/* ---- 顶部栏 ---- */
+.site-bar{
+  border-bottom:1px solid var(--line);
+  background:rgba(250,249,247,.86);
+  backdrop-filter:saturate(140%) blur(8px);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.site-bar .bar-inner{
+  max-width:var(--w);
+  margin:0 auto;
+  padding:13px var(--gutter);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.bar-left{display:flex;align-items:baseline;gap:10px;min-width:0;}
+.bar-left .mark{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:1rem;
+  letter-spacing:.01em;
+  color:var(--ink);
+  white-space:nowrap;
+}
+.bar-left .mark:hover{color:var(--accent);}
+.bar-left .bar-sub{
+  font-size:.78rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bar-right{display:flex;align-items:center;gap:18px;flex:none;}
+.bar-right a{font-size:.86rem;color:var(--muted);white-space:nowrap;letter-spacing:.01em;}
+.bar-right a:hover{color:var(--accent);}
+.bar-right .rss{display:inline-flex;align-items:center;gap:6px;}
+
+/* ---- 文章头 ---- */
+.post-head{padding-top:clamp(48px,9vh,84px);padding-bottom:34px;}
+.post-head .back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.86rem;
+  color:var(--faint);
+  margin-bottom:22px;
+}
+.post-head .back:hover{color:var(--accent);}
+.post-head h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.6rem,4.4vw,2.2rem);
+  line-height:1.28;
+  letter-spacing:-.01em;
+  margin:0 0 16px;
+  max-width:var(--measure);
+}
+.post-head .p-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:8px 16px;
+  font-size:.88rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+}
+.post-head .p-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.post-head .p-tags span{
+  font-size:.76rem;
+  color:var(--faint);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:2px 8px;
+  letter-spacing:.02em;
+}
+
+/* ---- 内容来源标识 AIGC / HMGC ---- */
+.p-flag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--sans);
+  font-size:.72rem;
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:.04em;
+  padding:2px 9px;
+  border-radius:999px;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.p-flag::before{
+  content:"";
+  width:5px;height:5px;border-radius:50%;
+  background:currentColor;
+  opacity:.75;
+}
+.p-flag-ai{background:#FAF3E3;color:#8A5A12;border:1px solid #E8D6B4;}
+.p-flag-human{background:var(--accent-soft);color:var(--accent);border:1px solid #D6DED8;}
+.aigc-note{
+  font-family:var(--sans);
+  font-size:.82rem;
+  line-height:1.7;
+  color:#7A5B22;
+  background:#FCF8EF;
+  border:1px solid #EFE2C6;
+  border-left:3px solid #D9A94C;
+  border-radius:3px;
+  padding:10px 14px;
+  margin:0 0 26px;
+}
+.aigc-note b{font-weight:600;}
+
+/* ---- 正文 ---- */
+.post-body{padding-bottom:var(--section-gap);}
+.post-body .prose{max-width:var(--measure);}
+.post-foot{
+  border-top:1px solid var(--line);
+  margin-top:20px;
+  padding-top:26px;
+}
+.post-foot .p-nav{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 24px;
+  font-size:.9rem;
+}
+.post-foot .p-nav a{color:var(--muted);max-width:44%;}
+.post-foot .p-nav a:hover{color:var(--accent);}
+.post-foot .p-nav .next{text-align:right;margin-left:auto;}
+.post-foot .p-nav .lbl{
+  display:block;
+  font-size:.76rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  margin-bottom:3px;
+}
+
+@media (max-width:600px){
+  body{font-size:16px;}
+  .bar-left .bar-sub{display:none;}
+  .bar-right{gap:14px;}
+  .post-foot .p-nav a{max-width:100%;}
+  .post-foot .p-nav .next{text-align:left;margin-left:0;}
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="bar-inner">
+    <div class="bar-left">
+      <a class="mark" href="https://retter.wang/blog/">王文昊的博客</a>
+      <span class="bar-sub">数据、工具与独立开发 —— 王文昊的个人博客。</span>
+    </div>
+    <nav class="bar-right" aria-label="站点导航 Site navigation">
+      <a class="rss" href="https://retter.wang/blog/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg> RSS</a>
+      <a href="https://retter.wang/blog/">博客首页</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <article>
+    <header class="post-head">
+      <a class="back" href="https://retter.wang/blog/">← 返回博客</a>
+      <h1>域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail</h1>
+      <div class="p-meta">
+        <time datetime="2026-11-17">2026 年 11 月 17 日</time>
+        <span>约 9 分钟阅读 · 9 min read</span>
+        <span class="p-flag p-flag-ai">AIGC · AI 生成</span>
+              <div class="p-tags">
+        <span>邮件</span>
+        <span>DNS</span>
+        <span>运维</span>
+      </div>
+      </div>
+    </header>
+
+    <div class="post-body prose">
+    <div class="aigc-note"><b>AIGC 标识</b> · 本文由人工智能生成，已经过人工审阅与事实核验。依据《人工智能生成合成内容标识办法》，本文带 AIGC 显式标识。</div>
+<p>我有两个域名：<code>abetterplace2.live</code> 挂在 iCloud 自定义域名上，<code>retter.wang</code> 挂在腾讯企业邮。两边都能用，但都用得不舒服——一个绑死苹果生态，一个绑死企业微信。我想要的是最朴素的东西：<strong>自己的域名，任意邮件客户端，标准 IMAP</strong>。</p>
+<p>于是有了这次迁移。下面是完整过程，包括我踩的坑和一次不可原谅的操作事故。</p>
+<h2 id="_1">一、结论先行</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最终方案</td>
+<td>Purelymail，$10/年</td>
+</tr>
+<tr>
+<td>迁移耗时</td>
+<td>约 40 分钟（不含思考方案的时间）</td>
+</tr>
+<tr>
+<td>记录变更</td>
+<td>每域名新增 6 条、删除 3 条、保留其余全部</td>
+</tr>
+<tr>
+<td>踩坑数量</td>
+<td>5 个技术坑 + 1 次生产事故</td>
+</tr>
+<tr>
+<td>现状</td>
+<td>两个域名邮件全部由 Purelymail 接管，IMAP/SMTP 正常</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">二、先否掉的路：自建</h2>
+<p>我手上有一台阿里云 ECS（2C2G，跑着 nginx 和 frp），还有一台绿联 NAS（N100，7.5G 内存，1.3T 空间）。理论上后者是自建邮件服务器的理想载体。</p>
+<p>调研之后，发现<strong>三条硬约束</strong>，任何一条都足以否掉这条路。</p>
+<h3 id="mta-25">约束一：阿里云禁的是"自建 MTA 直发"，不是"用 25 端口"</h3>
+<p>这是最容易误解的地方。很多人以为申请解封 25 端口就能自建邮件服务器了。实际上，阿里云 25 端口解封协议的核心条款是：</p>
+<blockquote>
+<p>解封后的 IP <strong>仅允许连接第三方 SMTP 服务器外发邮件</strong>。若发现直接使用该 IP 通过 SMTP 发送邮件，阿里云有权<strong>永久性封禁 TCP 25 端口且不再提供解封服务</strong>。</p>
+</blockquote>
+<p>换句话说，解封换来的是"连别人"的许可，不是"自己当邮局"的许可。在阿里云上跑 Postfix 直接投递到对方 25 端口，是违规且会被永久掐断的。</p>
+<p><strong>发信必须经过 smarthost 中继。这不是可选项。</strong></p>
+<h3 id="ip">约束二：新 IP 的送达率无法靠配置解决</h3>
+<p>SPF、DKIM、DMARC 只是入场券，不是通行证。收件方判定是否投递，看的是 IP 与域名的<strong>历史信誉</strong>。</p>
+<p>2026 年的现实是：全新 IP 的默认判决是"疑似垃圾"。Microsoft 尤其难缠——它会返回 <code>250 OK</code> 然后静默把邮件投进垃圾箱，你连报错都看不到。SPF 全通过也没用，因为问题不在认证，在信誉。</p>
+<p>中继商卖的就是这个：他们花几年时间养出来的 IP 池信誉。</p>
+<h3 id="2c2g-mailcow">约束三：2C2G 装不下 mailcow</h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>内存占用</th>
+<th>可行性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mailcow</td>
+<td>官方要求 6 GB+</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>docker-mailserver</td>
+<td>800 MB – 1.2 GB</td>
+<td>⚠️ 勉强</td>
+</tr>
+<tr>
+<td>Stalwart（Rust 单二进制）</td>
+<td>150–250 MB</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Postfix + Dovecot + Rspamd</td>
+<td>400–600 MB</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>偏偏我那台 ECS 已经跑着 nginx（8 个站点）和 frps（12 条映射）。塞进去只能选最轻的栈，还得跟生产业务抢资源。</p>
+<h3 id="nas">顺带一提：NAS 也不合适</h3>
+<p>NAS 内存和存储都够，但有个致命问题——绿联 UGOS 内置的 <code>earlyoom</code>（用户态内存守护）有过杀容器的前科。我之前的诊断记录显示，13 个容器<strong>全部没有内存上限</strong>，<code>dockerd</code> 曾泄漏到 3.66 GB 吃满 swap，触发 earlyoom 用 SIGKILL 大面积清场。</p>
+<p>邮件是 7×24 不能中断的服务，跟"随时折腾"的实验容器混部，风险不可接受。</p>
+<p><strong>自建这条路的结论</strong>：技术上可行，但代价是"必须挂中继 + 承担运维 + 忍受送达率不确定性"。既然如此，为什么不直接用别人的专业服务？</p>
+<h2 id="purelymail">三、选型：为什么是 Purelymail</h2>
+<p>需求很简单：两个域名、无限别名、标准 IMAP、便宜。</p>
+<p>对比过几家：</p>
+<table>
+<thead>
+<tr>
+<th>服务</th>
+<th>价格</th>
+<th>域名数</th>
+<th>别名</th>
+<th>IMAP</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purelymail</strong></td>
+<td><strong>约 $10/年</strong></td>
+<td>无限</td>
+<td>无限</td>
+<td>✅</td>
+<td>按资源计费，不限用户</td>
+</tr>
+<tr>
+<td>Migadu</td>
+<td>$19/年起</td>
+<td>无限</td>
+<td>无限</td>
+<td>✅</td>
+<td>Micro 档每天只能发 20 封</td>
+</tr>
+<tr>
+<td>MXroute</td>
+<td>$59/年起</td>
+<td>无限</td>
+<td>无限</td>
+<td>✅</td>
+<td>按存储定价，400 封/小时</td>
+</tr>
+<tr>
+<td>Fastmail</td>
+<td>$60/年起</td>
+<td>是</td>
+<td>数百</td>
+<td>✅</td>
+<td>体验最好，也最贵</td>
+</tr>
+<tr>
+<td>Zoho Mail</td>
+<td>$1/用户/月</td>
+<td>1 + 别名</td>
+<td>按档</td>
+<td>⚠️</td>
+<td><strong>免费版不支持 IMAP</strong></td>
+</tr>
+</tbody>
+</table>
+<p>最后选了 Purelymail。理由：$10 一年、不限域名、不限邮箱、支持 Sieve、支持 catch-all。对个人用户来说，性价比没有对手。</p>
+<p>它的已知缺点官方自己写在首页上：偶尔有冷门邮件服务器会拒收它的信；没有 24×7 客服；UI 不算好用；禁止营销群发和域名预热。</p>
+<h2 id="dns">四、DNS：六条记录</h2>
+<p>Purelymail 的域名接入需要以下记录。<strong>注意 MX 优先级是 50，不是常见的 10</strong>——官方明确要求。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>主机记录</th>
+<th>记录值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TXT</td>
+<td><code>@</code></td>
+<td><code>purelymail_ownership_proof=&lt;token&gt;</code></td>
+<td>域名所有权证明，必填</td>
+</tr>
+<tr>
+<td>MX</td>
+<td><code>@</code></td>
+<td><code>mailserver.purelymail.com</code>（优先级 <strong>50</strong>）</td>
+<td>收信</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td><code>@</code></td>
+<td><code>v=spf1 include:_spf.purelymail.com ~all</code></td>
+<td>发信授权</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail1._domainkey</code></td>
+<td><code>key1.dkimroot.purelymail.com</code></td>
+<td>DKIM 密钥 1</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail2._domainkey</code></td>
+<td><code>key2.dkimroot.purelymail.com</code></td>
+<td>DKIM 密钥 2</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail3._domainkey</code></td>
+<td><code>key3.dkimroot.purelymail.com</code></td>
+<td>DKIM 密钥 3</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>_dmarc</code></td>
+<td><code>dmarcroot.purelymail.com</code></td>
+<td>DMARC 策略</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>autoconfig</code></td>
+<td><code>autoconfig.purelymail.com</code></td>
+<td>客户端自动发现（可选）</td>
+</tr>
+</tbody>
+</table>
+<p>所有权证明 token 是<strong>账户级</strong>的，所有域名共用同一个，只需取一次。</p>
+<p>加域名时有个反直觉的地方：<strong>只要加了 ownership 那条 TXT，域名就能加进去</strong>，MX/SPF/DKIM 都是之后慢慢补的。所以流程是"先证明归属，再补功能"，不用一次凑齐。</p>
+<h2 id="_3">五、五个坑</h2>
+<h3 id="mx-10">坑一：MX 优先级填 10 会收不到信</h3>
+<p>几乎所有邮件服务商都用 10 或 5 作为 MX 优先级，Purelymail 要 <strong>50</strong>。照着别家的习惯填，收信直接失败。</p>
+<h3 id="dkim-_domainkey">坑二：DKIM 的 <code>_domainkey</code> 写在主机记录侧</h3>
+<p>正确写法：</p>
+<pre><code>类型:      CNAME
+主机记录:  purelymail1._domainkey
+记录值:    key1.dkimroot.purelymail.com
+</code></pre>
+<p>写反了最难查——DNS 传播慢，反馈周期长，等一小时才发现填错，再等一小时验证。</p>
+<h3 id="_dmarc-txt-cname">坑三：<code>_dmarc</code> 不能同时有 TXT 和 CNAME</h3>
+<p>如果你的域名已经有 <code>_dmarc</code> 的 TXT 记录（比如 <code>v=DMARC1; p=none</code>），就不能再加 <code>_dmarc</code> 的 CNAME——<strong>同一主机名不能同时存在 CNAME 与 TXT</strong>。</p>
+<p>我的 <code>retter.wang</code> 就是这个情况。处理方式：保留原有 TXT，跳过 CNAME。Purelymail 后台会对此提示警告，属正常，不影响收发。</p>
+<h3 id="save-503">坑四：<code>Save</code> 不点，发信报 503</h3>
+<p>DNS 记录加完、Purelymail 后台也显示四项全绿之后，<strong>必须点一次 <code>Save</code></strong>。</p>
+<p>这是官方文档里专门强调的：点 Save 才会把验证状态和 DKIM 签名配置提交到邮件集群。跳过这一步，发信会报：</p>
+<pre><code>503 Cannot send mail: check SPF or DKIM records
+</code></pre>
+<p>看起来像 DNS 问题，实际是没点按钮。</p>
+<h3 id="catch-all">坑五：catch-all 选错选项会让主邮箱收不到信</h3>
+<p>Purelymail 的路由规则有四种匹配方式，其中两种看起来很像是"收所有地址"：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>后果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>any address（任意地址）</td>
+<td>❌ 连 <code>me@</code> 自己的信也被重定向，主邮箱变空</td>
+</tr>
+<tr>
+<td><strong>any address except valid user address</strong></td>
+<td>✅ 主邮箱正常，其余别名转到主邮箱</td>
+</tr>
+</tbody>
+</table>
+<p>官方文档原话：</p>
+<blockquote>
+<p>If you have a User at me@domain.com but a routing rule for *@domain.com, all mail will follow the rule. The me@domain.com inbox will stay empty.</p>
+</blockquote>
+<p>选错的代价是你自己的主邮箱收不到任何信。<strong>必须选 "except valid user address" 那个。</strong></p>
+<h2 id="mx">六、事故复盘：我删掉了自己的 MX</h2>
+<p>这一段写出来有点难堪，但它是这次迁移里最有价值的教训。</p>
+<h3 id="_4">发生了什么</h3>
+<p>我在阿里云控制台逐条添加记录。为了避免重复点击，我用的是<strong>坐标点击</strong>（自动化操作），而不是手动点。</p>
+<p>问题出在关闭"主机记录"输入框的提示浮层时——我向页面空白处发了两次点击，坐标大约在 <code>x=1600, y=640</code>。那个位置实际上落在了解析记录列表<strong>右侧的行操作区</strong>，点中了删除。随后我为提交表单连续点击的"确定"，正好确认了删除弹窗。</p>
+<p><strong>两个域名的 MX 和 SPF 记录，就这样被删掉了。</strong></p>
+<h3 id="_5">为什么当时没发现</h3>
+<p>因为<strong>递归 DNS 有缓存</strong>。</p>
+<p>删除之后我立刻查了一次 DNS，<code>223.5.5.5</code> 依然返回 <code>mx01.mail.icloud.com</code>——那是缓存里的旧值，TTL 还有 376 秒。看起来一切正常。</p>
+<p>真正暴露问题，是我用 API 拉全量记录列表时发现：<strong>13 条记录里没有 MX，也没有 SPF</strong>。</p>
+<h3 id="_6">怎么查出来的</h3>
+<p>关键一步：<strong>绕过递归 DNS，直接问权威 NS</strong>。</p>
+<pre><code class="language-bash">nslookup -type=MX retter.wang dns27.hichina.com
+nslookup -type=TXT retter.wang dns27.hichina.com
+</code></pre>
+<p>权威服务器返回的是 SOA 而不是 MX —— 说明记录确实没了，缓存骗了我十分钟。</p>
+<h3 id="_7">影响与恢复</h3>
+<ul>
+<li><strong>中断窗口</strong>：约 15–20 分钟</li>
+<li><strong>潜在后果</strong>：该窗口内投递的邮件，发件方可能收到「无 MX 记录」的永久错误而退信</li>
+<li><strong>恢复方式</strong>：用 API 重新添加 6 条记录（4 条 MX + 2 条 SPF），权威 NS 验证通过</li>
+</ul>
+<h3 id="_8">三条教训</h3>
+<ol>
+<li><strong>生产环境的 DNS 变更，绝不用坐标点击。</strong> 一律走 API，可审计、可回滚、不会点错。</li>
+<li><strong>递归 DNS 会骗人。</strong> 验证 DNS 变更必须指定权威 NS，<code>nslookup -type=MX &lt;域名&gt; &lt;权威NS&gt;</code>。</li>
+<li><strong>每次变更前先做快照。</strong> 我后来写了 <code>switch_mx.py snapshot</code>，把全部记录导出成 JSON，回滚只需一条命令。</li>
+</ol>
+<h2 id="_9">七、切换的正确顺序</h2>
+<p>记录加完之后，还有一步是真正的"切换开关"——改 MX。这一步的顺序很关键：</p>
+<pre><code>1. 加 ownership TXT          → 证明域名归属
+2. Purelymail 建 User（邮箱地址）  → 必须先建好
+3. 加 DKIM ×3 + DMARC        → 不影响现有收发
+4. 【切换点】删旧 MX + 加新 MX + 换 SPF
+5. Purelymail 点 Check DNS → Save
+6. 客户端配置 + 收发测试
+7. 历史邮件迁移
+8. 稳定 7 天后清理旧服务商残留
+</code></pre>
+<p><strong>第 2 步必须在第 4 步之前。</strong> MX 一旦指向 Purelymail，不存在的收件人会被直接 550 拒收。先建地址，再切 MX。</p>
+<p>另外一个细节：SPF 只能有一条。删旧 MX、加新 MX、删旧 SPF、加新 SPF 这四步要连续完成，不能分两次做——否则切换窗口内旧服务商仍在发信但已不被授权。</p>
+<h3 id="_10">切换前的验证技巧</h3>
+<p>怎么确认 Purelymail 已经接管了你的域名？可以这样探测：</p>
+<pre><code class="language-python"># 连 mailserver.purelymail.com:25，对任意地址做 RCPT TO
+RCPT TO:&lt;nonexistent@yourdomain.com&gt;
+</code></pre>
+<ul>
+<li>返回 <code>451 4.7.1 Try again later (greylist)</code> → 域名已被接管（只是灰名单延迟）</li>
+<li>返回 <code>550 relay denied</code> → 域名还没加进去</li>
+</ul>
+<p>灰名单是好信号，它说明 Purelymail 认识你的域名，只是在防垃圾邮件。</p>
+<h2 id="_11">八、别名：一个容易忽略的坑</h2>
+<p>切换完成后我发现一个问题：只建了 <code>me@domain.com</code> 一个地址，那 <code>career@domain.com</code>、<code>info@domain.com</code> 呢？</p>
+<p><strong>收不到，会被拒收。</strong></p>
+<p>Purelymail 只投递到<strong>已创建的 User</strong> 或<strong>命中路由规则的地址</strong>。其余一律 550 拒收。</p>
+<p>解决方式是配 catch-all 路由（注意是前面说的那个 "any address except valid user address" 选项）。配好之后，任意别名都能收到，统一进主邮箱。</p>
+<p>这件事最好在切 MX 之前就配好，否则切换窗口内发到别名的信会退。</p>
+<h2 id="_12">九、成本与遗留</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purelymail</td>
+<td>$10/年</td>
+</tr>
+<tr>
+<td>记录数（每域名）</td>
+<td>新增 6 条，删除 3 条</td>
+</tr>
+<tr>
+<td>客户端配置</td>
+<td>IMAP <code>imap.purelymail.com:993</code>，SMTP <code>smtp.purelymail.com:465</code></td>
+</tr>
+<tr>
+<td>发信限制</td>
+<td>每天 3000 封，单次 300 封</td>
+</tr>
+<tr>
+<td>服务器位置</td>
+<td>AWS us-east-1</td>
+</tr>
+</tbody>
+</table>
+<p>还留了两件事没做：</p>
+<ul>
+<li><strong>历史邮件迁移</strong>：iCloud 和腾讯的旧邮件还在原处，可以用 Purelymail 内置的 mail porting tool 拉过来。</li>
+<li><strong>清理旧服务商</strong>：<code>sig1._domainkey</code>（iCloud DKIM）、<code>apple-domain</code> 验证 TXT、腾讯的 <code>qqmail</code> CNAME 都是残留，稳定一周后再删。</li>
+</ul>
+<p>顺序不能反：<strong>先迁完历史邮件，再解绑旧服务商</strong>。一旦解绑，旧邮箱的访问可能受影响。</p>
+<h2 id="_13">十、小结</h2>
+<p>如果重来一次，我会这样做：</p>
+<ol>
+<li>先用权威 NS 确认当前记录，做快照</li>
+<li>全部变更走 API，不在控制台点鼠标</li>
+<li>按"证明归属 → 建地址 → 补认证 → 切 MX"的顺序</li>
+<li>切换前配好 catch-all</li>
+<li>每一步变更后都用权威 NS 验证，不相信递归缓存</li>
+</ol>
+<p>自建邮箱这件事，结论是：<strong>收信可以自建，发信必须挂中继</strong>。既然发信迟早要依赖别人的 IP 信誉，那不如收发都交给专业服务，自己专心写代码。</p>
+<p>省下来的时间，够写好几篇文章了。</p>
+    </div>
+
+    <footer class="post-foot">
+      <nav class="p-nav" aria-label="文章导航 Post navigation">
+        <span></span>
+        <span></span>
+      </nav>
+    </footer>
+  </article>
+
+</main>
+
+<footer class="blog-foot">
+  <div class="wrap">
+    <div class="f-row">
+      <span>© 2026 王文昊 · Wang Wenhao</span>
+      <span>最后更新于 11 月 · Last updated: November 2026</span>
+    </div>
+    <div class="f-links">
+      <a class="link" href="https://retter.wang/blog/">博客首页</a>
+      <a class="link" href="https://retter.wang/blog/feed.xml">RSS</a>
+      <a class="link" href="https://retter.wang/">个人主页</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

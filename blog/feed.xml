@@ -8,8 +8,15 @@
     <language>zh-CN</language>
     <managingEditor>me@retter.wang (王文昊 · Wang Wenhao)</managingEditor>
     <webMaster>me@retter.wang (王文昊 · Wang Wenhao)</webMaster>
-    <lastBuildDate>Tue, 17 Nov 2026 09:49:43 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2026 10:14:22 +0800</lastBuildDate>
     <generator>retter.wang blog build.py</generator>
-
+    <item>
+      <title>域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail</title>
+      <link>https://retter.wang/blog/purelymail-migration/</link>
+      <guid isPermaLink="true">https://retter.wang/blog/purelymail-migration/</guid>
+      <pubDate>Tue, 17 Nov 2026 09:00:00 +0800</pubDate>
+      <description>两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。</description>
+      <category>邮件</category><category>DNS</category><category>运维</category>
+    </item>
   </channel>
 </rss>

@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "slug": "purelymail-migration",
+    "title": "域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail",
+    "date": "2026-11-17",
+    "desc": "两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。",
+    "tags": [
+      "邮件",
+      "DNS",
+      "运维"
+    ],
+    "url": "https://retter.wang/blog/purelymail-migration/"
+  }
+]
