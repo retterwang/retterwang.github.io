@@ -555,21 +555,6 @@ POST_CSS = """
   letter-spacing:.02em;
 }
 
-/* ---- 文章页 AIGC 显式标识块 ---- */
-.aigc-note{
-  font-family:var(--sans);
-  font-size:.82rem;
-  line-height:1.7;
-  color:#7A5B22;
-  background:#FCF8EF;
-  border:1px solid #EFE2C6;
-  border-left:3px solid #D9A94C;
-  border-radius:3px;
-  padding:10px 14px;
-  margin:0 0 26px;
-}
-.aigc-note b{font-weight:600;}
-
 /* ---- 正文 ---- */
 .post-body{padding-bottom:var(--section-gap);}
 .post-body .prose{max-width:var(--measure);}
@@ -682,8 +667,9 @@ FLAG_LABELS = {
     "human": "HMGC · 人工创作",
 }
 FLAG_HINTS = {
-    "ai": ("本文由人工智能生成，已经过人工审阅与事实核验。"
-           "依据《人工智能生成合成内容标识办法》，本文带 AIGC 显式标识。"),
+    # 正文显式说明块已按要求移除；AIGC 仅以标题下方徽章 + meta 隐式标识呈现。
+    # 如需恢复正文提示，在此填写文案即可。
+    "ai": "",
     "human": "",
 }
 _AIGC_ALIASES = {"ai", "aigc", "machine", "llm", "generated"}
