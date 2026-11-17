@@ -1,17 +1,42 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF9F7">
+<script>
+/* 主题引导：必须早于样式渲染，避免明暗二次闪烁 */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', theme === 'dark' ? '#1B1C1E' : '#FAF9F7');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 <title>王文昊的博客</title>
 <meta name="description" content="数据、工具与独立开发 —— 王文昊的个人博客。">
 <meta name="author" content="王文昊 · Wang Wenhao">
-<link rel="alternate" type="application/rss+xml" title="王文昊的博客" href="https://retter.wang/blog/feed.xml">
-<link rel="canonical" href="https://retter.wang/blog/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="王文昊的博客">
 <meta property="og:description" content="数据、工具与独立开发 —— 王文昊的个人博客。">
 <meta property="og:url" content="https://retter.wang/blog/">
+<meta property="og:locale" content="zh_CN">
+<link rel="alternate" type="application/rss+xml" title="王文昊的博客" href="https://retter.wang/blog/feed.xml">
+<link rel="canonical" href="https://retter.wang/blog/">
+<link rel="alternate" hreflang="zh-CN" href="https://retter.wang/blog/">
+<link rel="alternate" hreflang="zh-Hant" href="https://retter.wang/blog/zh-Hant/">
+<link rel="alternate" hreflang="en" href="https://retter.wang/blog/en/">
+<link rel="alternate" hreflang="ja" href="https://retter.wang/blog/ja/">
+<link rel="alternate" hreflang="ko" href="https://retter.wang/blog/ko/">
+<link rel="alternate" hreflang="fr" href="https://retter.wang/blog/fr/">
+<link rel="alternate" hreflang="es" href="https://retter.wang/blog/es/">
+<link rel="alternate" hreflang="de" href="https://retter.wang/blog/de/">
+<link rel="alternate" hreflang="x-default" href="https://retter.wang/blog/">
 <link rel="icon" href="https://retter.wang/blog/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="https://retter.wang/blog/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://retter.wang/blog/favicon-16x16.png">
@@ -21,13 +46,20 @@
 <style>
 
 :root{
+  color-scheme:light;
   --paper:#FAF9F7;
   --ink:#191817;
   --muted:#6F6B64;
   --faint:#9B968D;
   --line:#E6E3DD;
+  --line-strong:#D8D3C9;
   --accent:#4A5D54;
   --accent-soft:#EDEFEA;
+  --on-accent:#FFFFFF;
+  --bar-bg:rgba(250,249,247,.86);
+  --toggle-bg:rgba(250,249,247,.82);
+  --card-hover:#FFFFFF;
+  --shadow:0 12px 34px rgba(0,0,0,.12);
 
   --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
   --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
@@ -36,6 +68,34 @@
   --w:700px;
   --gutter:clamp(24px,6vw,40px);
   --section-gap:clamp(72px,11vh,116px);
+}
+
+/* 深色：与个人主页同一套 token */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#1B1C1E;
+  --ink:#E9E7E2;
+  --muted:#A9A59D;
+  --faint:#8F8B83;
+  --line:#34383D;
+  --line-strong:#3F444A;
+  --accent:#9FBFAB;
+  --accent-soft:rgba(159,191,171,.12);
+  --on-accent:#12140F;
+  --bar-bg:rgba(27,28,30,.86);
+  --toggle-bg:rgba(27,28,30,.82);
+  --card-hover:#262A2E;
+  --shadow:0 12px 34px rgba(0,0,0,.42);
+}
+
+/* 日 / 韩：优先本机字形，避免简体字串味 */
+:root[lang="ja"]{
+  --serif:'Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans JP','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans SC',sans-serif;
+}
+:root[lang="ko"]{
+  --serif:'Noto Serif KR','Nanum Myeongjo','Apple SD Gothic Neo','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Noto Sans SC',sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box;}
@@ -90,7 +150,7 @@ section{scroll-margin-top:24px;}
   margin:0;
   letter-spacing:.01em;
   background:var(--accent);
-  color:#fff;
+  color:var(--on-accent);
   padding:0 4px;
   border-radius:0;
   line-height:1.1;
@@ -199,12 +259,138 @@ section{scroll-margin-top:24px;}
   background:#E1F5EE;
   border:1px solid #1D9E75;
 }
+/* 徽章暗色：保留色相，压低亮度避免刺眼 */
+:root[data-theme="dark"] .p-flag-ai{
+  color:#F3A7C2;
+  background:rgba(214,51,108,.16);
+  border-color:rgba(230,73,128,.48);
+}
+:root[data-theme="dark"] .p-flag-human{
+  color:#7FD9BC;
+  background:rgba(29,158,117,.16);
+  border-color:rgba(29,158,117,.48);
+}
+
+/* ============================================================
+   明暗切换 + 语言切换（顶部栏右侧，与主页同一套视觉语言）
+   ============================================================ */
+.bar-tools{display:flex;align-items:center;gap:14px;flex:none;}
+
+.theme-toggle{
+  width:30px;height:30px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:var(--toggle-bg);
+  color:var(--muted);
+  cursor:pointer;
+  flex:none;
+  transition:color .22s ease,border-color .22s ease,background .22s ease;
+}
+.theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.theme-toggle svg{grid-area:1 / 1;width:14px;height:14px;display:block;}
+.theme-toggle .ic-sun{display:none;}
+:root[data-theme="dark"] .theme-toggle .ic-sun{display:block;}
+:root[data-theme="dark"] .theme-toggle .ic-moon{display:none;}
+
+.lang{position:relative;}
+.lang-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  height:30px;
+  padding:0 10px 0 8px;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:var(--toggle-bg);
+  color:var(--muted);
+  font-family:var(--sans);
+  font-size:.76rem;
+  font-weight:400;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:color .22s ease,border-color .22s ease;
+}
+.lang-btn:hover{color:var(--accent);border-color:var(--accent);}
+.lang-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.lang-btn svg{width:13px;height:13px;flex:none;}
+.lang-btn .code{line-height:1;}
+
+.lang-list{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  margin:0;
+  padding:6px;
+  list-style:none;
+  min-width:174px;
+  background:var(--paper);
+  border:1px solid var(--line-strong);
+  border-radius:6px;
+  box-shadow:var(--shadow);
+  z-index:30;
+}
+.lang-list[hidden]{display:none;}
+.lang-list li{margin:0;}
+.lang-list a,.lang-list span.off{
+  display:flex;
+  width:100%;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding:7px 9px;
+  border-radius:4px;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:.86rem;
+  font-weight:400;
+  line-height:1.5;
+  text-align:left;
+}
+.lang-list a{transition:background .18s ease,color .18s ease;}
+.lang-list a:hover{background:var(--accent-soft);color:var(--accent);}
+.lang-list a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.lang-list span.off{color:var(--faint);cursor:not-allowed;opacity:.62;}
+.lang-list .code{
+  font-size:.72rem;
+  color:var(--faint);
+  letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;
+}
+.lang-list a[aria-current="true"]{color:var(--accent);font-weight:500;}
+.lang-list a[aria-current="true"] .code{color:var(--accent);font-weight:400;}
+.lang-list .tnote{
+  display:block;
+  padding:5px 9px 3px;
+  font-size:.72rem;
+  color:var(--faint);
+  letter-spacing:.02em;
+  border-top:1px solid var(--line);
+  margin-top:4px;
+}
+
+@media (max-width:600px){
+  .bar-tools{gap:8px;}
+  .lang-list{min-width:160px;}
+  /* 站名可截断，保证右侧控件不被挤压（提高选择器权重以覆盖 HOME/POST_CSS） */
+  .site-bar .bar-inner{gap:10px;}
+  .site-bar .bar-left{flex:1 1 auto;min-width:0;}
+  .site-bar .bar-left .mark{display:block;overflow:hidden;text-overflow:ellipsis;font-size:.94rem;}
+  .site-bar .bar-right{gap:10px;}
+  .site-bar .rss-t{display:none;}
+  .site-bar .theme-toggle{width:28px;height:28px;}
+  .site-bar .lang-btn{height:28px;padding:0 9px 0 7px;}
+  .site-bar .lang-list{min-width:160px;}
+}
 
 
 /* ---- 顶部栏 ---- */
 .site-bar{
   border-bottom:1px solid var(--line);
-  background:rgba(250,249,247,.86);
+  background:var(--bar-bg);
   backdrop-filter:saturate(140%) blur(8px);
   position:sticky;
   top:0;
@@ -282,7 +468,7 @@ section{scroll-margin-top:24px;}
   padding:5px 12px;
   transition:background .22s ease,color .22s ease;
 }
-.blog-hero .hero-meta .rss-btn:hover{background:var(--accent);color:#fff;}
+.blog-hero .hero-meta .rss-btn:hover{background:var(--accent);color:var(--on-accent);}
 .blog-hero .hero-meta .rss-btn svg{flex:none;}
 
 /* ---- 文章列表 ---- */
@@ -343,7 +529,7 @@ section{scroll-margin-top:24px;}
   border-radius:3px;
   padding:38px 26px;
   text-align:center;
-  background:#fff;
+  background:var(--card-hover);
 }
 .empty-note .e-t{
   font-family:var(--serif);
@@ -388,7 +574,7 @@ section{scroll-margin-top:24px;}
 .site-card .s-name svg{flex:none;opacity:0;transform:translate(-3px,3px);transition:opacity .22s ease,transform .22s ease;}
 .site-card .s-desc{font-size:.82rem;color:var(--muted);line-height:1.5;}
 .site-card .s-url{font-size:.80rem;color:var(--faint);letter-spacing:.01em;overflow-wrap:anywhere;}
-.site-card:hover{border-color:var(--accent);background:#fff;}
+.site-card:hover{border-color:var(--accent);background:var(--card-hover);}
 .site-card:hover .s-name{color:var(--accent);}
 .site-card:hover .s-name svg{opacity:1;transform:none;}
 
@@ -438,8 +624,27 @@ section{scroll-margin-top:24px;}
       <span class="bar-sub">数据、工具与独立开发 —— 王文昊的个人博客。</span>
     </div>
     <nav class="bar-right" aria-label="站点导航 Site navigation">
-      <a class="rss" href="https://retter.wang/blog/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg> RSS</a>
-      <a href="https://retter.wang/">个人主页</a>
+      <a class="rss" href="https://retter.wang/blog/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg><span class="rss-t">RSS</span></a>
+      <a class="nav-link" href="https://retter.wang/">个人主页</a>
+    <div class="bar-tools">
+      <div class="lang" id="lang">
+  <button class="lang-btn" id="langBtn" type="button" aria-expanded="false" aria-controls="langList" aria-haspopup="true" aria-label="切换语言 · Change language">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/></svg>
+    <span class="code">中</span>
+  </button>
+  <ul class="lang-list" id="langList" hidden>
+      <li><a href="https://retter.wang/blog/" hreflang="zh-CN" lang="zh-CN" data-lang-choice="zh-CN" aria-current="true">简体中文<span class="code">中</span></a></li>
+      <li><a href="https://retter.wang/blog/zh-Hant/" hreflang="zh-Hant" lang="zh-Hant" data-lang-choice="zh-Hant">繁體中文<span class="code">繁</span></a></li>
+      <li><a href="https://retter.wang/blog/en/" hreflang="en" lang="en" data-lang-choice="en">English<span class="code">EN</span></a></li>
+      <li><a href="https://retter.wang/blog/ja/" hreflang="ja" lang="ja" data-lang-choice="ja">日本語<span class="code">日</span></a></li>
+      <li><a href="https://retter.wang/blog/ko/" hreflang="ko" lang="ko" data-lang-choice="ko">한국어<span class="code">한</span></a></li>
+      <li><a href="https://retter.wang/blog/fr/" hreflang="fr" lang="fr" data-lang-choice="fr">Français<span class="code">FR</span></a></li>
+      <li><a href="https://retter.wang/blog/es/" hreflang="es" lang="es" data-lang-choice="es">Español<span class="code">ES</span></a></li>
+      <li><a href="https://retter.wang/blog/de/" hreflang="de" lang="de" data-lang-choice="de">Deutsch<span class="code">DE</span></a></li>
+  </ul>
+</div>
+      <button class="theme-toggle" type="button" aria-pressed="false" data-dark-label="切换到深色模式" data-light-label="切换到浅色模式" aria-label="切换到深色模式" title="切换到深色模式"><svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg></button>
+    </div>
     </nav>
   </div>
 </header>
@@ -458,13 +663,13 @@ section{scroll-margin-top:24px;}
 
   <section class="section" id="posts">
     <div class="section-head">
-      <h2>文章</h2><span class="en">Posts</span><span class="rule"></span>
+      <h2>文章</h2><span class="rule"></span>
     </div>
       <ul class="post-list">
         <li>
           <a class="post-item" href="https://retter.wang/blog/purelymail-migration/">
             <span class="p-meta">
-              <time datetime="2026-11-17">2026-11-17</time>
+              <time datetime="2026-11-17">2026 年 11 月 17 日</time>
               <span class="p-flag p-flag-ai">AIGC</span>
             </span>
             <span class="p-title">域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail</span>
@@ -481,7 +686,7 @@ section{scroll-margin-top:24px;}
 
   <section class="section" id="sites">
     <div class="section-head">
-      <h2>站点集群</h2><span class="en">Site cluster</span><span class="rule"></span>
+      <h2>站点集群</h2><span class="rule"></span>
     </div>
     <p class="extra-label" style="margin:0 0 14px;font-size:.8rem;color:var(--faint);letter-spacing:.03em;">我的其他网站</p>
       <div class="site-cluster">
@@ -519,15 +724,79 @@ section{scroll-margin-top:24px;}
   <div class="wrap">
     <div class="f-row">
       <span>© 2026 王文昊 · Wang Wenhao</span>
-      <span>最后更新于 11 月</span>
+      <span>最后更新于 2026 年 11 月</span>
     </div>
     <div class="f-links">
       <a class="link" href="https://retter.wang/">个人主页</a>
       <a class="link" href="https://retter.wang/blog/feed.xml">RSS</a>
+      <a class="link" href="https://retter.wang/blog/">博客首页</a>
       <a class="link" href="mailto:me@retter.wang">me@retter.wang</a>
     </div>
   </div>
 </footer>
 
+<script>
+
+/* 明暗切换：写入 data-theme 并记忆；同步 aria 与移动端地址栏色 */
+(function () {
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (!btn) return;
+
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+
+  function sync() {
+    var dark = isDark();
+    var label = dark ? btn.getAttribute('data-light-label') : btn.getAttribute('data-dark-label');
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.title = label;
+    if (meta) meta.setAttribute('content', dark ? '#1B1C1E' : '#FAF9F7');
+  }
+
+  btn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    sync();
+  });
+
+  sync();
+})();
+
+/* 语言下拉：真实链接跳转，点击时把选择记到 localStorage('rw.lang')，
+   与个人主页共用同一偏好键，回到主页时语言自动一致 */
+(function () {
+  var btn = document.getElementById('langBtn');
+  var list = document.getElementById('langList');
+  if (!btn || !list) return;
+
+  function setOpen(open) {
+    list.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(list.hidden);
+  });
+
+  list.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[data-lang-choice]') : null;
+    if (!a) return;
+    try { localStorage.setItem('rw.lang', a.getAttribute('data-lang-choice')); } catch (err) {}
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!list.hidden && !(e.target.closest && e.target.closest('.lang'))) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !list.hidden) { setOpen(false); btn.focus(); }
+  });
+})();
+
+</script>
 </body>
 </html>

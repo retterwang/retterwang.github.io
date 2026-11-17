@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>왕원하오의 블로그</title>
+    <link>https://retter.wang/blog/ko/</link>
+    <atom:link href="https://retter.wang/blog/ko/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>데이터, 도구, 1인 개발에 관한 기록 — 왕원하오의 개인 블로그.</description>
+    <language>ko</language>
+    <managingEditor>me@retter.wang (王文昊 · Wang Wenhao)</managingEditor>
+    <webMaster>me@retter.wang (王文昊 · Wang Wenhao)</webMaster>
+    <lastBuildDate>Tue, 17 Nov 2026 11:09:49 +0800</lastBuildDate>
+    <generator>retter.wang blog build.py</generator>
+    <item>
+      <title>도메인 메일 이전 기록: iCloud + 텐센트 기업 메일에서 Purelymail로</title>
+      <link>https://retter.wang/blog/ko/purelymail-migration/</link>
+      <guid isPermaLink="true">https://retter.wang/blog/ko/purelymail-migration/</guid>
+      <pubDate>Tue, 17 Nov 2026 09:00:00 +0800</pubDate>
+      <description>도메인 두 개, 이전 한 번, 다섯 개의 함정. 그리고 제 MX 레코드를 직접 삭제한 사고 회고.</description>
+      
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>王文昊的部落格</title>
+    <link>https://retter.wang/blog/zh-Hant/</link>
+    <atom:link href="https://retter.wang/blog/zh-Hant/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>資料、工具與獨立開發 —— 王文昊的個人部落格。</description>
+    <language>zh-Hant</language>
+    <managingEditor>me@retter.wang (王文昊 · Wang Wenhao)</managingEditor>
+    <webMaster>me@retter.wang (王文昊 · Wang Wenhao)</webMaster>
+    <lastBuildDate>Tue, 17 Nov 2026 11:09:49 +0800</lastBuildDate>
+    <generator>retter.wang blog build.py</generator>
+    <item>
+      <title>網域信箱遷移實錄：從 iCloud + 騰訊企業信箱到 Purelymail</title>
+      <link>https://retter.wang/blog/zh-Hant/purelymail-migration/</link>
+      <guid isPermaLink="true">https://retter.wang/blog/zh-Hant/purelymail-migration/</guid>
+      <pubDate>Tue, 17 Nov 2026 09:00:00 +0800</pubDate>
+      <description>兩個網域、一次遷移、五個坑，以及一次把自己 MX 記錄刪掉的事故復盤。</description>
+      <category>郵件</category><category>DNS</category><category>維運</category>
+    </item>
+  </channel>
+</rss>

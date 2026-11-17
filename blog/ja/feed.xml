@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>王文昊のブログ</title>
+    <link>https://retter.wang/blog/ja/</link>
+    <atom:link href="https://retter.wang/blog/ja/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>データ、ツール、個人開発について —— 王文昊の個人ブログ。</description>
+    <language>ja</language>
+    <managingEditor>me@retter.wang (王文昊 · Wang Wenhao)</managingEditor>
+    <webMaster>me@retter.wang (王文昊 · Wang Wenhao)</webMaster>
+    <lastBuildDate>Tue, 17 Nov 2026 11:09:49 +0800</lastBuildDate>
+    <generator>retter.wang blog build.py</generator>
+    <item>
+      <title>ドメインメール移行の記録：iCloud + テンセント企業メールから Purelymail へ</title>
+      <link>https://retter.wang/blog/ja/purelymail-migration/</link>
+      <guid isPermaLink="true">https://retter.wang/blog/ja/purelymail-migration/</guid>
+      <pubDate>Tue, 17 Nov 2026 09:00:00 +0800</pubDate>
+      <description>2 つのドメイン、1 回の移行、5 つの落とし穴。そして自分の MX レコードを消してしまった事故の振り返り。</description>
+      <category>メール</category><category>DNS</category><category>運用</category>
+    </item>
+  </channel>
+</rss>

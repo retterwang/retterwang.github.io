@@ -1,9 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FAF9F7">
+<script>
+/* 与主页/博客共用主题偏好，避免深色用户看到刺眼白页 */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', theme === 'dark' ? '#1B1C1E' : '#FAF9F7');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 <title>页面未找到 · 404 — retter.wang</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -38,6 +52,31 @@
     --serif:'Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif SC',Georgia,serif;
     --sans:'Noto Sans JP','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans SC',sans-serif;
   }
+}
+/* 显式主题优先于系统偏好（由上方脚本写入 data-theme） */
+:root[data-theme="light"]{
+  --bg:#FAF9F7;
+  --surface:#F1EFE9;
+  --ink:#191817;
+  --muted:#6F6B64;
+  --faint:#9B968D;
+  --line:#E6E3DD;
+  --accent:#4A5D54;
+  --accent-ink:#FFFFFF;
+  --serif:'Noto Serif SC','Source Han Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Noto Sans SC','Source Han Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#1B1C1E;
+  --surface:#1E2023;
+  --ink:#E9E7E2;
+  --muted:#A9A59D;
+  --faint:#8F8B83;
+  --line:#34383D;
+  --accent:#9FBFAB;
+  --accent-ink:#12140F;
+  --serif:'Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans JP','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans SC',sans-serif;
 }
 *{box-sizing:border-box;}
 html,body{height:100%;}

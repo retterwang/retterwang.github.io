@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wang Wenhao&#x27;s Blog</title>
+    <link>https://retter.wang/blog/en/</link>
+    <atom:link href="https://retter.wang/blog/en/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Notes on data, tooling and solo development — the personal blog of Wang Wenhao.</description>
+    <language>en</language>
+    <managingEditor>me@retter.wang (王文昊 · Wang Wenhao)</managingEditor>
+    <webMaster>me@retter.wang (王文昊 · Wang Wenhao)</webMaster>
+    <lastBuildDate>Tue, 17 Nov 2026 11:09:49 +0800</lastBuildDate>
+    <generator>retter.wang blog build.py</generator>
+    <item>
+      <title>Migrating My Domain Email: From iCloud + Tencent Exmail to Purelymail</title>
+      <link>https://retter.wang/blog/en/purelymail-migration/</link>
+      <guid isPermaLink="true">https://retter.wang/blog/en/purelymail-migration/</guid>
+      <pubDate>Tue, 17 Nov 2026 09:00:00 +0800</pubDate>
+      <description>Two domains, one migration, five pitfalls — plus a post-mortem on the time I deleted my own MX records.</description>
+      <category>Email</category><category>DNS</category><category>Sysadmin</category>
+    </item>
+  </channel>
+</rss>

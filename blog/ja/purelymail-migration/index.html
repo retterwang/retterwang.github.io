@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FAF9F7">
+<script>
+/* 主题引导：必须早于样式渲染，避免明暗二次闪烁 */
+(function () {
+  try {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', theme === 'dark' ? '#1B1C1E' : '#FAF9F7');
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<title>ドメインメール移行の記録：iCloud + テンセント企業メールから Purelymail へ · 王文昊のブログ</title>
+<meta name="description" content="2 つのドメイン、1 回の移行、5 つの落とし穴。そして自分の MX レコードを消してしまった事故の振り返り。">
+<meta name="author" content="王文昊 · Wang Wenhao">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ドメインメール移行の記録：iCloud + テンセント企業メールから Purelymail へ">
+<meta property="og:description" content="2 つのドメイン、1 回の移行、5 つの落とし穴。そして自分の MX レコードを消してしまった事故の振り返り。">
+<meta property="og:url" content="https://retter.wang/blog/ja/purelymail-migration/">
+<meta property="og:locale" content="ja">
+<meta property="article:published_time" content="2026-11-17">
+<meta name="aigc" content="ai-generated">
+<link rel="alternate" type="application/rss+xml" title="王文昊のブログ" href="https://retter.wang/blog/ja/feed.xml">
+<link rel="canonical" href="https://retter.wang/blog/ja/purelymail-migration/">
+<link rel="alternate" hreflang="zh-CN" href="https://retter.wang/blog/purelymail-migration/">
+<link rel="alternate" hreflang="zh-Hant" href="https://retter.wang/blog/zh-Hant/purelymail-migration/">
+<link rel="alternate" hreflang="en" href="https://retter.wang/blog/en/purelymail-migration/">
+<link rel="alternate" hreflang="ja" href="https://retter.wang/blog/ja/purelymail-migration/">
+<link rel="alternate" hreflang="ko" href="https://retter.wang/blog/ko/purelymail-migration/">
+<link rel="alternate" hreflang="fr" href="https://retter.wang/blog/fr/purelymail-migration/">
+<link rel="alternate" hreflang="es" href="https://retter.wang/blog/es/purelymail-migration/">
+<link rel="alternate" hreflang="de" href="https://retter.wang/blog/de/purelymail-migration/">
+<link rel="alternate" hreflang="x-default" href="https://retter.wang/blog/purelymail-migration/">
+<link rel="icon" href="https://retter.wang/blog/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="https://retter.wang/blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://retter.wang/blog/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://retter.wang/blog/apple-touch-icon.png">
+<link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&family=Pacifico&display=swap">
+<style>
+
+:root{
+  color-scheme:light;
+  --paper:#FAF9F7;
+  --ink:#191817;
+  --muted:#6F6B64;
+  --faint:#9B968D;
+  --line:#E6E3DD;
+  --line-strong:#D8D3C9;
+  --accent:#4A5D54;
+  --accent-soft:#EDEFEA;
+  --on-accent:#FFFFFF;
+  --bar-bg:rgba(250,249,247,.86);
+  --toggle-bg:rgba(250,249,247,.82);
+  --card-hover:#FFFFFF;
+  --shadow:0 12px 34px rgba(0,0,0,.12);
+
+  --serif:'Spectral','Noto Serif SC','Songti SC','STSong',Georgia,serif;
+  --sans:'Hanken Grotesk','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+
+  --measure:36em;
+  --w:700px;
+  --gutter:clamp(24px,6vw,40px);
+  --section-gap:clamp(72px,11vh,116px);
+}
+
+/* 深色：与个人主页同一套 token */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#1B1C1E;
+  --ink:#E9E7E2;
+  --muted:#A9A59D;
+  --faint:#8F8B83;
+  --line:#34383D;
+  --line-strong:#3F444A;
+  --accent:#9FBFAB;
+  --accent-soft:rgba(159,191,171,.12);
+  --on-accent:#12140F;
+  --bar-bg:rgba(27,28,30,.86);
+  --toggle-bg:rgba(27,28,30,.82);
+  --card-hover:#262A2E;
+  --shadow:0 12px 34px rgba(0,0,0,.42);
+}
+
+/* 日 / 韩：优先本机字形，避免简体字串味 */
+:root[lang="ja"]{
+  --serif:'Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans JP','Yu Gothic','YuGothic','Hiragino Sans','Noto Sans SC',sans-serif;
+}
+:root[lang="ko"]{
+  --serif:'Noto Serif KR','Nanum Myeongjo','Apple SD Gothic Neo','Noto Serif SC',Georgia,serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Noto Sans SC',sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+::selection{background:var(--accent);color:var(--paper);}
+
+a{
+  color:inherit;
+  text-decoration:none;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  transition:color .22s ease;
+}
+a.link{text-decoration:underline;text-decoration-color:var(--faint);}
+a.link:hover{color:var(--accent);text-decoration-color:var(--accent);}
+
+.wrap{
+  max-width:var(--w);
+  margin:0 auto;
+  padding-left:var(--gutter);
+  padding-right:var(--gutter);
+}
+
+.tr{font-size:.9em;color:var(--faint);font-weight:400;letter-spacing:.01em;}
+.tr-b{display:block;margin-top:3px;font-size:.88em;color:var(--faint);font-weight:400;letter-spacing:.005em;line-height:1.55;}
+
+section{scroll-margin-top:24px;}
+.section{margin-bottom:var(--section-gap);}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin:0 0 34px;
+}
+.section-head h2{
+  font-family:var(--serif);
+  font-size:1.18rem;
+  font-weight:600;
+  margin:0;
+  letter-spacing:.01em;
+  background:var(--accent);
+  color:var(--on-accent);
+  padding:0 4px;
+  border-radius:0;
+  line-height:1.1;
+}
+.section-head .en{font-size:.82rem;color:var(--faint);font-family:var(--sans);letter-spacing:.04em;}
+.section-head .rule{flex:1;height:1px;background:var(--line);align-self:center;}
+
+.prose{max-width:var(--measure);}
+.prose p{margin:0 0 1.15em;color:var(--muted);}
+.prose p:last-child{margin-bottom:0;}
+.prose .lead{color:var(--ink);}
+.prose h2,.prose h3,.prose h4{
+  font-family:var(--serif);
+  font-weight:600;
+  line-height:1.4;
+  margin:2em 0 .7em;
+  color:var(--ink);
+}
+.prose h2{font-size:1.42rem;}
+.prose h3{font-size:1.2rem;}
+.prose h4{font-size:1.06rem;}
+.prose ul,.prose ol{margin:0 0 1.15em;padding-left:1.4em;color:var(--muted);}
+.prose li{margin:0 0 .4em;}
+.prose li::marker{color:var(--faint);}
+.prose blockquote{
+  margin:1.5em 0;
+  padding:2px 0 2px 18px;
+  border-left:2px solid var(--accent);
+  color:var(--muted);
+  font-style:normal;
+}
+.prose blockquote p{margin:0;}
+.prose code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Courier New',monospace;
+  font-size:.86em;
+  background:var(--accent-soft);
+  padding:.12em .38em;
+  border-radius:3px;
+}
+.prose pre{
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:16px 18px;
+  overflow-x:auto;
+  margin:1.5em 0;
+}
+.prose pre code{background:none;padding:0;font-size:.85em;line-height:1.7;}
+.prose img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:3px;}
+.prose hr{border:0;border-top:1px solid var(--line);margin:2.4em 0;}
+.prose table{width:100%;border-collapse:collapse;margin:1.5em 0;font-size:.92rem;}
+.prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
+.prose th{background:var(--accent-soft);font-weight:600;color:var(--ink);}
+
+/* 宽表格（如 DNS 记录表）在窄屏会撑破容器：
+   用 .table-wrap 包一层横向滚动容器，表格自身保留 min-width 以维持可读性 */
+.table-wrap{
+  overflow-x:auto;
+  margin:1.5em 0;
+  -webkit-overflow-scrolling:touch;
+}
+.table-wrap table{margin:0;min-width:34em;}
+.table-wrap th,.table-wrap td{white-space:nowrap;}
+.table-wrap th:first-child,.table-wrap td:first-child{white-space:normal;}
+
+.rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
+.d1{animation-delay:.05s;}
+.d2{animation-delay:.18s;}
+.d3{animation-delay:.32s;}
+.d4{animation-delay:.46s;}
+@keyframes rise{to{opacity:1;transform:none;}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rise{opacity:1;transform:none;animation:none;}
+  *{transition:none !important;}
+}
+
+/* ---- 内容来源标识 AIGC / HMGC（首页与文章页共用） ---- */
+.p-flag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--sans);
+  font-size:.82rem;
+  font-weight:600;
+  line-height:1.5;
+  letter-spacing:.06em;
+  padding:3px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.p-flag::before{
+  content:"";
+  width:5px;height:5px;border-radius:50%;
+  background:currentColor;
+}
+.p-flag-ai{
+  color:#D6336C;
+  background:#FDEBF2;
+  border:1px solid #E64980;
+}
+.p-flag-human{
+  color:#0F6E56;
+  background:#E1F5EE;
+  border:1px solid #1D9E75;
+}
+/* 徽章暗色：保留色相，压低亮度避免刺眼 */
+:root[data-theme="dark"] .p-flag-ai{
+  color:#F3A7C2;
+  background:rgba(214,51,108,.16);
+  border-color:rgba(230,73,128,.48);
+}
+:root[data-theme="dark"] .p-flag-human{
+  color:#7FD9BC;
+  background:rgba(29,158,117,.16);
+  border-color:rgba(29,158,117,.48);
+}
+
+/* ============================================================
+   明暗切换 + 语言切换（顶部栏右侧，与主页同一套视觉语言）
+   ============================================================ */
+.bar-tools{display:flex;align-items:center;gap:14px;flex:none;}
+
+.theme-toggle{
+  width:30px;height:30px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:var(--toggle-bg);
+  color:var(--muted);
+  cursor:pointer;
+  flex:none;
+  transition:color .22s ease,border-color .22s ease,background .22s ease;
+}
+.theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.theme-toggle svg{grid-area:1 / 1;width:14px;height:14px;display:block;}
+.theme-toggle .ic-sun{display:none;}
+:root[data-theme="dark"] .theme-toggle .ic-sun{display:block;}
+:root[data-theme="dark"] .theme-toggle .ic-moon{display:none;}
+
+.lang{position:relative;}
+.lang-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  height:30px;
+  padding:0 10px 0 8px;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:var(--toggle-bg);
+  color:var(--muted);
+  font-family:var(--sans);
+  font-size:.76rem;
+  font-weight:400;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:color .22s ease,border-color .22s ease;
+}
+.lang-btn:hover{color:var(--accent);border-color:var(--accent);}
+.lang-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.lang-btn svg{width:13px;height:13px;flex:none;}
+.lang-btn .code{line-height:1;}
+
+.lang-list{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  margin:0;
+  padding:6px;
+  list-style:none;
+  min-width:174px;
+  background:var(--paper);
+  border:1px solid var(--line-strong);
+  border-radius:6px;
+  box-shadow:var(--shadow);
+  z-index:30;
+}
+.lang-list[hidden]{display:none;}
+.lang-list li{margin:0;}
+.lang-list a,.lang-list span.off{
+  display:flex;
+  width:100%;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding:7px 9px;
+  border-radius:4px;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:.86rem;
+  font-weight:400;
+  line-height:1.5;
+  text-align:left;
+}
+.lang-list a{transition:background .18s ease,color .18s ease;}
+.lang-list a:hover{background:var(--accent-soft);color:var(--accent);}
+.lang-list a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+.lang-list span.off{color:var(--faint);cursor:not-allowed;opacity:.62;}
+.lang-list .code{
+  font-size:.72rem;
+  color:var(--faint);
+  letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;
+}
+.lang-list a[aria-current="true"]{color:var(--accent);font-weight:500;}
+.lang-list a[aria-current="true"] .code{color:var(--accent);font-weight:400;}
+.lang-list .tnote{
+  display:block;
+  padding:5px 9px 3px;
+  font-size:.72rem;
+  color:var(--faint);
+  letter-spacing:.02em;
+  border-top:1px solid var(--line);
+  margin-top:4px;
+}
+
+@media (max-width:600px){
+  .bar-tools{gap:8px;}
+  .lang-list{min-width:160px;}
+  /* 站名可截断，保证右侧控件不被挤压（提高选择器权重以覆盖 HOME/POST_CSS） */
+  .site-bar .bar-inner{gap:10px;}
+  .site-bar .bar-left{flex:1 1 auto;min-width:0;}
+  .site-bar .bar-left .mark{display:block;overflow:hidden;text-overflow:ellipsis;font-size:.94rem;}
+  .site-bar .bar-right{gap:10px;}
+  .site-bar .rss-t{display:none;}
+  .site-bar .theme-toggle{width:28px;height:28px;}
+  .site-bar .lang-btn{height:28px;padding:0 9px 0 7px;}
+  .site-bar .lang-list{min-width:160px;}
+}
+
+
+/* ---- 顶部栏 ---- */
+.site-bar{
+  border-bottom:1px solid var(--line);
+  background:var(--bar-bg);
+  backdrop-filter:saturate(140%) blur(8px);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.site-bar .bar-inner{
+  max-width:var(--w);
+  margin:0 auto;
+  padding:13px var(--gutter);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.bar-left{display:flex;align-items:baseline;gap:10px;min-width:0;}
+.bar-left .mark{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:1rem;
+  letter-spacing:.01em;
+  color:var(--ink);
+  white-space:nowrap;
+}
+.bar-left .mark:hover{color:var(--accent);}
+.bar-left .bar-sub{
+  font-size:.82rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bar-right{display:flex;align-items:center;gap:18px;flex:none;}
+.bar-right a{font-size:.86rem;color:var(--muted);white-space:nowrap;letter-spacing:.01em;}
+.bar-right a:hover{color:var(--accent);}
+.bar-right .rss{display:inline-flex;align-items:center;gap:6px;}
+
+/* ---- 文章头 ---- */
+.post-head{padding-top:clamp(48px,9vh,84px);padding-bottom:34px;}
+.post-head .back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.86rem;
+  color:var(--faint);
+  margin-bottom:22px;
+}
+.post-head .back:hover{color:var(--accent);}
+.post-head h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.6rem,4.4vw,2.2rem);
+  line-height:1.28;
+  letter-spacing:-.01em;
+  margin:0 0 16px;
+  max-width:var(--measure);
+}
+.post-head .p-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:8px 16px;
+  font-size:.88rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+}
+.post-head .p-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.post-head .p-tags span{
+  font-size:.82rem;
+  color:var(--faint);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:2px 8px;
+  letter-spacing:.02em;
+}
+
+/* ---- 正文 ---- */
+.post-body{padding-bottom:var(--section-gap);}
+.post-body .prose{max-width:var(--measure);}
+.post-foot{
+  border-top:1px solid var(--line);
+  margin-top:20px;
+  padding-top:26px;
+}
+.post-foot .p-nav{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 24px;
+  font-size:.9rem;
+}
+.post-foot .p-nav a{color:var(--muted);max-width:44%;}
+.post-foot .p-nav a:hover{color:var(--accent);}
+.post-foot .p-nav .next{text-align:right;margin-left:auto;}
+.post-foot .p-nav .lbl{
+  display:block;
+  font-size:.82rem;
+  color:var(--faint);
+  letter-spacing:.03em;
+  margin-bottom:3px;
+}
+
+@media (max-width:600px){
+  body{font-size:17px;}
+  .bar-left .bar-sub{display:none;}
+  .bar-right{gap:14px;}
+  .post-foot .p-nav a{max-width:100%;}
+  .post-foot .p-nav .next{text-align:left;margin-left:0;}
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-bar">
+  <div class="bar-inner">
+    <div class="bar-left">
+      <a class="mark" href="https://retter.wang/blog/ja/">王文昊のブログ</a>
+      <span class="bar-sub">データ、ツール、個人開発について —— 王文昊の個人ブログ。</span>
+    </div>
+    <nav class="bar-right" aria-label="サイトナビゲーション">
+      <a class="rss" href="https://retter.wang/blog/ja/feed.xml" type="application/rss+xml"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg><span class="rss-t">RSS</span></a>
+      <a class="nav-link" href="https://retter.wang/blog/ja/">ブログ一覧</a>
+    <div class="bar-tools">
+      <div class="lang" id="lang">
+  <button class="lang-btn" id="langBtn" type="button" aria-expanded="false" aria-controls="langList" aria-haspopup="true" aria-label="言語を切り替え · Change language">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z"/></svg>
+    <span class="code">日</span>
+  </button>
+  <ul class="lang-list" id="langList" hidden>
+      <li><a href="https://retter.wang/blog/purelymail-migration/" hreflang="zh-CN" lang="zh-CN" data-lang-choice="zh-CN">简体中文<span class="code">中</span></a></li>
+      <li><a href="https://retter.wang/blog/zh-Hant/purelymail-migration/" hreflang="zh-Hant" lang="zh-Hant" data-lang-choice="zh-Hant">繁體中文<span class="code">繁</span></a></li>
+      <li><a href="https://retter.wang/blog/en/purelymail-migration/" hreflang="en" lang="en" data-lang-choice="en">English<span class="code">EN</span></a></li>
+      <li><a href="https://retter.wang/blog/ja/purelymail-migration/" hreflang="ja" lang="ja" data-lang-choice="ja" aria-current="true">日本語<span class="code">日</span></a></li>
+      <li><a href="https://retter.wang/blog/ko/purelymail-migration/" hreflang="ko" lang="ko" data-lang-choice="ko">한국어<span class="code">한</span></a></li>
+      <li><a href="https://retter.wang/blog/fr/purelymail-migration/" hreflang="fr" lang="fr" data-lang-choice="fr">Français<span class="code">FR</span></a></li>
+      <li><a href="https://retter.wang/blog/es/purelymail-migration/" hreflang="es" lang="es" data-lang-choice="es">Español<span class="code">ES</span></a></li>
+      <li><a href="https://retter.wang/blog/de/purelymail-migration/" hreflang="de" lang="de" data-lang-choice="de">Deutsch<span class="code">DE</span></a></li>
+  </ul>
+</div>
+      <button class="theme-toggle" type="button" aria-pressed="false" data-dark-label="ダークモードに切り替え" data-light-label="ライトモードに切り替え" aria-label="ダークモードに切り替え" title="ダークモードに切り替え"><svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg></button>
+    </div>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <article>
+    <header class="post-head">
+      <a class="back" href="https://retter.wang/blog/ja/">← ブログに戻る</a>
+      <h1>ドメインメール移行の記録：iCloud + テンセント企業メールから Purelymail へ</h1>
+      <div class="p-meta">
+        <time datetime="2026-11-17">2026年11月17日</time>
+        <span>約 6 分</span>
+        <span class="p-flag p-flag-ai">AIGC</span>
+        <div class="p-tags">
+          <span>メール</span>
+          <span>DNS</span>
+          <span>運用</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-body prose">
+<p>私にはドメインが 2 つある。<code>abetterplace2.live</code> は iCloud のカスタムドメインに、<code>retter.wang</code> はテンセント企業メールに載せていた。どちらも動いてはいたが、どちらも居心地が悪かった。片方は Apple エコシステムに、もう片方は WeCom に縛られる。欲しかったのは最も素朴なもの——<strong>自分のドメイン、好きなメールクライアント、標準の IMAP</strong> だ。</p>
+<p>そこで今回の移行である。以下が全工程で、私が踏んだ落とし穴と、言い訳のできない操作事故も含めて書く。</p>
+<h2 id="1">1. 結論から</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最終的な選択</td>
+<td>Purelymail、年 $10</td>
+</tr>
+<tr>
+<td>所要時間</td>
+<td>約 40 分（方式を考える時間を除く）</td>
+</tr>
+<tr>
+<td>レコード変更</td>
+<td>1 ドメインあたり 6 件追加、3 件削除、残りはすべて維持</td>
+</tr>
+<tr>
+<td>落とし穴の数</td>
+<td>技術的な罠 5 つ + 本番事故 1 件</td>
+</tr>
+<tr>
+<td>現状</td>
+<td>2 ドメインのメールはすべて Purelymail が担当、IMAP/SMTP とも正常</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="2">2. 最初に捨てた道：自前運用</h2>
+<p>手元には Alibaba Cloud の ECS（2C2G、nginx と frp が稼働）と、UGREEN の NAS（N100、メモリ 7.5G、容量 1.3T）があった。理屈の上では、後者は自前メールサーバーの理想的な置き場所だ。</p>
+<p>調べた結果、<strong>3 つの厳しい制約</strong>が見つかり、どれか 1 つでもこの道を否定するのに十分だった。</p>
+<h3 id="1alibaba-cloud-mta-25">制約 1：Alibaba Cloud が禁じているのは「自前 MTA からの直接送信」であって「25 番ポートの利用」ではない</h3>
+<p>ここが最も誤解されやすい点だ。25 番ポートのブロックが解除されれば自前メールサーバーを建てられると考える人が多い。だが実際、Alibaba Cloud の 25 番ポート解除契約の核心はこうだ。</p>
+<blockquote>
+<p>解除された IP は、<strong>第三者 SMTP サーバーに接続してメールを送信することのみ</strong>が許可される。当該 IP から SMTP で直接メールを送信していることが判明した場合、Alibaba Cloud は <strong>TCP 25 番ポートを永続的に遮断し、以後いかなる解除サービスも提供しない</strong>権利を有する。</p>
+</blockquote>
+<p>つまり、解除で得られるのは「他人につなぐ」許可であって、「自分が郵便局になる」許可ではない。Alibaba Cloud 上で Postfix を動かし、相手の 25 番ポートへ直接配送するのは規約違反であり、恒久的に遮断される。</p>
+<p><strong>送信は必ず smarthost 経由の中継を通さなければならない。これは選択肢ではない。</strong></p>
+<h3 id="2-ip">制約 2：新しい IP の到達率は設定では解決できない</h3>
+<p>SPF、DKIM、DMARC は入場券であって通行証ではない。受信側が配信可否を判断するのは、IP とドメインの<strong>過去の評判</strong>だ。</p>
+<p>2026 年の現実として、真新しい IP はデフォルトで「スパム疑い」と判定される。Microsoft は特に手強い。<code>250 OK</code> を返しておきながら黙って迷惑メールフォルダに放り込み、エラーすら見えない。SPF がすべて通っていても無駄で、問題は認証ではなく評判にある。</p>
+<p>中継事業者が売っているのはまさにこれ——何年もかけて育てた IP プールの評判だ。</p>
+<h3 id="32c2g-mailcow">制約 3：2C2G では mailcow が載らない</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>メモリ使用量</th>
+<th>実現性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mailcow</td>
+<td>公式要件 6 GB 以上</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>docker-mailserver</td>
+<td>800 MB – 1.2 GB</td>
+<td>⚠️ ぎりぎり</td>
+</tr>
+<tr>
+<td>Stalwart（Rust 単一バイナリ）</td>
+<td>150–250 MB</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Postfix + Dovecot + Rspamd</td>
+<td>400–600 MB</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table></div>
+<p>しかも私の ECS はすでに nginx（8 サイト）と frps（12 トンネル）が動いている。足すなら最も軽いスタックしか選べず、しかも本番業務と資源を奪い合うことになる。</p>
+<h3 id="nas">余談：NAS も適していない</h3>
+<p>NAS はメモリもストレージも足りるが、致命的な問題がある。UGREEN の UGOS に内蔵された <code>earlyoom</code>（ユーザー空間のメモリ監視）がコンテナを殺した前歴があるのだ。以前の診断記録では、13 個のコンテナ<strong>すべてにメモリ上限がなく</strong>、<code>dockerd</code> が 3.66 GB までリークして swap を使い切り、earlyoom が SIGKILL で一帯を掃討した。</p>
+<p>メールは 7×24 止められないサービスだ。いつでも弄られる実験用コンテナと同居させるリスクは受け入れられない。</p>
+<p><strong>自前運用の結論</strong>：技術的には可能だが、代償は「中継が必須 + 運用を抱える + 到達率の不確実性に耐える」。それなら他人の専門サービスをそのまま使えばいいのではないか。</p>
+<h2 id="3-purelymail">3. 選定：なぜ Purelymail なのか</h2>
+<p>要件は単純だ。2 ドメイン、無制限のエイリアス、標準 IMAP、安いこと。</p>
+<p>いくつか比較した。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>サービス</th>
+<th>価格</th>
+<th>ドメイン数</th>
+<th>エイリアス</th>
+<th>IMAP</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purelymail</strong></td>
+<td><strong>約 $10/年</strong></td>
+<td>無制限</td>
+<td>無制限</td>
+<td>✅</td>
+<td>資源ベース課金、ユーザー数無制限</td>
+</tr>
+<tr>
+<td>Migadu</td>
+<td>$19/年〜</td>
+<td>無制限</td>
+<td>無制限</td>
+<td>✅</td>
+<td>Micro 枠は 1 日 20 通まで</td>
+</tr>
+<tr>
+<td>MXroute</td>
+<td>$59/年〜</td>
+<td>無制限</td>
+<td>無制限</td>
+<td>✅</td>
+<td>ストレージ課金、400 通/時</td>
+</tr>
+<tr>
+<td>Fastmail</td>
+<td>$60/年〜</td>
+<td>あり</td>
+<td>数百</td>
+<td>✅</td>
+<td>体験は最高、価格も最高</td>
+</tr>
+<tr>
+<td>Zoho Mail</td>
+<td>$1/ユーザー/月</td>
+<td>1 + エイリアス</td>
+<td>枠による</td>
+<td>⚠️</td>
+<td><strong>無料版は IMAP 非対応</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>最終的に Purelymail を選んだ。理由は年 $10、ドメイン無制限、メールボックス無制限、Sieve 対応、catch-all 対応。個人ユーザーにとってコストパフォーマンスで並ぶものがない。</p>
+<p>既知の欠点はベンダー自身がトップページに書いている。一部のマイナーなメールサーバーに拒否されることがある、24×7 サポートはない、UI は使いやすくない、マーケティング一斉配信とドメインウォーミングは禁止。</p>
+<h2 id="4-dns6">4. DNS：6 つのレコード</h2>
+<p>Purelymail のドメイン接続には以下のレコードが必要だ。<strong>MX の優先度は 50 で、よくある 10 ではない</strong>——公式の明示的な要件である。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>種別</th>
+<th>ホスト名</th>
+<th>値</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TXT</td>
+<td><code>@</code></td>
+<td><code>purelymail_ownership_proof=&lt;token&gt;</code></td>
+<td>ドメイン所有権の証明、必須</td>
+</tr>
+<tr>
+<td>MX</td>
+<td><code>@</code></td>
+<td><code>mailserver.purelymail.com</code>（優先度 <strong>50</strong>）</td>
+<td>受信</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td><code>@</code></td>
+<td><code>v=spf1 include:_spf.purelymail.com ~all</code></td>
+<td>送信の認可</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail1._domainkey</code></td>
+<td><code>key1.dkimroot.purelymail.com</code></td>
+<td>DKIM 鍵 1</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail2._domainkey</code></td>
+<td><code>key2.dkimroot.purelymail.com</code></td>
+<td>DKIM 鍵 2</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>purelymail3._domainkey</code></td>
+<td><code>key3.dkimroot.purelymail.com</code></td>
+<td>DKIM 鍵 3</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>_dmarc</code></td>
+<td><code>dmarcroot.purelymail.com</code></td>
+<td>DMARC ポリシー</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td><code>autoconfig</code></td>
+<td><code>autoconfig.purelymail.com</code></td>
+<td>クライアント自動検出（任意）</td>
+</tr>
+</tbody>
+</table></div>
+<p>所有権証明のトークンは<strong>アカウント単位</strong>で、全ドメインが同じものを使う。取得は 1 回だけでよい。</p>
+<p>ドメイン追加時に直感に反する点がある。<strong>ownership の TXT さえ入れればドメインは追加できる</strong>。MX/SPF/DKIM は後から順次足していく。つまり「まず所有を証明し、次に機能を足す」という流れで、一度に揃える必要はない。</p>
+<h2 id="5-5">5. 5 つの落とし穴</h2>
+<h3 id="1mx-10">罠 1：MX 優先度に 10 を入れると受信できない</h3>
+<p>ほぼすべてのメール事業者は MX 優先度に 10 や 5 を使うが、Purelymail は <strong>50</strong> だ。他社の習慣どおりに埋めると、受信がそのまま失敗する。</p>
+<h3 id="2dkim-_domainkey">罠 2：DKIM の <code>_domainkey</code> はホスト名側に書く</h3>
+<p>正しい書き方：</p>
+<pre><code>種別:  CNAME
+ホスト: purelymail1._domainkey
+値:     key1.dkimroot.purelymail.com
+</code></pre>
+<p>逆に書くと最も見つけにくい。DNS の伝播は遅く、フィードバックまで時間がかかる。1 時間待って記入ミスに気づき、さらに 1 時間待って検証することになる。</p>
+<h3 id="3_dmarc-txt-cname">罠 3：<code>_dmarc</code> は TXT と CNAME を同時に持てない</h3>
+<p>ドメインにすでに <code>_dmarc</code> の TXT レコードがある場合（たとえば <code>v=DMARC1; p=none</code>）、<code>_dmarc</code> の CNAME は追加できない。<strong>同じホスト名に CNAME と TXT は共存できない</strong>。</p>
+<p>私の <code>retter.wang</code> がまさにこれだった。対処は既存の TXT を残し、CNAME を諦めること。Purelymail の管理画面は警告を出すが正常で、送受信には影響しない。</p>
+<h3 id="4save-503">罠 4：<code>Save</code> を押さないと送信が 503 になる</h3>
+<p>DNS レコードを入れ終え、Purelymail の画面でも 4 項目がすべて緑になったあと、<strong>必ず <code>Save</code> を 1 回押す</strong>必要がある。</p>
+<p>公式ドキュメントがわざわざ強調している点だ。Save を押して初めて、検証状態と DKIM 署名設定がメールクラスタに送られる。この手順を飛ばすと送信時にこう出る。</p>
+<pre><code>503 Cannot send mail: check SPF or DKIM records
+</code></pre>
+<p>DNS の問題に見えるが、実際はボタンを押していないだけだ。</p>
+<h3 id="5catch-all">罠 5：catch-all の選択を誤ると自分の受信箱に届かなくなる</h3>
+<p>Purelymail のルーティングルールには 4 つのマッチ方式があり、うち 2 つは「すべてのアドレスを受ける」ように見える。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>選択肢</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>any address（任意のアドレス）</td>
+<td>❌ <code>me@</code> 宛のメールまで転送され、受信箱が空になる</td>
+</tr>
+<tr>
+<td><strong>any address except valid user address</strong></td>
+<td>✅ 受信箱は正常、他のエイリアスは受信箱に集約</td>
+</tr>
+</tbody>
+</table></div>
+<p>公式ドキュメントの原文：</p>
+<blockquote>
+<p>If you have a User at me@domain.com but a routing rule for *@domain.com, all mail will follow the rule. The me@domain.com inbox will stay empty.</p>
+</blockquote>
+<p>選び間違えると、自分のメイン受信箱に一切メールが届かなくなる。<strong>必ず "except valid user address" を選ぶこと。</strong></p>
+<h2 id="6-mx">6. 事故の振り返り：自分の MX を消した</h2>
+<p>この部分は書いていて少々気まずいが、今回の移行で最も価値のある教訓だ。</p>
+<h3 id="_1">何が起きたか</h3>
+<p>Alibaba Cloud のコンソールで 1 件ずつレコードを追加していた。クリックの繰り返しを避けるため、手動ではなく<strong>座標クリック</strong>（自動化）を使っていた。</p>
+<p>問題は「ホスト名」入力欄のツールチップを閉じるときに起きた。ページの余白、だいたい <code>x=1600, y=640</code> のあたりを 2 回クリックした。その位置は実際にはレコード一覧の<strong>右側にある行操作エリア</strong>に当たっており、削除を押していた。続けてフォーム送信のために連打した「OK」が、ちょうど削除確認ダイアログを確定してしまった。</p>
+<p><strong>2 ドメインの MX と SPF レコードが、こうして消えた。</strong></p>
+<h3 id="_2">なぜそのとき気づかなかったか</h3>
+<p><strong>再帰 DNS にキャッシュがある</strong>からだ。</p>
+<p>削除直後に DNS を引くと、<code>223.5.5.5</code> は依然として <code>mx01.mail.icloud.com</code> を返した。キャッシュ内の古い値で、TTL はまだ 376 秒残っていた。見た目はすべて正常だった。</p>
+<p>問題が露見したのは、API でレコード全件を取得したときだ。<strong>13 件の中に MX も SPF もなかった</strong>。</p>
+<h3 id="_3">どう突き止めたか</h3>
+<p>鍵となる一手は<strong>再帰 DNS を迂回し、権威 NS に直接問い合わせる</strong>こと。</p>
+<pre><code class="language-bash">nslookup -type=MX retter.wang dns27.hichina.com
+nslookup -type=TXT retter.wang dns27.hichina.com
+</code></pre>
+<p>権威サーバーは MX ではなく SOA を返した。レコードが本当に消えている証拠で、キャッシュは 10 分間私を騙していた。</p>
+<h3 id="_4">影響と復旧</h3>
+<ul>
+<li><strong>中断時間</strong>：約 15〜20 分</li>
+<li><strong>潜在的な影響</strong>：その間に送られたメールは、送信側で「MX レコードなし」の恒久エラーとなり返送された可能性がある</li>
+<li><strong>復旧方法</strong>：API で 6 件（MX 4 件 + SPF 2 件）を再追加し、権威 NS で検証</li>
+</ul>
+<h3 id="3">3 つの教訓</h3>
+<ol>
+<li><strong>本番環境の DNS 変更に座標クリックは絶対に使わない。</strong> 必ず API 経由にする。監査でき、巻き戻せ、押し間違えない。</li>
+<li><strong>再帰 DNS は嘘をつく。</strong> DNS 変更の検証は権威 NS を指定する。<code>nslookup -type=MX &lt;ドメイン&gt; &lt;権威NS&gt;</code>。</li>
+<li><strong>変更のたびに先にスナップショットを取る。</strong> 後に <code>switch_mx.py snapshot</code> を書き、全レコードを JSON に書き出して、巻き戻しを 1 コマンドにした。</li>
+</ol>
+<h2 id="7">7. 切り替えの正しい順序</h2>
+<p>レコードを入れ終えたあと、本当の「切り替えスイッチ」が残っている——MX の変更だ。この順序が重要になる。</p>
+<pre><code>1. ownership TXT を追加          → ドメインの帰属を証明
+2. Purelymail で User を作成     → 先に存在させる必要がある
+3. DKIM ×3 + DMARC を追加        → 現行の送受信に影響しない
+4. 【切り替え点】旧 MX 削除 + 新 MX 追加 + SPF 差し替え
+5. Purelymail で Check DNS → Save
+6. クライアント設定 + 送受信テスト
+7. 過去メールの移行
+8. 7 日間安定したら旧事業者の残骸を掃除
+</code></pre>
+<p><strong>手順 2 は必ず手順 4 より前に行う。</strong> MX が Purelymail を向いた瞬間、存在しない受信者は 550 で即拒否される。先にアドレスを作り、それから MX を切り替える。</p>
+<p>もう 1 つ細かい話。SPF は 1 つしか持てない。旧 MX 削除、新 MX 追加、旧 SPF 削除、新 SPF 追加の 4 手順は連続して行うこと。2 回に分けてはいけない。分けると切り替え時間内に旧事業者が送信を続けるが、すでに認可されていない状態になる。</p>
+<h3 id="_5">切り替え前の確認テクニック</h3>
+<p>Purelymail がドメインを引き受けたかどうかを確かめるには、こう探ればよい。</p>
+<pre><code class="language-python"># mailserver.purelymail.com:25 に接続し、任意のアドレスへ RCPT TO
+RCPT TO:&lt;nonexistent@yourdomain.com&gt;
+</code></pre>
+<ul>
+<li><code>451 4.7.1 Try again later (greylist)</code> → ドメインは引き受け済み（グレイリストの遅延だけ）</li>
+<li><code>550 relay denied</code> → まだドメインが登録されていない</li>
+</ul>
+<p>グレイリストは良い兆候だ。Purelymail がドメインを認識しており、単にスパム対策をしているだけということだから。</p>
+<h2 id="8">8. エイリアス：見落としやすい罠</h2>
+<p>切り替え後に気づいた。<code>me@domain.com</code> しか作っていなかったが、<code>career@domain.com</code> や <code>info@domain.com</code> はどうなるのか。</p>
+<p><strong>届かない。拒否される。</strong></p>
+<p>Purelymail は<strong>作成済みの User</strong> または<strong>ルーティングルールに一致するアドレス</strong>にしか配信しない。それ以外はすべて 550 で拒否する。</p>
+<p>解決策は catch-all ルートの設定だ（先ほどの "any address except valid user address" を選ぶ）。設定後は任意のエイリアスが受信でき、すべてメイン受信箱に集まる。</p>
+<p>これは MX を切り替える前に済ませておきたい。でなければ切り替え時間内にエイリアス宛のメールが返送される。</p>
+<h2 id="9">9. コストと残件</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purelymail</td>
+<td>年 $10</td>
+</tr>
+<tr>
+<td>レコード数（1 ドメイン）</td>
+<td>6 件追加、3 件削除</td>
+</tr>
+<tr>
+<td>クライアント設定</td>
+<td>IMAP <code>imap.purelymail.com:993</code>、SMTP <code>smtp.purelymail.com:465</code></td>
+</tr>
+<tr>
+<td>送信制限</td>
+<td>1 日 3000 通、1 回 300 通</td>
+</tr>
+<tr>
+<td>サーバー所在地</td>
+<td>AWS us-east-1</td>
+</tr>
+</tbody>
+</table></div>
+<p>やっていないことが 2 つ残っている。</p>
+<ul>
+<li><strong>過去メールの移行</strong>：iCloud とテンセントの古いメールはまだ元の場所にある。Purelymail 内蔵の mail porting tool で引っ張ってこられる。</li>
+<li><strong>旧事業者の掃除</strong>：<code>sig1._domainkey</code>（iCloud の DKIM）、<code>apple-domain</code> の検証 TXT、テンセントの <code>qqmail</code> CNAME はいずれも残骸で、1 週間安定してから削除する。</li>
+</ul>
+<p>順序は逆にできない。<strong>先に過去メールを移行し、それから旧事業者を解除する</strong>。解除すると旧メールボックスへのアクセスに影響が出る可能性がある。</p>
+<h2 id="10">10. まとめ</h2>
+<p>もう一度やるなら、こうする。</p>
+<ol>
+<li>まず権威 NS で現在のレコードを確認し、スナップショットを取る</li>
+<li>変更はすべて API 経由にし、コンソールでマウスをクリックしない</li>
+<li>「帰属を証明 → アドレス作成 → 認証を追加 → MX 切り替え」の順で進める</li>
+<li>切り替え前に catch-all を設定する</li>
+<li>変更のたびに権威 NS で検証し、再帰キャッシュを信じない</li>
+</ol>
+<p>自前メールの結論はこうだ。<strong>受信は自前でできるが、送信は中継が必須</strong>。送信が遅かれ早かれ他人の IP 評判に依存するのなら、送受信とも専門サービスに任せて、自分はコードを書くことに集中したほうがいい。</p>
+<p>浮いた時間で、記事が何本も書ける。</p>
+    </div>
+
+    <footer class="post-foot">
+      <nav class="p-nav" aria-label="記事ナビゲーション">
+        <span></span>
+        <span></span>
+      </nav>
+    </footer>
+  </article>
+
+</main>
+
+<footer class="blog-foot">
+  <div class="wrap">
+    <div class="f-row">
+      <span>© 2026 王文昊 · Wang Wenhao</span>
+      <span>最終更新 2026年11月</span>
+    </div>
+    <div class="f-links">
+      <a class="link" href="https://retter.wang/?lang=ja">ホーム</a>
+      <a class="link" href="https://retter.wang/blog/ja/feed.xml">RSS</a>
+      <a class="link" href="https://retter.wang/blog/ja/">ブログ一覧</a>
+      <a class="link" href="mailto:me@retter.wang">me@retter.wang</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* 明暗切换：写入 data-theme 并记忆；同步 aria 与移动端地址栏色 */
+(function () {
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (!btn) return;
+
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+
+  function sync() {
+    var dark = isDark();
+    var label = dark ? btn.getAttribute('data-light-label') : btn.getAttribute('data-dark-label');
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.title = label;
+    if (meta) meta.setAttribute('content', dark ? '#1B1C1E' : '#FAF9F7');
+  }
+
+  btn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    sync();
+  });
+
+  sync();
+})();
+
+/* 语言下拉：真实链接跳转，点击时把选择记到 localStorage('rw.lang')，
+   与个人主页共用同一偏好键，回到主页时语言自动一致 */
+(function () {
+  var btn = document.getElementById('langBtn');
+  var list = document.getElementById('langList');
+  if (!btn || !list) return;
+
+  function setOpen(open) {
+    list.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(list.hidden);
+  });
+
+  list.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[data-lang-choice]') : null;
+    if (!a) return;
+    try { localStorage.setItem('rw.lang', a.getAttribute('data-lang-choice')); } catch (err) {}
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!list.hidden && !(e.target.closest && e.target.closest('.lang'))) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !list.hidden) { setOpen(false); btn.focus(); }
+  });
+})();
+
+</script>
+</body>
+</html>

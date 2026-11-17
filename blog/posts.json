@@ -1,14 +1,85 @@
 [
   {
     "slug": "purelymail-migration",
-    "title": "域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail",
     "date": "2026-11-17",
-    "desc": "两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。",
-    "tags": [
-      "邮件",
-      "DNS",
-      "运维"
-    ],
-    "url": "https://retter.wang/blog/purelymail-migration/"
+    "author_type": "ai",
+    "langs": {
+      "zh-CN": {
+        "title": "域名邮箱迁移实录：从 iCloud + 腾讯企业邮到 Purelymail",
+        "desc": "两个域名、一次迁移、五个坑，以及一次把自己 MX 记录删掉的事故复盘。",
+        "tags": [
+          "邮件",
+          "DNS",
+          "运维"
+        ],
+        "url": "https://retter.wang/blog/purelymail-migration/"
+      },
+      "zh-Hant": {
+        "title": "網域信箱遷移實錄：從 iCloud + 騰訊企業信箱到 Purelymail",
+        "desc": "兩個網域、一次遷移、五個坑，以及一次把自己 MX 記錄刪掉的事故復盤。",
+        "tags": [
+          "郵件",
+          "DNS",
+          "維運"
+        ],
+        "url": "https://retter.wang/blog/zh-Hant/purelymail-migration/"
+      },
+      "en": {
+        "title": "Migrating My Domain Email: From iCloud + Tencent Exmail to Purelymail",
+        "desc": "Two domains, one migration, five pitfalls — plus a post-mortem on the time I deleted my own MX records.",
+        "tags": [
+          "Email",
+          "DNS",
+          "Sysadmin"
+        ],
+        "url": "https://retter.wang/blog/en/purelymail-migration/"
+      },
+      "ja": {
+        "title": "ドメインメール移行の記録：iCloud + テンセント企業メールから Purelymail へ",
+        "desc": "2 つのドメイン、1 回の移行、5 つの落とし穴。そして自分の MX レコードを消してしまった事故の振り返り。",
+        "tags": [
+          "メール",
+          "DNS",
+          "運用"
+        ],
+        "url": "https://retter.wang/blog/ja/purelymail-migration/"
+      },
+      "ko": {
+        "title": "도메인 메일 이전 기록: iCloud + 텐센트 기업 메일에서 Purelymail로",
+        "desc": "도메인 두 개, 이전 한 번, 다섯 개의 함정. 그리고 제 MX 레코드를 직접 삭제한 사고 회고.",
+        "tags": [],
+        "url": "https://retter.wang/blog/ko/purelymail-migration/"
+      },
+      "fr": {
+        "title": "Migration de mon e-mail de domaine : d'iCloud + Tencent Exmail à Purelymail",
+        "desc": "Deux domaines, une migration, cinq pièges — et le récit de l'incident où j'ai supprimé mes propres enregistrements MX.",
+        "tags": [
+          "E-mail",
+          "DNS",
+          "Administration"
+        ],
+        "url": "https://retter.wang/blog/fr/purelymail-migration/"
+      },
+      "es": {
+        "title": "Migrar mi correo de dominio: de iCloud + Tencent Exmail a Purelymail",
+        "desc": "Dos dominios, una migración, cinco trampas — y el repaso del incidente en el que borré mis propios registros MX.",
+        "tags": [
+          "Correo",
+          "DNS",
+          "Operaciones"
+        ],
+        "url": "https://retter.wang/blog/es/purelymail-migration/"
+      },
+      "de": {
+        "title": "Domain-E-Mail umziehen: von iCloud + Tencent Exmail zu Purelymail",
+        "desc": "Zwei Domains, eine Migration, fünf Fallstricke — und die Nachbetrachtung eines Vorfalls, bei dem ich meine eigenen MX-Einträge gelöscht habe.",
+        "tags": [
+          "E-Mail",
+          "DNS",
+          "Betrieb"
+        ],
+        "url": "https://retter.wang/blog/de/purelymail-migration/"
+      }
+    }
   }
 ]
