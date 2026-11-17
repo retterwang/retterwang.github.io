@@ -1,0 +1,89 @@
+{
+  "saved_at": "2026-11-17T10:16:18.873735",
+  "domain": "www.retter.wang",
+  "SourceModels": {
+    "SourceModel": [
+      {
+        "Type": "ipaddr",
+        "Priority": "20",
+        "Content": "185.199.108.153",
+        "Port": 443,
+        "Enabled": "online",
+        "Weight": "10"
+      },
+      {
+        "Type": "ipaddr",
+        "Priority": "20",
+        "Content": "185.199.109.153",
+        "Port": 443,
+        "Enabled": "online",
+        "Weight": "10"
+      },
+      {
+        "Type": "ipaddr",
+        "Priority": "20",
+        "Content": "185.199.110.153",
+        "Port": 443,
+        "Enabled": "online",
+        "Weight": "10"
+      },
+      {
+        "Type": "ipaddr",
+        "Priority": "20",
+        "Content": "185.199.111.153",
+        "Port": 443,
+        "Enabled": "online",
+        "Weight": "10"
+      }
+    ]
+  },
+  "full_detail": {
+    "Description": "",
+    "SourceModels": {
+      "SourceModel": [
+        {
+          "Type": "ipaddr",
+          "Priority": "20",
+          "Content": "185.199.108.153",
+          "Port": 443,
+          "Enabled": "online",
+          "Weight": "10"
+        },
+        {
+          "Type": "ipaddr",
+          "Priority": "20",
+          "Content": "185.199.109.153",
+          "Port": 443,
+          "Enabled": "online",
+          "Weight": "10"
+        },
+        {
+          "Type": "ipaddr",
+          "Priority": "20",
+          "Content": "185.199.110.153",
+          "Port": 443,
+          "Enabled": "online",
+          "Weight": "10"
+        },
+        {
+          "Type": "ipaddr",
+          "Priority": "20",
+          "Content": "185.199.111.153",
+          "Port": 443,
+          "Enabled": "online",
+          "Weight": "10"
+        }
+      ]
+    },
+    "ResourceGroupId": "rg-acfmxfoy7yjwi6i",
+    "DomainName": "www.retter.wang",
+    "GmtModified": "2026-11-15T18:09:27Z",
+    "GmtCreated": "2026-10-14T03:57:43Z",
+    "ServerCertificateStatus": "on",
+    "Cname": "www.retter.wang.w.cdngslb.com",
+    "Scope": "global",
+    "GlobalResourcePlan": "off",
+    "CdnType": "web",
+    "DomainStatus": "online"
+  }
+}
