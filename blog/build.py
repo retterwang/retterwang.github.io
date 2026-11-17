@@ -513,6 +513,43 @@ POST_CSS = """
   letter-spacing:.02em;
 }
 
+/* ---- 内容来源标识 AIGC / HMGC ---- */
+.p-flag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--sans);
+  font-size:.72rem;
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:.04em;
+  padding:2px 9px;
+  border-radius:999px;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.p-flag::before{
+  content:"";
+  width:5px;height:5px;border-radius:50%;
+  background:currentColor;
+  opacity:.75;
+}
+.p-flag-ai{background:#FAF3E3;color:#8A5A12;border:1px solid #E8D6B4;}
+.p-flag-human{background:var(--accent-soft);color:var(--accent);border:1px solid #D6DED8;}
+.aigc-note{
+  font-family:var(--sans);
+  font-size:.82rem;
+  line-height:1.7;
+  color:#7A5B22;
+  background:#FCF8EF;
+  border:1px solid #EFE2C6;
+  border-left:3px solid #D9A94C;
+  border-radius:3px;
+  padding:10px 14px;
+  margin:0 0 26px;
+}
+.aigc-note b{font-weight:600;}
+
 /* ---- 正文 ---- */
 .post-body{padding-bottom:var(--section-gap);}
 .post-body .prose{max-width:var(--measure);}
@@ -617,6 +654,39 @@ def parse_date(v):
     raise ValueError("无法解析日期: %r" % v)
 
 
+# ============================================================
+# 内容来源标识：AIGC（AI 生成）/ HMGC（人工创作）
+# ============================================================
+FLAG_LABELS = {
+    "ai": "AIGC · AI 生成",
+    "human": "HMGC · 人工创作",
+}
+FLAG_HINTS = {
+    "ai": ("本文由人工智能生成，已经过人工审阅与事实核验。"
+           "依据《人工智能生成合成内容标识办法》，本文带 AIGC 显式标识。"),
+    "human": "",
+}
+_AIGC_ALIASES = {"ai", "aigc", "machine", "llm", "generated"}
+
+
+def norm_author_type(v):
+    """归一化为 'ai' | 'human'；缺省视为人工创作。"""
+    s = str(v or "").strip().lower()
+    return "ai" if s in _AIGC_ALIASES else "human"
+
+
+def flag_badge(author_type):
+    cls = "p-flag-ai" if author_type == "ai" else "p-flag-human"
+    return '<span class="p-flag %s">%s</span>' % (cls, FLAG_LABELS[author_type])
+
+
+def flag_note(author_type):
+    hint = FLAG_HINTS.get(author_type, "")
+    if not hint:
+        return ""
+    return '    <div class="aigc-note"><b>AIGC 标识</b> · %s</div>\n' % hint
+
+
 def collect_posts():
     posts = []
     if not os.path.isdir(POSTS_DIR):
@@ -648,6 +718,7 @@ def collect_posts():
                 "tags": [str(t) for t in (meta.get("tags") or [])],
                 "body": body,
                 "source": fn,
+                "author_type": norm_author_type(meta.get("author_type")),
             }
         )
     # 新文章在前
@@ -721,11 +792,13 @@ def build_home(posts):
             tags_block = ""
             if tags:
                 tags_block = tags + "\n"
+            flag = flag_badge(p.get("author_type", "human"))
             items.append(
                 '        <li>\n'
                 '          <a class="post-item" href="%s/%s/">\n'
                 '            <span class="p-meta">\n'
                 '              <time datetime="%s">%s</time>\n'
+                '              %s\n'
                 '            </span>\n'
                 '            <span class="p-title">%s</span>\n'
                 '%s%s'
@@ -736,6 +809,7 @@ def build_home(posts):
                     esc(p["slug"]),
                     p["date"].isoformat(),
                     p["date"].strftime("%Y-%m-%d"),
+                    flag,
                     esc(p["title"]),
                     desc_block,
                     tags_block,
@@ -875,6 +949,12 @@ def build_post(p, prev_post, next_post):
             + "\n      </div>"
         )
 
+    # 内容来源标识
+    _atype = p.get("author_type", "human")
+    flag = flag_badge(_atype)
+    note = flag_note(_atype)
+    flag_meta = "ai-generated" if _atype == "ai" else "human-authored"
+
     nav = []
     if prev_post:
         nav.append(
@@ -901,6 +981,7 @@ def build_post(p, prev_post, next_post):
 <title>%(title)s · %(site_title)s</title>
 <meta name="description" content="%(desc)s">
 <meta name="author" content="%(author)s">
+<meta name="aigc" content="%(flag_meta)s">
 <link rel="alternate" type="application/rss+xml" title="%(site_title)s" href="%(base)s/feed.xml">
 <link rel="canonical" href="%(base)s/%(slug)s/">
 <meta property="og:type" content="article">
@@ -931,12 +1012,13 @@ def build_post(p, prev_post, next_post):
       <div class="p-meta">
         <time datetime="%(iso)s">%(date)s</time>
         <span>约 %(minutes)d 分钟阅读 · %(minutes)d min read</span>
+        %(flag)s
         %(tags)s
       </div>
     </header>
 
     <div class="post-body prose">
-%(content)s
+%(note)s%(content)s
     </div>
 
     <footer class="post-foot">
@@ -981,6 +1063,9 @@ def build_post(p, prev_post, next_post):
         "bar": site_bar(current="post"),
         "fonts": FONT_LINK,
         "base_css": BASE_CSS,
+        "flag": flag,
+        "flag_meta": flag_meta,
+        "note": note,
         "post_css": POST_CSS,
         "year": datetime.date.today().year,
         "month": datetime.date.today().month,
