@@ -145,6 +145,17 @@ section{scroll-margin-top:24px;}
 .prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
 .prose th{background:var(--accent-soft);font-weight:600;color:var(--ink);}
 
+/* 宽表格（如 DNS 记录表）在窄屏会撑破容器：
+   用 .table-wrap 包一层横向滚动容器，表格自身保留 min-width 以维持可读性 */
+.table-wrap{
+  overflow-x:auto;
+  margin:1.5em 0;
+  -webkit-overflow-scrolling:touch;
+}
+.table-wrap table{margin:0;min-width:34em;}
+.table-wrap th,.table-wrap td{white-space:nowrap;}
+.table-wrap th:first-child,.table-wrap td:first-child{white-space:normal;}
+
 .rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
 .d1{animation-delay:.05s;}
 .d2{animation-delay:.18s;}

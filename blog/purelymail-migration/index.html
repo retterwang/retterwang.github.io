@@ -147,6 +147,17 @@ section{scroll-margin-top:24px;}
 .prose th,.prose td{border:1px solid var(--line);padding:8px 12px;text-align:left;}
 .prose th{background:var(--accent-soft);font-weight:600;color:var(--ink);}
 
+/* 宽表格（如 DNS 记录表）在窄屏会撑破容器：
+   用 .table-wrap 包一层横向滚动容器，表格自身保留 min-width 以维持可读性 */
+.table-wrap{
+  overflow-x:auto;
+  margin:1.5em 0;
+  -webkit-overflow-scrolling:touch;
+}
+.table-wrap table{margin:0;min-width:34em;}
+.table-wrap th,.table-wrap td{white-space:nowrap;}
+.table-wrap th:first-child,.table-wrap td:first-child{white-space:normal;}
+
 .rise{opacity:0;transform:translateY(10px);animation:rise .9s cubic-bezier(.22,.61,.36,1) forwards;}
 .d1{animation-delay:.05s;}
 .d2{animation-delay:.18s;}
@@ -362,7 +373,7 @@ section{scroll-margin-top:24px;}
 <p>我有两个域名：<code>abetterplace2.live</code> 挂在 iCloud 自定义域名上，<code>retter.wang</code> 挂在腾讯企业邮。两边都能用，但都用得不舒服——一个绑死苹果生态，一个绑死企业微信。我想要的是最朴素的东西：<strong>自己的域名，任意邮件客户端，标准 IMAP</strong>。</p>
 <p>于是有了这次迁移。下面是完整过程，包括我踩的坑和一次不可原谅的操作事故。</p>
 <h2 id="_1">一、结论先行</h2>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>项</th>
@@ -391,7 +402,7 @@ section{scroll-margin-top:24px;}
 <td>两个域名邮件全部由 Purelymail 接管，IMAP/SMTP 正常</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <h2 id="_2">二、先否掉的路：自建</h2>
 <p>我手上有一台阿里云 ECS（2C2G，跑着 nginx 和 frp），还有一台绿联 NAS（N100，7.5G 内存，1.3T 空间）。理论上后者是自建邮件服务器的理想载体。</p>
 <p>调研之后，发现<strong>三条硬约束</strong>，任何一条都足以否掉这条路。</p>
@@ -407,7 +418,7 @@ section{scroll-margin-top:24px;}
 <p>2026 年的现实是：全新 IP 的默认判决是"疑似垃圾"。Microsoft 尤其难缠——它会返回 <code>250 OK</code> 然后静默把邮件投进垃圾箱，你连报错都看不到。SPF 全通过也没用，因为问题不在认证，在信誉。</p>
 <p>中继商卖的就是这个：他们花几年时间养出来的 IP 池信誉。</p>
 <h3 id="2c2g-mailcow">约束三：2C2G 装不下 mailcow</h3>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>方案</th>
@@ -437,7 +448,7 @@ section{scroll-margin-top:24px;}
 <td>✅</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>偏偏我那台 ECS 已经跑着 nginx（8 个站点）和 frps（12 条映射）。塞进去只能选最轻的栈，还得跟生产业务抢资源。</p>
 <h3 id="nas">顺带一提：NAS 也不合适</h3>
 <p>NAS 内存和存储都够，但有个致命问题——绿联 UGOS 内置的 <code>earlyoom</code>（用户态内存守护）有过杀容器的前科。我之前的诊断记录显示，13 个容器<strong>全部没有内存上限</strong>，<code>dockerd</code> 曾泄漏到 3.66 GB 吃满 swap，触发 earlyoom 用 SIGKILL 大面积清场。</p>
@@ -446,7 +457,7 @@ section{scroll-margin-top:24px;}
 <h2 id="purelymail">三、选型：为什么是 Purelymail</h2>
 <p>需求很简单：两个域名、无限别名、标准 IMAP、便宜。</p>
 <p>对比过几家：</p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>服务</th>
@@ -499,12 +510,12 @@ section{scroll-margin-top:24px;}
 <td><strong>免费版不支持 IMAP</strong></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>最后选了 Purelymail。理由：$10 一年、不限域名、不限邮箱、支持 Sieve、支持 catch-all。对个人用户来说，性价比没有对手。</p>
 <p>它的已知缺点官方自己写在首页上：偶尔有冷门邮件服务器会拒收它的信；没有 24×7 客服；UI 不算好用；禁止营销群发和域名预热。</p>
 <h2 id="dns">四、DNS：六条记录</h2>
 <p>Purelymail 的域名接入需要以下记录。<strong>注意 MX 优先级是 50，不是常见的 10</strong>——官方明确要求。</p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>类型</th>
@@ -563,7 +574,7 @@ section{scroll-margin-top:24px;}
 <td>客户端自动发现（可选）</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>所有权证明 token 是<strong>账户级</strong>的，所有域名共用同一个，只需取一次。</p>
 <p>加域名时有个反直觉的地方：<strong>只要加了 ownership 那条 TXT，域名就能加进去</strong>，MX/SPF/DKIM 都是之后慢慢补的。所以流程是"先证明归属，再补功能"，不用一次凑齐。</p>
 <h2 id="_3">五、五个坑</h2>
@@ -587,7 +598,7 @@ section{scroll-margin-top:24px;}
 <p>看起来像 DNS 问题，实际是没点按钮。</p>
 <h3 id="catch-all">坑五：catch-all 选错选项会让主邮箱收不到信</h3>
 <p>Purelymail 的路由规则有四种匹配方式，其中两种看起来很像是"收所有地址"：</p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>选项</th>
@@ -604,7 +615,7 @@ section{scroll-margin-top:24px;}
 <td>✅ 主邮箱正常，其余别名转到主邮箱</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>官方文档原话：</p>
 <blockquote>
 <p>If you have a User at me@domain.com but a routing rule for *@domain.com, all mail will follow the rule. The me@domain.com inbox will stay empty.</p>
@@ -668,7 +679,7 @@ RCPT TO:&lt;nonexistent@yourdomain.com&gt;
 <p>解决方式是配 catch-all 路由（注意是前面说的那个 "any address except valid user address" 选项）。配好之后，任意别名都能收到，统一进主邮箱。</p>
 <p>这件事最好在切 MX 之前就配好，否则切换窗口内发到别名的信会退。</p>
 <h2 id="_12">九、成本与遗留</h2>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>项</th>
@@ -697,7 +708,7 @@ RCPT TO:&lt;nonexistent@yourdomain.com&gt;
 <td>AWS us-east-1</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>还留了两件事没做：</p>
 <ul>
 <li><strong>历史邮件迁移</strong>：iCloud 和腾讯的旧邮件还在原处，可以用 Purelymail 内置的 mail porting tool 拉过来。</li>
