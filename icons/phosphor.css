@@ -1,0 +1,36 @@
+/* Phosphor Icons v2.1.1 子集 — 由 build_icons.py 生成，请勿手改 */
+/* 清单真源：manifest.json | 来源：https://unpkg.com/@phosphor-icons/web@2.1.1 */
+@font-face{
+font-family:"Phosphor";
+src:url("/icons/phosphor-subset.woff2") format("woff2");
+font-weight:normal;
+font-style:normal;
+font-display:block;
+}
+.ph{
+font-family:"Phosphor"!important;
+speak:never;
+font-style:normal;
+font-weight:normal;
+font-variant:normal;
+text-transform:none;
+line-height:1;
+display:inline-block;
+vertical-align:-0.125em;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+.ph-translate:before{content:"\e4a2"}
+.ph-list:before{content:"\e2f0"}
+.ph-caret-up:before{content:"\e13c"}
+.ph-caret-down:before{content:"\e136"}
+.ph-x:before{content:"\e4f6"}
+.ph-arrow-right:before{content:"\e06c"}
+.ph-arrow-left:before{content:"\e058"}
+.ph-arrow-up-right:before{content:"\e092"}
+.ph-sun:before{content:"\e472"}
+.ph-moon:before{content:"\e330"}
+.ph-globe-hemisphere-west:before{content:"\e28c"}
+.ph-arrow-counter-clockwise:before{content:"\e038"}
+.ph-arrow-down:before{content:"\e03e"}
+.ph-map-pin:before{content:"\e316"}
