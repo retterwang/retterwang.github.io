@@ -726,8 +726,18 @@ footer{
 <script src="i18n-extra.js"></script>
 <script src="i18n-terms.js"></script>
 <script src="i18n-titles.js"></script>
-<script src="i18n-data.js"></script>
 <script>
+/* 非中文语言按需加载该语言的译文包（每语言约 2MB，gzip 后 ~700KB） */
+function bootGenePage() {
+  var lang = document.documentElement.getAttribute('data-lang') || 'zh-CN';
+  if (lang === 'zh-CN' || lang === 'zh-Hant') { renderGenePage(); return; }
+  var s = document.createElement('script');
+  s.src = 'tr-' + lang + '.js';
+  s.onload = function () { renderGenePage(); };
+  s.onerror = function () { renderGenePage(); };
+  document.head.appendChild(s);
+}
+function renderGenePage() {
 (function () {
   var D = window.GENE_DATA, I18N = window.GENE_I18N;
   if (!D || !I18N) return;
@@ -736,11 +746,10 @@ footer{
   var T = I18N[LANG] || I18N['zh-CN'];
   function t(k) { return (T[k] != null ? T[k] : (I18N['zh-CN'][k] || '')); }
   /* 内容文本翻译查表（DeepSeek 译文） */
-  var TR = window.GENE_TR || {};
   function tr(txt) {
     if (!txt || LANG === 'zh-CN') return txt;
-    var m = TR[txt];
-    if (m && m[LANG]) return m[LANG];
+    var m = window.GENE_TR_LANG;
+    if (m && m[txt]) return m[txt];
     return txt;
   }
 
@@ -1239,6 +1248,13 @@ footer{
     if (el) spy.observe(el);
   });
 })();
+}
+/* 启动：DOM 就绪后加载译文并渲染 */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootGenePage);
+} else {
+  bootGenePage();
+}
 </script>
 </body>
 </html>
