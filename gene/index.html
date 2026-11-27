@@ -187,7 +187,8 @@ html[data-lang="ko"] .hero h1,html[data-lang="ko"] .sec-head h2,html[data-lang="
 hr.rule{border:none;border-top:1px solid var(--line);max-width:var(--w);margin:0 auto}
 
 /* ---------- 区块通用 ---------- */
-section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutter) 0}
+section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutter) 0;scroll-margin-top:112px}
+.item{scroll-margin-top:112px}
 .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
 .sec-head .no{font-family:var(--serif);color:var(--faint);font-size:13px;letter-spacing:.2em;font-variant-numeric:tabular-nums}
 .sec-head h2{font-family:var(--serif);font-weight:600;font-size:clamp(21px,3.4vw,26px);letter-spacing:.04em}
@@ -377,6 +378,43 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 .life-item:last-child{border-bottom:none}
 .life-item .lt{font-family:var(--serif);font-weight:600;font-size:13.5px;margin-bottom:4px}
 .life-item p{font-size:13px;color:var(--muted);line-height:1.8;margin:0}
+/* 完整解读文档 */
+.full-doc{
+  background:var(--bg);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;font-size:13.5px;line-height:1.85;
+}
+.fd-row{display:flex;gap:10px;padding:5px 0;align-items:baseline}
+.fd-row.sub{padding-left:1.4em}
+.fd-row.sub .fd-k{color:var(--muted)}
+.fd-k{
+  flex:none;width:7em;color:var(--accent);font-size:12.5px;
+  letter-spacing:.02em;text-align:left;
+}
+.fd-v{flex:1;color:var(--muted);min-width:0;word-break:break-word}
+.fd-p{margin:10px 0;color:var(--muted)}
+.fd-p:first-child{margin-top:0}
+.fd-h{
+  font-family:var(--serif);font-weight:600;font-size:14.5px;color:var(--ink);
+  margin:20px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line);
+}
+.fd-h:first-child{margin-top:0}
+.fd-num{display:flex;gap:10px;padding:7px 0;align-items:baseline}
+.fd-n{
+  flex:none;width:1.4em;text-align:right;font-family:var(--serif);
+  font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums;
+}
+.fd-nb{flex:1;min-width:0}
+.fd-nt{font-family:var(--serif);font-weight:600;font-size:13.5px;color:var(--ink);margin-bottom:3px;line-height:1.6}
+.fd-nv{font-size:13px;color:var(--muted);line-height:1.8}
+.fd-v strong,.fd-p strong,.fd-nv strong,.fd-nt strong{font-weight:500;color:var(--ink)}
+.fd-note{
+  margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:11.5px;color:var(--faint);line-height:1.7;
+}
+@media(max-width:600px){
+  .fd-row{flex-direction:column;gap:2px;padding:7px 0}
+  .fd-k{width:auto;font-size:11.5px}
+}
 /* 完整详情 */
 .full-detail{
   font-size:13px;color:var(--muted);line-height:1.85;white-space:pre-wrap;
@@ -745,6 +783,74 @@ footer{
         return '<div class="life-item"><div class="lt">' + esc(x.t) + '</div>' + (x.v ? '<p>' + esc(x.v) + '</p>' : '') + '</div>';
       }).join('') + '</details>';
   }
+  /* 完整解读：把原始 markdown 结构渲染为带样式的文档 */
+  function inlineMd(s) {
+    /* 处理行内的 **加粗** 与残留星号 */
+    s = esc(s);
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\*{2,}/g, '');
+    return s;
+  }
+  function fullBlock(d) {
+    if (!d.full) return '';
+    var lines = d.full.split('\n');
+    var html = '', para = [];
+    function flush() {
+      if (para.length) {
+        html += '<p class="fd-p">' + inlineMd(para.join(' ')) + '</p>';
+        para = [];
+      }
+    }
+    lines.forEach(function (raw) {
+      var line = raw.replace(/\s+$/, '');
+      var tr = line.trim();
+      if (!tr) { flush(); return; }
+      /* 小标题 */
+      var hm = tr.match(/^#{2,4}\s*(.+)$/);
+      if (hm) {
+        flush();
+        html += '<h4 class="fd-h">' + inlineMd(hm[1].replace(/\*/g, '')) + '</h4>';
+        return;
+      }
+      /* 字段行：- 字段：值 */
+      var m = line.match(/^(\s*)-\s*([^：:\n]{1,16})[：:]\s*([\s\S]*)$/);
+      if (m) {
+        flush();
+        var sub = m[1].length >= 2;
+        html += '<div class="fd-row' + (sub ? ' sub' : '') + '"><span class="fd-k">' + esc(m[2].trim()) + '</span><span class="fd-v">' + inlineMd(m[3].trim()) + '</span></div>';
+        return;
+      }
+      if (/^\s*-\s+/.test(line)) {
+        flush();
+        html += '<div class="fd-row sub"><span class="fd-v">' + inlineMd(tr.replace(/^-\s+/, '')) + '</span></div>';
+        return;
+      }
+      /* 编号条目：1. 标题：正文 / 1 标题** / 1. **标题**：正文 */
+      var nm = tr.match(/^(\d{1,2})[\.、]?\s+(\*{0,2})([^：:\n]{2,60}?)\*{0,2}\s*[：:]\s*([\s\S]*)$/);
+      if (nm) {
+        flush();
+        var rest = nm[4] && nm[4].trim();
+        html += '<div class="fd-num"><span class="fd-n">' + nm[1] + '</span><div class="fd-nb"><div class="fd-nt">' + inlineMd(nm[3]) + '</div>' +
+          (rest ? '<div class="fd-nv">' + inlineMd(rest) + '</div>' : '') + '</div></div>';
+        return;
+      }
+      var nm2 = tr.match(/^(\d{1,2})[\.、]\s+([\s\S]+)$/);
+      if (nm2) {
+        flush();
+        html += '<div class="fd-num"><span class="fd-n">' + nm2[1] + '</span><div class="fd-nb"><div class="fd-nv">' + inlineMd(nm2[2]) + '</div></div></div>';
+        return;
+      }
+      if (/^\*每个人都是不同/.test(tr) || /^\*{0,2}谨记/.test(tr) || /^\*{0,2}当前检测/.test(tr)) {
+        flush();
+        html += '<p class="fd-note">' + inlineMd(tr.replace(/^\*+/, '')) + '</p>';
+        return;
+      }
+      if (/^\*/.test(tr)) { flush(); html += '<p class="fd-note">' + inlineMd(tr.replace(/^\*+/, '')) + '</p>'; return; }
+      para.push(tr);
+    });
+    flush();
+    return '<div class="dt-label">' + esc(t('uiFull')) + '</div><div class="full-doc">' + html + '</div>';
+  }
 
   function itemCard(d) {
     var rare = d.pct && d.pct < 20;
@@ -775,7 +881,7 @@ footer{
       '</div>' : '') +
       (meta.length ? '<div class="item-meta">' + meta.join('') + '</div>' : '') +
       '<div class="toggle"><span>' + esc(t('uiExpand')) + '</span> <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></div>' +
-      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + tendList(d) + adviceList(d) + lifeBlock(d) + '</div>' +
+      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + tendList(d) + adviceList(d) + lifeBlock(d) + fullBlock(d) + '</div>' +
     '</div>';
   }
 
@@ -876,9 +982,18 @@ footer{
 
   /* ---------- 交互 ---------- */
   document.addEventListener('click', function (e) {
+    /* 分类导航：用滚动代替锚点跳转，避免地址栏出现 #cat-xxx */
+    var chip = e.target.closest('.cat-chip');
+    if (chip) {
+      e.preventDefault();
+      var target = document.getElementById(chip.dataset.cat);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     var tg = e.target.closest('.toggle');
     if (tg) {
       var item = tg.closest('.item');
+      item.classList.add('revealed');   /* 展开时兜底显示，避免长卡片未触发观察器 */
       item.classList.toggle('open');
       tg.querySelector('span').textContent = item.classList.contains('open') ? t('uiCollapse') : t('uiExpand');
       if (item.classList.contains('open')) animateBars(item);
@@ -894,6 +1009,10 @@ footer{
     var lb2 = e.target.closest('.lb');
     if (lb2) lb2.classList.remove('on');
   });
+  /* 若地址栏带分类锚点（旧链接或浏览器恢复），静默清除 */
+  if (/^#(cat-|it-|ancestry)/.test(location.hash)) {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
+  }
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') document.getElementById('lb').classList.remove('on');
   });
@@ -914,7 +1033,7 @@ footer{
         io.unobserve(en.target);
       }
     });
-  }, { threshold: 0.06 });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.item,.hl-card,.anc-card,.anc-portrait,.method-box').forEach(function (el) { io.observe(el); });
 
   /* ---------- 导航高亮 ---------- */
