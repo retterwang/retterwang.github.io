@@ -349,6 +349,27 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 .path-row .pc{font-size:11.5px;color:var(--faint);margin-left:auto;font-variant-numeric:tabular-nums}
 .anc-dist{margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.9}
 .anc-dist .k{color:var(--faint);letter-spacing:.08em}
+/* 参考人群画像 */
+.anc-people-desc{font-size:13px;color:var(--muted);max-width:42em;margin-bottom:12px}
+.people-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.people-grid.small{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:10px}
+.pcard{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:border-color .2s ease}
+.pcard:hover{border-color:var(--accent)}
+.pcard img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;cursor:zoom-in;background:var(--bg)}
+.people-grid.small .pcard img{aspect-ratio:1/1}
+.pcard figcaption{padding:7px 9px;display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.pcard .pn{font-family:var(--serif);font-size:12.5px;font-weight:600;line-height:1.35}
+.pcard .pp{font-size:11.5px;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.people-grid.small .pcard .pn{font-size:11px}
+.people-more{margin-top:14px}
+.people-more summary{
+  cursor:pointer;font-size:12.5px;color:var(--muted);
+  padding:8px 0;list-style:none;display:flex;align-items:center;gap:6px;
+}
+.people-more summary::-webkit-details-marker{display:none}
+.people-more summary::before{content:'▸';color:var(--faint);transition:transform .2s ease}
+.people-more[open] summary::before{transform:rotate(90deg)}
+.people-more summary:hover{color:var(--accent)}
 
 /* ---------- 方法说明 / 页脚 ---------- */
 .method-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px;font-size:13px;color:var(--muted);line-height:1.8}
@@ -488,6 +509,7 @@ footer{
 
 <script src="data.js"></script>
 <script src="i18n.js"></script>
+<script src="i18n-extra.js"></script>
 <script>
 (function () {
   var D = window.GENE_DATA, I18N = window.GENE_I18N;
@@ -666,43 +688,87 @@ footer{
 
   /* ---------- 祖源 ---------- */
   var A = D.ancestry;
+  var ANAME = t('ancNames') || {};
+  function aname(x) { return ANAME[x] || x; }
+  /* 迁徙时间本地化：'270,000 年前' -> '270,000 years ago' */
+  function localTime(str) {
+    if (!str || str === '—') return '';
+    var m = str.match(/([\d,\.]+)/);
+    if (!m) return str;
+    return m[1] + t('yearsAgo');
+  }
+  /* 迁徙地点本地化 */
+  var PLACE_MAP = {
+    '非洲': 'pAfrica', '南亚、东南亚': 'pSouthSEA', '东亚、东南亚': 'pEastSEA',
+    '东亚、东南亚、南亚': 'pEastSESASouth'
+  };
+  function lplace(s) {
+    if (!s || s === '—') return '';
+    return PLACE_MAP[s] ? t(PLACE_MAP[s]) : s;
+  }
+  function lpct(s) {
+    if (!s) return '';
+    return String(s).replace('（你所在分支）', t('youBranch')).replace('（中国男性主体）', t('maleMain'));
+  }
   function pathRows(rows) {
     return '<div class="path">' + rows.map(function (r) {
       return '<div class="path-row' + (r.me ? ' me' : '') + '">' +
         '<span class="hgn">' + esc(r.hg) + '</span>' +
-        (r.time && r.time !== '—' ? '<span class="tm">' + esc(r.time) + '</span>' : '') +
-        '<span class="pc">' + esc(r.pct || '') + '</span>' +
-        (r.place && r.place !== '—' ? '<span style="font-size:11.5px;color:var(--faint)">' + esc(r.place) + '</span>' : '') +
+        (r.time && r.time !== '—' ? '<span class="tm">' + esc(localTime(r.time)) + '</span>' : '') +
+        '<span class="pc">' + esc(lpct(r.pct)) + '</span>' +
+        (r.place && r.place !== '—' ? '<span style="font-size:11.5px;color:var(--faint)">' + esc(lplace(r.place)) + '</span>' : '') +
       '</div>';
     }).join('') + '</div>';
   }
   function distLine(o) {
-    var isZh = (LANG === 'zh-CN' || LANG === 'zh-Hant');
     var parts = [];
-    if (o['地域分布']) parts.push('<span class="k">' + (isZh ? '地域' : 'Region') + '</span> ' + o['地域分布'].map(function (p) { return esc(p.k) + ' ' + p.n; }).join('、'));
-    if (o['民族分布']) parts.push('<span class="k">' + (isZh ? '民族' : 'Ethnicity') + '</span> ' + o['民族分布'].map(function (p) { return esc(p.k) + ' ' + p.n; }).join('、'));
+    if (o['地域分布']) parts.push('<span class="k">' + esc(t('regLabel')) + '</span> ' + o['地域分布'].map(function (p) { return esc(p.k) + ' ' + p.n + t('peopleUnit'); }).join('、'));
+    if (o['民族分布']) parts.push('<span class="k">' + esc(t('ethLabel')) + '</span> ' + o['民族分布'].map(function (p) { return esc(p.k) + ' ' + p.n + t('peopleUnit'); }).join('、'));
     return parts.length ? '<div class="anc-dist">' + parts.join('<br>') + '</div>' : '';
+  }
+  /* 参考人群画像 */
+  function peopleGallery() {
+    var ppl = A.people || [];
+    if (!ppl.length) return '';
+    var nz = ppl.filter(function (p) { return p.pct && parseFloat(p.pct) > 0; });
+    var zero = ppl.filter(function (p) { return !p.pct || parseFloat(p.pct) <= 0; });
+    function card(p, big) {
+      return '<figure class="pcard' + (big ? ' big' : '') + '">' +
+        '<img loading="lazy" src="img/' + esc(p.file) + '" alt="' + esc(aname(p.tag)) + '" data-lb="1">' +
+        '<figcaption><span class="pn">' + esc(aname(p.tag)) + '</span>' +
+        (p.pct && parseFloat(p.pct) > 0 ? '<span class="pp">' + p.pct + '%</span>' : '') +
+        '</figcaption></figure>';
+    }
+    var html = '<div class="dt-label" style="margin-top:26px">' + esc(t('ancPeople')) + '</div>' +
+      '<p class="anc-people-desc">' + esc(t('ancPeopleDesc')) + '</p>' +
+      '<div class="people-grid">' + nz.map(function (p) { return card(p, true); }).join('') + '</div>';
+    if (zero.length) {
+      html += '<details class="people-more"><summary>' + esc(t('ancOthers')) + ' (' + zero.length + ')</summary>' +
+        '<div class="people-grid small">' + zero.map(function (p) { return card(p, false); }).join('') + '</div></details>';
+    }
+    return html;
   }
   var maxComp = Math.max.apply(null, A.comp.map(function (x) { return x.pct; }));
   document.getElementById('ancWrap').innerHTML =
     '<div class="anc-portrait">' +
-      '<div class="big">' + esc(t('ancPortrait')) + '<em>' + esc(A.top) + '</em>' + esc(t('ancPortraitEnd')) + '</div>' +
-      '<p>' + esc(A.portrait) + '</p>' +
+      '<div class="big">' + esc(t('ancPortrait')) + '<em>' + esc(aname(A.top)) + '</em>' + esc(t('ancPortraitEnd')) + '</div>' +
+      '<p>' + esc(t('portraitTxt')) + '</p>' +
       '<div style="margin-top:14px">' +
         A.comp.map(function (x) {
-          return '<div class="comp-row"><span class="cl">' + esc(x.label) + '</span><span class="cbar"><i data-w="' + (x.pct / maxComp * 100).toFixed(1) + '"></i></span><span class="cv">' + x.pct + '%</span></div>';
+          return '<div class="comp-row"><span class="cl">' + esc(aname(x.label)) + '</span><span class="cbar"><i data-w="' + (x.pct / maxComp * 100).toFixed(1) + '"></i></span><span class="cv">' + x.pct + '%</span></div>';
         }).join('') +
       '</div>' +
       '<p style="margin-top:12px;font-size:12px;color:var(--faint)">' + esc(t('ancNote')) + '</p>' +
     '</div>' +
     '<div class="anc-grid">' +
       '<div class="anc-card"><div class="role">' + esc(t('ancPat')) + '</div><div class="hg">' + esc(A.paternal.hg) + '</div>' +
-        '<div class="hg-note">各色用户中占 0.86%，共祖约 2,400 年前；相同单倍群用户聚集于闽粤浙沿海</div>' +
+        '<div class="hg-note">' + esc(t('hgN1')) + '</div>' +
         pathRows(A.paternal.path) + distLine(A.paternal) + '</div>' +
       '<div class="anc-card"><div class="role">' + esc(t('ancMat')) + '</div><div class="hg">' + esc(A.maternal.hg) + '</div>' +
-        '<div class="hg-note">各色用户中占 0.33%，上游 F 系约 43,000 年前出现于东亚、东南亚</div>' +
+        '<div class="hg-note">' + esc(t('hgN2')) + '</div>' +
         pathRows(A.maternal.path) + distLine(A.maternal) + '</div>' +
-    '</div>';
+    '</div>' +
+    peopleGallery();
 
   /* ---------- 交互 ---------- */
   document.addEventListener('click', function (e) {
