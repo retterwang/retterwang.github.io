@@ -277,13 +277,15 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 .raw-body li{margin-bottom:6px}
 .raw-body ul{list-style:disc}
 .raw-body ol{list-style:decimal}
-.raw-body figure{margin:18px 0;text-align:center}
+.raw-body figure{margin:22px 0;text-align:center}
 .raw-body figure img{
-  max-width:100%;height:auto;border-radius:10px;
+  width:100%;max-width:100%;height:auto;border-radius:12px;
   border:1px solid var(--line);background:var(--bg);
-  cursor:zoom-in;transition:opacity .2s ease;
+  box-shadow:0 2px 10px rgba(25,24,23,.05);
+  cursor:zoom-in;transition:opacity .2s ease,box-shadow .2s ease;
 }
-.raw-body figure img:hover{opacity:.9}
+html[data-theme="dark"] .raw-body figure img{box-shadow:0 2px 14px rgba(0,0,0,.35)}
+.raw-body figure img:hover{opacity:.94;box-shadow:0 4px 18px rgba(25,24,23,.10)}
 .raw-body figcaption{font-size:12px;color:var(--faint);margin-top:8px;text-align:center}
 .raw-body blockquote{
   margin:14px 0;padding:10px 16px;
@@ -462,18 +464,52 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 .path-row .pc{font-size:11.5px;color:var(--faint);margin-left:auto;font-variant-numeric:tabular-nums}
 .anc-dist{margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.9}
 .anc-dist .k{color:var(--faint);letter-spacing:.08em}
-/* 参考人群画像 */
-.anc-people-desc{font-size:13px;color:var(--muted);max-width:42em;margin-bottom:12px}
-.people-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-.people-grid.small{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:10px}
-.pcard{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:border-color .2s ease}
-.pcard:hover{border-color:var(--accent)}
-.pcard img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;cursor:zoom-in;background:var(--bg)}
-.people-grid.small .pcard img{aspect-ratio:1/1}
-.pcard figcaption{padding:7px 9px;display:flex;align-items:baseline;justify-content:space-between;gap:6px}
-.pcard .pn{font-family:var(--serif);font-size:12.5px;font-weight:600;line-height:1.35}
-.pcard .pp{font-size:11.5px;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
-.people-grid.small .pcard .pn{font-size:11px}
+/* 参考人群画像（圆形 + 百分比环 + 错落气泡） */
+.anc-people-desc{font-size:13px;color:var(--muted);max-width:42em;margin-bottom:16px}
+.people-flow{
+  display:flex;flex-wrap:wrap;align-items:flex-end;
+  gap:20px 22px;padding:6px 2px 10px;
+}
+.pcard{margin:0;flex:none;display:flex;flex-direction:column;align-items:center;width:var(--s)}
+.pring{
+  width:var(--s);height:var(--s);border-radius:50%;
+  padding:5px;
+  background:conic-gradient(var(--accent) calc(var(--p) * 1%), var(--line-strong) 0);
+  display:block;
+  transition:transform .25s ease;
+  box-shadow:0 2px 10px rgba(25,24,23,.06);
+}
+html[data-theme="dark"] .pring{box-shadow:0 2px 12px rgba(0,0,0,.32)}
+.pcard:hover .pring{transform:scale(1.03)}
+.pring img{
+  display:block;width:100%;height:100%;border-radius:50%;
+  object-fit:cover;background:var(--surface);
+  cursor:zoom-in;border:2px solid var(--surface);
+}
+.pcard figcaption{
+  margin-top:10px;text-align:center;line-height:1.45;max-width:100%;
+}
+.pcard .pn{
+  display:block;font-family:var(--serif);font-weight:600;
+  font-size:12.5px;color:var(--ink);word-break:break-word;
+}
+.pcard .pp{
+  display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.pcard .pp::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--accent);flex:none;
+}
+/* 错落：垂直偏移 */
+.people-flow .pcard:nth-child(4n+2){margin-bottom:26px}
+.people-flow .pcard:nth-child(4n+4){margin-bottom:12px}
+.people-flow .pcard:nth-child(5n+3){margin-bottom:34px}
+/* 小圆（未检出人群） */
+.people-small{display:flex;flex-wrap:wrap;gap:16px 18px;padding:12px 2px 6px}
+.people-small .pcard{width:var(--s)}
+.people-small .pring{padding:2px;background:var(--bar)}
+.people-small .pn{font-size:11px;font-weight:400;color:var(--muted);font-family:var(--sans)}
 .people-more{margin-top:14px}
 .people-more summary{
   cursor:pointer;font-size:12.5px;color:var(--muted);
@@ -520,6 +556,11 @@ footer{
   .anc-portrait,.anc-card,.method-box{padding:16px 16px}
   .bar-title{display:none}
   .raw-body figure img{border-radius:8px}
+  .people-flow{gap:16px 14px}
+  .pcard{width:min(var(--s),27vw)}
+  .pring{width:min(var(--s),27vw);height:min(var(--s),27vw)}
+  .people-small .pcard{width:min(var(--s),20vw)}
+  .people-small .pring{width:min(var(--s),20vw);height:min(var(--s),20vw)}
 }
 </style>
 </head>
@@ -773,7 +814,9 @@ footer{
   /* 图文解读：正文与插图按原文顺序混排 */
   function bodySection(d) {
     if (!d.bodyHtml) return '';
-    return '<div class="dt-label">' + esc(t('uiBody')) + '</div><div class="raw-body">' + d.bodyHtml + '</div>';
+    var n = (d.bodyHtml.match(/<img/g) || []).length;
+    return '<div class="dt-label">' + esc(t('uiBody')) + (n ? ' <span class="cnt">' + n + ' ' + esc(t('uiFigs')) + '</span>' : '') +
+      '</div><div class="raw-body">' + d.bodyHtml + '</div>';
   }
   /* 生活经历（折叠） */
   function lifeBlock(d) {
@@ -936,25 +979,35 @@ footer{
     if (o['民族分布']) parts.push('<span class="k">' + esc(t('ethLabel')) + '</span> ' + o['民族分布'].map(function (p) { return esc(p.k) + ' ' + p.n + t('peopleUnit'); }).join('、'));
     return parts.length ? '<div class="anc-dist">' + parts.join('<br>') + '</div>' : '';
   }
-  /* 参考人群画像 */
+  /* 参考人群画像：圆形遮罩 + 百分比环 + 错落气泡布局 */
   function peopleGallery() {
     var ppl = A.people || [];
     if (!ppl.length) return '';
     var nz = ppl.filter(function (p) { return p.pct && parseFloat(p.pct) > 0; });
     var zero = ppl.filter(function (p) { return !p.pct || parseFloat(p.pct) <= 0; });
-    function card(p, big) {
-      return '<figure class="pcard' + (big ? ' big' : '') + '">' +
-        '<img loading="lazy" src="img/' + esc(p.file) + '" alt="' + esc(aname(p.tag)) + '" data-lb="1">' +
+    function sizeOf(pct) {
+      if (pct >= 20) return 142;
+      if (pct >= 10) return 124;
+      if (pct >= 3) return 108;
+      if (pct >= 1) return 94;
+      return 82;
+    }
+    function card(p, small) {
+      var pct = parseFloat(p.pct) || 0;
+      var s = small ? 60 : sizeOf(pct);
+      var ring = small ? 0 : Math.min(pct, 100);
+      return '<figure class="pcard" style="--s:' + s + 'px;--p:' + ring.toFixed(2) + '">' +
+        '<span class="pring"><img loading="lazy" src="img/' + esc(p.file) + '" alt="' + esc(aname(p.tag)) + '" data-lb="1"></span>' +
         '<figcaption><span class="pn">' + esc(aname(p.tag)) + '</span>' +
-        (p.pct && parseFloat(p.pct) > 0 ? '<span class="pp">' + p.pct + '%</span>' : '') +
+        (small ? '' : '<span class="pp">' + pct.toFixed(2).replace(/\.?0+$/, '') + '%</span>') +
         '</figcaption></figure>';
     }
-    var html = '<div class="dt-label" style="margin-top:26px">' + esc(t('ancPeople')) + '</div>' +
+    var html = '<div class="dt-label" style="margin-top:28px">' + esc(t('ancPeople')) + '</div>' +
       '<p class="anc-people-desc">' + esc(t('ancPeopleDesc')) + '</p>' +
-      '<div class="people-grid">' + nz.map(function (p) { return card(p, true); }).join('') + '</div>';
+      '<div class="people-flow">' + nz.map(function (p) { return card(p, false); }).join('') + '</div>';
     if (zero.length) {
       html += '<details class="people-more"><summary>' + esc(t('ancOthers')) + ' (' + zero.length + ')</summary>' +
-        '<div class="people-grid small">' + zero.map(function (p) { return card(p, false); }).join('') + '</div></details>';
+        '<div class="people-small">' + zero.map(function (p) { return card(p, true); }).join('') + '</div></details>';
     }
     return html;
   }

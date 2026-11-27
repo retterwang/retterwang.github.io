@@ -8,7 +8,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "在检测人群中占 0.86%，共祖约 2,400 年前；相同单倍群人群聚集于闽粤浙沿海",
   hgN2: "在检测人群中占 0.33%，上游 F 系约 43,000 年前出现于东亚、东南亚",
   youBranch: "（你所在分支）", maleMain: "（中国男性主体）",
-  uiTend: "先天倾向对生活的影响", uiHow: "我该怎么做", uiWhy: "为什么这么做", uiLife: "影响因素与生活经历",
+  uiTend: "先天倾向对生活的影响", uiHow: "我该怎么做", uiWhy: "为什么这么做", uiLife: "影响因素与生活经历", uiFigs: "图",
   portraitTxt: "北方蒙古人种：山东、河南、高大、长方脸、鼻梁高；饮食文化标签：面食、鲜香、生食葱姜",
   ancNames: { "北方东部": "北方东部", "北方中部": "北方中部", "长江以南": "长江以南", "东南沿海": "东南沿海", "西南少数民族": "西南少数民族", "蒙古少数民族": "蒙古少数民族", "藏族": "藏族", "日本人": "日本人" }
 },
@@ -20,7 +20,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "在檢測人群中佔 0.86%，共祖約 2,400 年前；相同單倍群人群聚集於閩粵浙沿海",
   hgN2: "在檢測人群中佔 0.33%，上游 F 系約 43,000 年前出現於東亞、東南亞",
   youBranch: "（你所在分支）", maleMain: "（中國男性主體）",
-  uiTend: "先天傾向對生活的影響", uiHow: "我該怎麼做", uiWhy: "為什麼這麼做", uiLife: "影響因素與生活經歷",
+  uiTend: "先天傾向對生活的影響", uiHow: "我該怎麼做", uiWhy: "為什麼這麼做", uiLife: "影響因素與生活經歷", uiFigs: "圖",
   portraitTxt: "北方蒙古人種：山東、河南、高大、長方臉、鼻樑高；飲食文化標籤：麵食、鮮香、生食蔥薑",
   ancNames: { "北方东部": "北方東部", "北方中部": "北方中部", "长江以南": "長江以南", "东南沿海": "東南沿海", "西南少数民族": "西南少數民族", "蒙古少数民族": "蒙古少數民族", "藏族": "藏族", "日本人": "日本人" }
 },
@@ -32,7 +32,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "0.86% of the tested population; common ancestor ~2,400 years ago; the same haplogroup clusters along the Fujian-Guangdong-Zhejiang coast",
   hgN2: "0.33% of the tested population; the upstream F lineage appeared in East and Southeast Asia ~43,000 years ago",
   youBranch: " (your branch)", maleMain: " (main Chinese male group)",
-  uiTend: "Innate tendencies", uiHow: "What to do", uiWhy: "Why it works", uiLife: "Influencing factors",
+  uiTend: "Innate tendencies", uiHow: "What to do", uiWhy: "Why it works", uiLife: "Influencing factors", uiFigs: "figures",
   portraitTxt: "Northern Mongoloid: Shandong, Henan; tall, long face, high nose bridge; food culture: wheat staples, umami, raw scallion and ginger",
   ancNames: { "北方东部": "North-East China", "北方中部": "North-Central China", "长江以南": "South of the Yangtze", "东南沿海": "Southeast Coast", "西南少数民族": "Southwest Ethnic Minorities", "蒙古少数民族": "Mongolian Minorities", "藏族": "Tibetan", "日本人": "Japanese" }
 },
@@ -44,7 +44,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "検査集団の 0.86%、共通祖先は約 2,400 年前。同じハプログループの集団は福建省・広東省・浙江省の沿岸部に集中",
   hgN2: "検査集団の 0.33%、上流の F 系統は約 43,000 年前に東アジア・東南アジアに出現",
   youBranch: "（あなたの分岐）", maleMain: "（中国男性の主体）",
-  uiTend: "先天的な傾向", uiHow: "どうするか", uiWhy: "なぜ効くのか", uiLife: "影響要因と生活歴",
+  uiTend: "先天的な傾向", uiHow: "どうするか", uiWhy: "なぜ効くのか", uiLife: "影響要因と生活歴", uiFigs: "点",
   portraitTxt: "北方モンゴロイド：山東・河南、大柄、面長、鼻梁が高い；食文化：小麦料理、旨味、生のネギとショウガ",
   ancNames: { "北方东部": "華北東部", "北方中部": "華北中部", "长江以南": "長江以南", "东南沿海": "東南沿海", "西南少数民族": "西南少数民族", "蒙古少数民族": "モンゴル系少数民族", "藏族": "チベット族", "日本人": "日本人" }
 },
@@ -56,7 +56,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "검사 집단의 0.86%, 공통 조상 약 2,400년 전; 같은 하플로그룹은 푸젠·광둥·저장 해안에 집중",
   hgN2: "검사 집단의 0.33%, 상류 F 계통은 약 43,000년 전 동아시아·동남아시아에 출현",
   youBranch: " (당신의 분기)", maleMain: " (중국 남성 주류)",
-  uiTend: "선천적 경향", uiHow: "실천 방법", uiWhy: "왜 효과적인가", uiLife: "영향 요인",
+  uiTend: "선천적 경향", uiHow: "실천 방법", uiWhy: "왜 효과적인가", uiLife: "영향 요인", uiFigs: "컷",
   portraitTxt: "북방 몽골로이드: 산둥·허난, 키가 크고 긴 얼굴, 높은 콧대; 음식 문화: 밀가루 음식, 감칠맛, 생파와 생강",
   ancNames: { "北方东部": "화북 동부", "北方中部": "화북 중부", "长江以南": "창장 이남", "东南沿海": "동남 연해", "西南少数民族": "서남 소수민족", "蒙古少数民族": "몽골계 소수민족", "藏族": "티베트족", "日本人": "일본인" }
 },
@@ -68,7 +68,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "0,86% de la population testée ; ancêtre commun il y a environ 2 400 ans ; le même haplogroupe se concentre sur la côte Fujian-Guangdong-Zhejiang",
   hgN2: "0,33% de la population testée ; la lignée F amont est apparue en Asie de l'Est et du Sud-Est il y a environ 43 000 ans",
   youBranch: " (votre branche)", maleMain: " (groupe masculin chinois principal)",
-  uiTend: "Tendances innées", uiHow: "Que faire", uiWhy: "Pourquoi ça marche", uiLife: "Facteurs d'influence",
+  uiTend: "Tendances innées", uiHow: "Que faire", uiWhy: "Pourquoi ça marche", uiLife: "Facteurs d'influence", uiFigs: "figures",
   portraitTxt: "Mongoloïde du Nord : Shandong, Henan ; grande taille, visage allongé, nez haut ; culture alimentaire : blé, umami, ciboule et gingembre crus",
   ancNames: { "北方东部": "Chine du Nord-Est", "北方中部": "Chine du Nord-Centre", "长江以南": "Au sud du Yangtsé", "东南沿海": "Côte du Sud-Est", "西南少数民族": "Minorités du Sud-Ouest", "蒙古少数民族": "Minorités mongoles", "藏族": "Tibétains", "日本人": "Japonais" }
 },
@@ -80,7 +80,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "0,86% de la población analizada; ancestro común hace unos 2.400 años; el mismo haplogrupo se concentra en la costa de Fujian-Guangdong-Zhejiang",
   hgN2: "0,33% de la población analizada; el linaje F ancestral apareció en Asia Oriental y del Sudeste hace unos 43.000 años",
   youBranch: " (tu rama)", maleMain: " (grupo masculino chino principal)",
-  uiTend: "Tendencias innatas", uiHow: "Qué hacer", uiWhy: "Por qué funciona", uiLife: "Factores de influencia",
+  uiTend: "Tendencias innatas", uiHow: "Qué hacer", uiWhy: "Por qué funciona", uiLife: "Factores de influencia", uiFigs: "figuras",
   portraitTxt: "Mongoloide del Norte: Shandong, Henan; alto, cara alargada, puente nasal alto; cultura alimentaria: trigo, umami, cebolleta y jengibre crudos",
   ancNames: { "北方东部": "Noreste de China", "北方中部": "Centro-Norte de China", "长江以南": "Al sur del Yangtsé", "东南沿海": "Costa Sureste", "西南少数民族": "Minorías del Suroeste", "蒙古少数民族": "Minorías mongolas", "藏族": "Tibetanos", "日本人": "Japoneses" }
 },
@@ -92,7 +92,7 @@ window.GENE_I18N_EXTRA = {
   hgN1: "0,86% der getesteten Population; gemeinsamer Vorfahre vor ca. 2.400 Jahren; dieselbe Haplogruppe konzentriert sich an der Küste von Fujian, Guangdong und Zhejiang",
   hgN2: "0,33% der getesteten Population; die vorgelagerte F-Linie erschien vor ca. 43.000 Jahren in Ost- und Südostasien",
   youBranch: " (dein Zweig)", maleMain: " (chinesische Mehrheitsgruppe der Männer)",
-  uiTend: "Angeborene Tendenzen", uiHow: "Was tun", uiWhy: "Warum es wirkt", uiLife: "Einflussfaktoren",
+  uiTend: "Angeborene Tendenzen", uiHow: "Was tun", uiWhy: "Warum es wirkt", uiLife: "Einflussfaktoren", uiFigs: "Abb.",
   portraitTxt: "Nordmongolid: Shandong, Henan; groß, langes Gesicht, hoher Nasenrücken; Esskultur: Weizen, Umami, rohe Frühlingszwiebel und Ingwer",
   ancNames: { "北方东部": "Nordostchina", "北方中部": "Nord-Zentralchina", "长江以南": "Südlich des Jangtse", "东南沿海": "Südostküste", "西南少数民族": "Südwestliche Minderheiten", "蒙古少数民族": "Mongolische Minderheiten", "藏族": "Tibeter", "日本人": "Japaner" }
 }
