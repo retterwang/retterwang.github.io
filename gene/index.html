@@ -316,13 +316,67 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 .snp-table th{text-align:left;font-weight:400;color:var(--faint);padding:4px 10px 4px 0;border-bottom:1px solid var(--line);white-space:nowrap}
 .snp-table td{padding:6px 10px 6px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted);word-break:break-word}
 .snp-table td.rs{color:var(--accent);font-weight:500;white-space:nowrap}
-/* 行动建议 */
-.adv-list{list-style:none;counter-reset:adv}
-.adv-list li{counter-increment:adv;position:relative;padding-left:30px;margin-bottom:7px;font-size:13.5px;color:var(--muted)}
-.adv-list li::before{
-  content:counter(adv,decimal-leading-zero);position:absolute;left:0;top:.1em;
-  font-family:var(--serif);font-size:11px;color:var(--accent);font-variant-numeric:tabular-nums;
+/* 行动建议卡片 */
+.dt-label .cnt{
+  display:inline-block;min-width:1.4em;padding:1px 6px;margin-left:6px;
+  border-radius:999px;background:var(--accent-soft);color:var(--accent);
+  font-size:10.5px;letter-spacing:0;text-align:center;font-variant-numeric:tabular-nums;
 }
+.adv-cards{display:flex;flex-direction:column;gap:10px}
+.adv-card{
+  background:var(--bg);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px 14px 18px;position:relative;overflow:hidden;
+}
+.adv-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);opacity:.55;
+}
+.adv-head{display:flex;align-items:baseline;gap:10px}
+.adv-no{
+  font-family:var(--serif);font-size:12px;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.06em;flex:none;
+}
+.adv-title{
+  font-family:var(--serif);font-weight:600;font-size:14.5px;color:var(--ink);
+  line-height:1.5;flex:1;
+}
+.imp{display:inline-flex;gap:3px;align-items:center;flex:none;padding-top:2px}
+.imp i{width:5px;height:5px;border-radius:50%;background:var(--faint);display:block}
+.imp.up i{background:var(--accent)}
+.imp.down i{background:var(--warn)}
+.imp.mid i{background:var(--faint)}
+.adv-body{margin-top:9px;font-size:13px;line-height:1.85;color:var(--muted)}
+.adv-body.why{border-top:1px dashed var(--line);padding-top:9px;margin-top:10px}
+.adv-body p{margin:0 0 6px}
+.adv-body p:last-child{margin-bottom:0}
+.adv-sub{
+  font-size:10.5px;letter-spacing:.14em;color:var(--faint);
+  margin-bottom:5px;text-transform:uppercase;
+}
+/* 先天倾向 */
+.tend-list{display:flex;flex-direction:column;gap:8px}
+.tend-card{
+  background:var(--bg);border-left:2px solid var(--accent-soft);
+  border-radius:0 8px 8px 0;padding:10px 14px;
+}
+.tend-card .tk{
+  font-size:11px;letter-spacing:.14em;color:var(--accent);
+  margin-bottom:4px;font-weight:500;
+}
+.tend-card .tv{font-size:13px;line-height:1.8;color:var(--muted)}
+/* 生活经历 */
+.life-more{margin-top:18px;border-top:1px dashed var(--line);padding-top:12px}
+.life-more summary{
+  cursor:pointer;font-size:12.5px;color:var(--muted);
+  list-style:none;display:flex;align-items:center;gap:6px;
+}
+.life-more summary::-webkit-details-marker{display:none}
+.life-more summary::before{content:'▸';color:var(--faint);transition:transform .2s ease}
+.life-more[open] summary::before{transform:rotate(90deg)}
+.life-more summary:hover{color:var(--accent)}
+.life-item{padding:11px 0;border-bottom:1px solid var(--line)}
+.life-item:last-child{border-bottom:none}
+.life-item .lt{font-family:var(--serif);font-weight:600;font-size:13.5px;margin-bottom:4px}
+.life-item p{font-size:13px;color:var(--muted);line-height:1.8;margin:0}
 /* 完整详情 */
 .full-detail{
   font-size:13px;color:var(--muted);line-height:1.85;white-space:pre-wrap;
@@ -618,6 +672,7 @@ footer{
   document.getElementById('catNavInner').innerHTML = navHtml;
 
   /* ---------- 卡片渲染 ---------- */
+  /* 检查数据：结果、分数、人群分布 */
   function distRows(d) {
     if (!d.dist) return '';
     var max = 0;
@@ -638,19 +693,57 @@ footer{
         return '<tr><td class="rs">' + esc(s.rs) + '</td><td>' + esc(s.geno || '—') + '</td><td>' + esc(s.note || '') + '</td><td>' + esc(s.gene || '—') + '</td><td>' + esc(s.chr || '—') + '</td></tr>';
       }).join('') + '</table></div>';
   }
+  /* 先天倾向：场景卡片 */
+  var TEND_ICON = { '事业': 'briefcase', '社交': 'users', '爱情': 'heart', '生活方式': 'sun', '健康管理': 'activity', '疾病': 'shield' };
+  function tendList(d) {
+    if (!d.tendency || !d.tendency.length) return '';
+    return '<div class="dt-label">' + esc(t('uiTend')) + '</div><div class="tend-list">' +
+      d.tendency.map(function (x) {
+        return '<div class="tend-card">' +
+          (x.k ? '<div class="tk">' + esc(x.k) + '</div>' : '') +
+          '<div class="tv">' + esc(x.v) + '</div></div>';
+      }).join('') + '</div>';
+  }
+  /* 行动建议：编号 + 标题 + 影响程度 + 做法 / 原因 */
   function adviceList(d) {
-    if (!d.advice) return '';
-    return '<div class="dt-label">' + esc(t('uiAdvice')) + '</div><ul class="adv-list">' +
-      d.advice.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>';
+    var a = d.adviceList;
+    if (!a || !a.length) return '';
+    function para(txt) {
+      if (!txt) return '';
+      return txt.split('\n').filter(Boolean).map(function (p, i, arr) {
+        return '<p>' + esc(p) + '</p>';
+      }).join('');
+    }
+    function impBadge(imp) {
+      if (!imp) return '';
+      var n = (imp.match(/[+\-·•]/g) || []).length;
+      var kind = /[+\-]/.test(imp) ? (/^\+/.test(imp) ? 'up' : 'down') : 'mid';
+      var dots = '';
+      for (var i = 0; i < Math.min(n, 6); i++) dots += '<i></i>';
+      return '<span class="imp ' + kind + '" title="' + esc(imp) + '">' + dots + '</span>';
+    }
+    return '<div class="dt-label">' + esc(t('uiAdvice')) + ' <span class="cnt">' + a.length + '</span></div>' +
+      '<div class="adv-cards">' + a.map(function (x, i) {
+        return '<div class="adv-card">' +
+          '<div class="adv-head"><span class="adv-no">' + (i + 1 < 10 ? '0' : '') + (i + 1) + '</span>' +
+          '<span class="adv-title">' + esc(x.t) + '</span>' + impBadge(x.impact) + '</div>' +
+          (x.how ? '<div class="adv-body">' + (x.why ? '<div class="adv-sub">' + esc(t('uiHow')) + '</div>' : '') + para(x.how) + '</div>' : '') +
+          (x.why ? '<div class="adv-body why"><div class="adv-sub">' + esc(t('uiWhy')) + '</div>' + para(x.why) + '</div>' : '') +
+        '</div>';
+      }).join('') + '</div>';
   }
   /* 图文解读：正文与插图按原文顺序混排 */
   function bodySection(d) {
     if (!d.bodyHtml) return '';
     return '<div class="dt-label">' + esc(t('uiBody')) + '</div><div class="raw-body">' + d.bodyHtml + '</div>';
   }
-  function fullBlock(d) {
-    if (!d.full) return '';
-    return '<div class="dt-label">' + esc(t('uiFull')) + '</div><div class="full-detail">' + esc(d.full) + '</div>';
+  /* 生活经历（折叠） */
+  function lifeBlock(d) {
+    if (!d.lifeExp || !d.lifeExp.length) return '';
+    return '<details class="life-more"><summary>' + esc(t('uiLife')) + ' (' + d.lifeExp.length + ')</summary>' +
+      d.lifeExp.map(function (x) {
+        return '<div class="life-item"><div class="lt">' + esc(x.t) + '</div>' + (x.v ? '<p>' + esc(x.v) + '</p>' : '') + '</div>';
+      }).join('') + '</details>';
   }
 
   function itemCard(d) {
@@ -682,7 +775,7 @@ footer{
       '</div>' : '') +
       (meta.length ? '<div class="item-meta">' + meta.join('') + '</div>' : '') +
       '<div class="toggle"><span>' + esc(t('uiExpand')) + '</span> <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></div>' +
-      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + adviceList(d) + fullBlock(d) + '</div>' +
+      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + tendList(d) + adviceList(d) + lifeBlock(d) + '</div>' +
     '</div>';
   }
 
