@@ -258,15 +258,41 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 }
 .pct-bar{flex:1;height:6px;border-radius:3px;background:var(--bar);overflow:hidden;min-width:80px}
 .pct-bar i{display:block;height:100%;border-radius:3px;background:var(--bar-me);width:0;transition:width .7s cubic-bezier(.2,.7,.3,1)}
-/* 缩略图行（收起时也露出） */
-.item-thumbs{display:flex;gap:6px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
-.item-thumbs::-webkit-scrollbar{display:none}
-.item-thumbs img{
-  width:64px;height:44px;object-fit:cover;border-radius:6px;
-  border:1px solid var(--line);background:var(--bg);flex:none;
-  transition:border-color .2s ease;cursor:zoom-in;
+/* 图文解读正文（保留原页图文顺序） */
+.raw-body{font-size:14px;line-height:1.95;color:var(--muted)}
+.raw-body h1,.raw-body h2,.raw-body h3,.raw-body h4{
+  font-family:var(--serif);font-weight:600;color:var(--ink);
+  line-height:1.5;margin:26px 0 10px;letter-spacing:.02em;
 }
-.item-thumbs img:hover{border-color:var(--accent)}
+.raw-body h1{font-size:19px}
+.raw-body h2{font-size:18px}
+.raw-body h3{font-size:16.5px}
+.raw-body h4{font-size:15px}
+.raw-body h1:first-child,.raw-body h2:first-child,.raw-body h3:first-child,.raw-body h4:first-child{margin-top:0}
+.raw-body p{margin:0 0 12px}
+.raw-body strong,.raw-body b{font-weight:500;color:var(--ink)}
+.raw-body em,.raw-body i{font-style:normal;color:var(--accent)}
+.raw-body ul,.raw-body ol{margin:0 0 14px;padding-left:1.4em}
+.raw-body li{margin-bottom:6px}
+.raw-body ul{list-style:disc}
+.raw-body ol{list-style:decimal}
+.raw-body figure{margin:18px 0;text-align:center}
+.raw-body figure img{
+  max-width:100%;height:auto;border-radius:10px;
+  border:1px solid var(--line);background:var(--bg);
+  cursor:zoom-in;transition:opacity .2s ease;
+}
+.raw-body figure img:hover{opacity:.9}
+.raw-body figcaption{font-size:12px;color:var(--faint);margin-top:8px;text-align:center}
+.raw-body blockquote{
+  margin:14px 0;padding:10px 16px;
+  border-left:2px solid var(--accent);background:var(--bg);
+  border-radius:0 8px 8px 0;font-size:13.5px;
+}
+.raw-body table{width:100%;border-collapse:collapse;font-size:12.5px;margin:14px 0;display:block;overflow-x:auto}
+.raw-body td,.raw-body th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+.raw-body th{color:var(--faint);font-weight:400;white-space:nowrap}
+.raw-body img{margin:0 auto;display:block}
 /* 分布图 */
 .dist-row{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:12.5px}
 .dist-row .dl{flex:none;width:9.5em;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -305,11 +331,6 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 }
 .full-detail::-webkit-scrollbar{width:6px}
 .full-detail::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
-/* 原页配图 */
-.fig-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.fig-grid figure{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.fig-grid img{display:block;width:100%;height:auto;cursor:zoom-in;transition:opacity .2s ease}
-.fig-grid img:hover{opacity:.88}
 /* Lightbox */
 .lb{
   position:fixed;inset:0;z-index:200;display:none;
@@ -406,8 +427,7 @@ footer{
   .hero-stats{gap:18px 28px}
   .anc-portrait,.anc-card,.method-box{padding:16px 16px}
   .bar-title{display:none}
-  .fig-grid{grid-template-columns:1fr 1fr}
-  .fig-grid img{height:120px;object-fit:cover}
+  .raw-body figure img{border-radius:8px}
 }
 </style>
 </head>
@@ -623,22 +643,14 @@ footer{
     return '<div class="dt-label">' + esc(t('uiAdvice')) + '</div><ul class="adv-list">' +
       d.advice.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>';
   }
-  function imageGrid(d) {
-    if (!d.images || !d.images.length) return '';
-    return '<div class="dt-label">' + esc(t('uiImages')) + '</div><div class="fig-grid">' +
-      d.images.map(function (im) {
-        return '<figure><img loading="lazy" src="img/' + esc(im.file) + '" alt="' + esc(d.name) + '" data-lb="1"></figure>';
-      }).join('') + '</div>';
+  /* 图文解读：正文与插图按原文顺序混排 */
+  function bodySection(d) {
+    if (!d.bodyHtml) return '';
+    return '<div class="dt-label">' + esc(t('uiBody')) + '</div><div class="raw-body">' + d.bodyHtml + '</div>';
   }
   function fullBlock(d) {
     if (!d.full) return '';
     return '<div class="dt-label">' + esc(t('uiFull')) + '</div><div class="full-detail">' + esc(d.full) + '</div>';
-  }
-  function thumbs(d) {
-    if (!d.images || !d.images.length) return '';
-    return '<div class="item-thumbs">' + d.images.slice(0, 6).map(function (im) {
-      return '<img loading="lazy" src="img/' + esc(im.file) + '" alt="" data-lb="1">';
-    }).join('') + '</div>';
   }
 
   function itemCard(d) {
@@ -669,9 +681,8 @@ footer{
         (scoreTxt ? '<span style="white-space:nowrap">' + esc(scoreTxt) + '</span>' : '') +
       '</div>' : '') +
       (meta.length ? '<div class="item-meta">' + meta.join('') + '</div>' : '') +
-      thumbs(d) +
       '<div class="toggle"><span>' + esc(t('uiExpand')) + '</span> <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></div>' +
-      '<div class="item-detail">' + distRows(d) + snpTable(d) + adviceList(d) + imageGrid(d) + fullBlock(d) + '</div>' +
+      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + adviceList(d) + fullBlock(d) + '</div>' +
     '</div>';
   }
 
