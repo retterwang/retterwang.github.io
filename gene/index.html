@@ -72,6 +72,9 @@
   --accent-soft:#EDEFEA;
   --warn:#8C4A3C;
   --gold:#9C7C38;
+  --rare:#9A6E1F;
+  --rare-soft:rgba(154,110,31,.07);
+  --rare-line:rgba(154,110,31,.42);
   --bar:#DDD9D1;
   --bar-me:#4A5D54;
   --shadow:0 1px 3px rgba(25,24,23,.06);
@@ -98,6 +101,9 @@
   --accent-soft:rgba(159,191,171,.12);
   --warn:#D89283;
   --gold:#C9A55C;
+  --rare:#E0BE72;
+  --rare-soft:rgba(224,190,114,.08);
+  --rare-line:rgba(224,190,114,.40);
   --bar:#3A3E43;
   --bar-me:#9FBFAB;
   --shadow:0 1px 3px rgba(0,0,0,.25);
@@ -234,14 +240,29 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
   transition:border-color .2s ease, box-shadow .2s ease;
 }
 .item:hover{border-color:var(--line-strong);box-shadow:var(--shadow)}
-.item.rare{border-color:var(--accent)}
+/* 稀有特性：琥珀金强调 */
+.item.rare{
+  border-color:var(--rare-line);
+  background:
+    linear-gradient(180deg, var(--rare-soft), transparent 140px),
+    var(--surface);
+}
+.item.rare:hover{border-color:var(--rare)}
+.item.rare .item-name::after{
+  content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--rare);margin-left:7px;vertical-align:middle;
+}
+.item.rare .item-result{color:var(--rare)}
 .item-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
 .item-name{font-family:var(--serif);font-weight:600;font-size:16.5px;letter-spacing:.02em}
 .badge{
-  font-size:10.5px;letter-spacing:.1em;padding:3px 9px;border-radius:999px;
-  background:var(--accent);color:var(--accent-ink);font-weight:400;white-space:nowrap;
+  font-size:10.5px;letter-spacing:.08em;padding:3px 9px;border-radius:999px;
+  background:linear-gradient(135deg, var(--rare), #B8934A);
+  color:#fff;font-weight:400;white-space:nowrap;
+  box-shadow:0 1px 4px rgba(154,110,31,.25);
 }
-.badge.soft{background:var(--accent-soft);color:var(--accent)}
+html[data-theme="dark"] .badge{color:#1A1608}
+.badge.soft{background:var(--accent-soft);color:var(--accent);box-shadow:none}
 .item-result{
   margin-left:auto;font-family:var(--serif);font-weight:600;
   font-size:17px;color:var(--accent);text-align:right;
@@ -259,6 +280,12 @@ section{max-width:var(--w);margin:0 auto;padding:clamp(40px,7vh,64px) var(--gutt
 }
 .pct-bar{flex:1;height:6px;border-radius:3px;background:var(--bar);overflow:hidden;min-width:80px}
 .pct-bar i{display:block;height:100%;border-radius:3px;background:var(--bar-me);width:0;transition:width .7s cubic-bezier(.2,.7,.3,1)}
+/* 中文原文提示 */
+.cn-note{
+  margin:0 0 12px;padding:7px 12px;border-radius:8px;
+  background:var(--accent-soft);color:var(--accent);
+  font-size:12px;line-height:1.6;
+}
 /* 图文解读正文（保留原页图文顺序） */
 .raw-body{font-size:14px;line-height:1.95;color:var(--muted)}
 .raw-body h1,.raw-body h2,.raw-body h3,.raw-body h4{
@@ -425,6 +452,19 @@ html[data-theme="dark"] .raw-body figure img{box-shadow:0 2px 14px rgba(0,0,0,.3
 }
 .full-detail::-webkit-scrollbar{width:6px}
 .full-detail::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
+/* 底部收起按钮 */
+.collapse-bar{
+  margin-top:22px;padding-top:14px;border-top:1px dashed var(--line);
+  display:flex;justify-content:center;
+}
+.collapse-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:999px;
+  border:1px solid var(--line-strong);background:transparent;
+  color:var(--muted);font-family:var(--sans);font-size:12.5px;cursor:pointer;
+  transition:all .2s ease;
+}
+.collapse-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 /* Lightbox */
 .lb{
   position:fixed;inset:0;z-index:200;display:none;
@@ -663,6 +703,8 @@ footer{
 <script src="data.js"></script>
 <script src="i18n.js"></script>
 <script src="i18n-extra.js"></script>
+<script src="i18n-terms.js"></script>
+<script src="i18n-titles.js"></script>
 <script>
 (function () {
   var D = window.GENE_DATA, I18N = window.GENE_I18N;
@@ -811,12 +853,21 @@ footer{
         '</div>';
       }).join('') + '</div>';
   }
-  /* 图文解读：正文与插图按原文顺序混排 */
+  /* 图文解读：正文与插图按原文顺序混排；非中文语言下正文标题本地化 */
+  var TITLE_MAP = window.GENE_TITLE_MAP || {};
+  function localizeBody(html) {
+    if (LANG === 'zh-CN' || LANG === 'zh-Hant') return html;
+    return html.replace(/<(h[3-4])>([^<]+)<\/\1>/g, function (m, tag, txt) {
+      var tv = TITLE_MAP[txt];
+      return '<' + tag + '>' + esc(tv && tv[LANG] ? tv[LANG] : txt) + '</' + tag + '>';
+    });
+  }
   function bodySection(d) {
     if (!d.bodyHtml) return '';
     var n = (d.bodyHtml.match(/<img/g) || []).length;
+    var note = (LANG === 'zh-CN') ? '' : '<p class="cn-note">' + esc(t('uiCnNote')) + '</p>';
     return '<div class="dt-label">' + esc(t('uiBody')) + (n ? ' <span class="cnt">' + n + ' ' + esc(t('uiFigs')) + '</span>' : '') +
-      '</div><div class="raw-body">' + d.bodyHtml + '</div>';
+      '</div>' + note + '<div class="raw-body">' + localizeBody(d.bodyHtml) + '</div>';
   }
   /* 生活经历（折叠） */
   function lifeBlock(d) {
@@ -924,7 +975,11 @@ footer{
       '</div>' : '') +
       (meta.length ? '<div class="item-meta">' + meta.join('') + '</div>' : '') +
       '<div class="toggle"><span>' + esc(t('uiExpand')) + '</span> <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></div>' +
-      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + tendList(d) + adviceList(d) + lifeBlock(d) + fullBlock(d) + '</div>' +
+      '<div class="item-detail">' + bodySection(d) + distRows(d) + snpTable(d) + tendList(d) + adviceList(d) + lifeBlock(d) + fullBlock(d) +
+        '<div class="collapse-bar"><button type="button" class="collapse-btn" data-collapse="1">' +
+          '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:12px;height:12px"><path d="M2.5 7.5 6 4l3.5 3.5"/></svg>' +
+          '<span>' + esc(t('uiCollapse')) + '</span></button></div>' +
+      '</div>' +
     '</div>';
   }
 
@@ -1050,6 +1105,16 @@ footer{
       item.classList.toggle('open');
       tg.querySelector('span').textContent = item.classList.contains('open') ? t('uiCollapse') : t('uiExpand');
       if (item.classList.contains('open')) animateBars(item);
+      return;
+    }
+    /* 底部折叠按钮：收起并回到卡片位置 */
+    var cb = e.target.closest('[data-collapse]');
+    if (cb) {
+      var it2 = cb.closest('.item');
+      it2.classList.remove('open');
+      var tg2 = it2.querySelector('.toggle span');
+      if (tg2) tg2.textContent = t('uiExpand');
+      it2.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
     var z = e.target.closest('img[data-lb]');
